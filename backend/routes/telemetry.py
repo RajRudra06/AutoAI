@@ -4,22 +4,32 @@ from backend.db.connection import db
 
 router = APIRouter(prefix="/telematics", tags=["Telemetry"])
 
-MAX_RECORDS = 15
-
 @router.post("/data")
 def receive_telemetry(payload: dict):
+
     payload["timestamp"] = datetime.utcnow()
+    payload["status"] = "raw"  # not yet processed by any agent
+
+    # 1️⃣ Store full telemetry history
     db.telemetry.insert_one(payload)
 
-    # Cleanup: keep only the latest MAX_RECORDS
-    count = db.telemetry.count_documents({})
-    if count > MAX_RECORDS:
-        # delete oldest documents
-        to_delete = count - MAX_RECORDS
-        db.telemetry.delete_many(
-            {}, 
-            sort=[("timestamp", 1)],
-            limit=to_delete
-        )
+    vehicle_id = payload["vehicle_id"]
+
+    # 2️⃣ Update per-vehicle shared state (single source of truth)
+    db.vehicle_state.update_one(
+        {"vehicle_id": vehicle_id},
+        {
+            "$set": {
+                "vehicle_id": vehicle_id,
+                "latest_telemetry": payload,
+                "last_updated": datetime.utcnow(),
+                "flags": {
+                    "diagnosis_required": False,
+                    "anomaly_detected": False
+                }
+            }
+        },
+        upsert=True
+    )
 
     return {"success": True}
