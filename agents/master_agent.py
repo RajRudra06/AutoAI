@@ -1,10 +1,12 @@
 # agents/master_agent.py
 import time
-from datetime import datetime
+from datetime import datetime, timezone
+
 from backend.db.connection import db
 from helpers.logic.health_gate import needs_diagnosis
 
 POLL_INTERVAL = 15  # seconds
+
 
 def run_master():
     print("[MASTER] Agent started. Observing vehicle_state...")
@@ -14,17 +16,25 @@ def run_master():
 
         for vehicle in vehicles:
             vehicle_id = vehicle["vehicle_id"]
-            telemetry = vehicle.get("latest_telemetry", {})
+
+            latest = vehicle.get("latest_telemetry")
+            previous = vehicle.get("previous_telemetry")
+
             workflow = vehicle.get("workflow_state", {})
             flags = workflow.get("flags", {})
 
-            # Skip if diagnosis already requested
+            # ----------------------------
+            # 1️⃣ Skip if diagnosis already requested
+            # ----------------------------
             if flags.get("diagnosis_required"):
                 continue
 
+            # ----------------------------
+            # 2️⃣ Health gate (cheap pre-filter)
+            # ----------------------------
             should_trigger, reasons = needs_diagnosis(
-                telemetry=telemetry,
-                previous_telemetry=vehicle.get("previous_telemetry")
+                telemetry=latest,
+                previous_telemetry=previous
             )
 
             print(
@@ -36,32 +46,34 @@ def run_master():
             if not should_trigger:
                 continue
 
-            print(f"[MASTER] Diagnosis required for {vehicle_id}: {reasons}")
-
-            # 1️⃣ Create diagnosis job
+            # ----------------------------
+            # 3️⃣ Create diagnosis job
+            # ----------------------------
             db.diagnosis_jobs.insert_one({
                 "vehicle_id": vehicle_id,
-                "telemetry_snapshot": telemetry,
+                "telemetry_snapshot": latest,
                 "trigger_reasons": reasons,
                 "status": "PENDING",
-                "created_at": datetime.utcnow()
+                "created_at": datetime.now(timezone.utc)
             })
 
-            # 2️⃣ Update vehicle_state
+            # ----------------------------
+            # 4️⃣ Advance WORKFLOW ONLY
+            # ----------------------------
             db.vehicle_state.update_one(
                 {"vehicle_id": vehicle_id},
                 {
                     "$set": {
                         "workflow_state.current_stage": "DIAGNOSIS_PENDING",
                         "workflow_state.flags.diagnosis_required": True,
-                        "workflow_state.flags.high_risk_active": True,
-                        "last_updated": datetime.utcnow()
+                        "last_updated": datetime.now(timezone.utc)
                     }
                 }
             )
 
-            print(f"[MASTER][QUEUED] Diagnosis job created for {vehicle_id}")
-
+            print(
+                f"[MASTER][QUEUED] {vehicle_id} → DIAGNOSIS_PENDING | reasons={reasons}"
+            )
 
         time.sleep(POLL_INTERVAL)
 
