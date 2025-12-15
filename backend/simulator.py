@@ -37,7 +37,7 @@ def send_data():
         except Exception as e:
             print("Error:", e)
 
-        time.sleep(4)
+        time.sleep(15)
 
 if __name__ == "__main__":
     send_data()
