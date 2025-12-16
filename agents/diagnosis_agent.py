@@ -2,10 +2,15 @@ import time
 import joblib
 import numpy as np
 from datetime import datetime, timezone
+from dotenv import load_dotenv
+import os
 
 from backend.db.connection import db
 from helpers.logic.get_feature_name import get_feature_names
 from helpers.logic.risk_scoring import transform_scores_to_risk
+from agents.utils.agent_api_client import post, get
+
+load_dotenv()
 
 POLL_INTERVAL = 10  # seconds
 
@@ -13,6 +18,15 @@ MODEL_PATH = "diag_agent_model/iForest/models/isolation_forest_v1.pkl"
 MODEL_VERSION = "isolation_forest_v1"
 FEATURE_VERSION = "v1"
 WINDOW_SIZE = 120
+
+BASE_API_URL = os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")
+GET_DIAGNOSIS_JOBS_API_URL = f"{BASE_API_URL}/api/diagnosis/jobs"
+START_JOB_URL = f"{BASE_API_URL}/api/diagnosis/start"
+COMPLETE_JOB_URL = f"{BASE_API_URL}/api/diagnosis/complete"
+SKIP_JOB_URL = f"{BASE_API_URL}/api/diagnosis/skip"
+FAIL_JOB_URL = f"{BASE_API_URL}/api/diagnosis/fail"
+GET_VEHICLE_STATE_URL = f"{BASE_API_URL}/api/vehicles/state"
+
 
 print("[DIAGNOSIS] Loading ML model...")
 model = joblib.load(MODEL_PATH)
@@ -24,51 +38,43 @@ def run_diagnosis():
     print("[DIAGNOSIS] Agent started. Waiting for jobs...")
 
     while True:
-        jobs = list(db.diagnosis_jobs.find({"status": "PENDING"}))
+
+        resp = get(GET_DIAGNOSIS_JOBS_API_URL)
+        jobs = resp.json().get("jobs", [])
 
         for job in jobs:
             job_id = job["_id"]
             vehicle_id = job["vehicle_id"]
             features_dict = job["features_snapshot"]
+            unresolved_issues = job.get("trigger_reasons", [])
 
             # ================================
             # 🚫 LIFECYCLE GATE (NEW)
             # ================================
-            vehicle_state = db.vehicle_state.find_one(
-                {"vehicle_id": vehicle_id},
-                {
-                    "workflow_state.current_stage": 1,
-                    "risk_state.high_risk_active": 1
-                }
+            vehicle_resp = get(
+                f"{GET_VEHICLE_STATE_URL}/{vehicle_id}"
             )
 
-            if vehicle_state:
-                stage = vehicle_state.get("workflow_state", {}).get("current_stage")
-                high_risk = vehicle_state.get("risk_state", {}).get("high_risk_active", False)
+            if vehicle_resp.status_code == 200:
+                state = vehicle_resp.json()
+                stage = state.get("workflow_state", {}).get("current_stage")
+                high_risk = state.get("risk_state", {}).get("high_risk_active", False)
 
                 if stage in {"DIAGNOSIS_COMPLETE", "SCHEDULING", "IN_SERVICE"} or high_risk:
-                    db.diagnosis_jobs.update_one(
-                        {"_id": job_id},
-                        {
-                            "$set": {
-                                "status": "COMPLETED_SKIPPED",
-                                "skipped_at": datetime.now(timezone.utc),
-                                "skip_reason": "Lifecycle gate active"
-                            }
+                    post(
+                        SKIP_JOB_URL,
+                        json={
+                            "job_id": job_id,
+                            "reason": "Lifecycle gate active"
                         }
                     )
                     continue
 
             # Mark job in progress
-            db.diagnosis_jobs.update_one(
-                {"_id": job_id, "status": "PENDING"},
-                {
-                    "$set": {
-                        "status": "IN_PROGRESS",
-                        "started_at": datetime.now(timezone.utc)
-                    }
-                }
-            )
+            try:
+                post(START_JOB_URL, json={"job_id": job_id})
+            except Exception:
+                continue  # someone else took it
 
             print(f"[DIAGNOSIS] Processing {vehicle_id}")
 
@@ -85,44 +91,20 @@ def run_diagnosis():
                 risk_level = "HIGH" if is_anomaly else "LOW"
                 unresolved_issues = job.get("trigger_reasons", [])
 
-                db.predictions.insert_one({
+                payload = {
+                    "job_id": job_id,
                     "vehicle_id": vehicle_id,
                     "anomaly_score": anomaly_score,
                     "risk_score": risk_score,
                     "risk_level": risk_level,
                     "features_snapshot": features_dict,
+                    "unresolved_issues": unresolved_issues,
                     "feature_version": FEATURE_VERSION,
                     "window_size": WINDOW_SIZE,
-                    "model_version": MODEL_VERSION,
-                    "created_at": datetime.now(timezone.utc)
-                })
+                    "model_version": MODEL_VERSION
+                }
 
-                db.vehicle_state.update_one(
-                    {"vehicle_id": vehicle_id},
-                    {
-                        "$set": {
-                            "workflow_state.current_stage": "DIAGNOSIS_COMPLETE",
-                            "workflow_state.flags.diagnosis_required": False,
-                            "workflow_state.flags.scheduling_required": True,
-
-                            "risk_state.high_risk_active": is_anomaly,
-                            "risk_state.unresolved_issues": unresolved_issues,
-
-                            "last_diagnosis_at": datetime.now(timezone.utc),
-                            "last_updated": datetime.now(timezone.utc)
-                        }
-                    }
-                )
-
-                db.diagnosis_jobs.update_one(
-                    {"_id": job_id},
-                    {
-                        "$set": {
-                            "status": "COMPLETED",
-                            "completed_at": datetime.now(timezone.utc)
-                        }
-                    }
-                )
+                post(COMPLETE_JOB_URL, json=payload)
 
                 print(
                     f"[DIAGNOSIS][DONE] {vehicle_id} | "
@@ -130,14 +112,11 @@ def run_diagnosis():
                 )
 
             except Exception as e:
-                db.diagnosis_jobs.update_one(
-                    {"_id": job_id},
-                    {
-                        "$set": {
-                            "status": "FAILED",
-                            "error": str(e),
-                            "failed_at": datetime.now(timezone.utc)
-                        }
+                post(
+                    FAIL_JOB_URL,
+                    json={
+                        "job_id": job_id,
+                        "error": str(e)
                     }
                 )
                 print(f"[DIAGNOSIS][ERROR] {vehicle_id}: {e}")

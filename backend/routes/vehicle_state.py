@@ -1,11 +1,31 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, HTTPException, Request
 from backend.db.connection import db
 
-router = APIRouter(prefix="/vehicle-state", tags=["Vehicle State"])
+router = APIRouter(prefix="/vehicles", tags=["Vehicle State"])
 
-@router.get("/")
-def get_vehicle_states(request: Request):
+@router.get("/state")
+def get_all_vehicle_states(request: Request):
     agent_id = request.state.agent_id  # future use
 
-    vehicles = list(db.vehicle_state.find({}, {"_id": 0}))
-    return vehicles
+    vehicles = list(
+        db.vehicle_state.find({}, {"_id": 0})
+    )
+    return {"vehicles": vehicles}
+
+
+@router.get("/state/{vehicle_id}")
+def get_vehicle_state(vehicle_id: str, request: Request):
+    agent_id = request.state.agent_id  # future enforcement
+
+    vehicle = db.vehicle_state.find_one(
+        {"vehicle_id": vehicle_id},
+        {"_id": 0}
+    )
+
+    if not vehicle:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Vehicle {vehicle_id} not found"
+        )
+
+    return vehicle

@@ -1,19 +1,26 @@
 # agents/master_agent.py
 
 import time
+import os
+from dotenv import load_dotenv
 from agents.utils.agent_api_client import get, post
 from helpers.logic.health_gate import needs_diagnosis
 
+load_dotenv()
+
 POLL_INTERVAL = 15  # seconds
-BASE_API_URL = "http://127.0.0.1:8000/api"
+BASE_API_URL = os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")
+GET_VEHICLES_STATE_URL = f"{BASE_API_URL}/api/vehicles/state"
+PUT_DIAGNOSIS_URL = f"{BASE_API_URL}/api/diagnosis/queue"
 
 def run_master():
     print("[MASTER] Agent started. Observing vehicle_state...")
 
     while True:
         try:
-            resp = get(f"{BASE_API_URL}/vehicle-state/")
-            vehicles = resp.json()
+            # 🔽 CHANGED: new endpoint + response shape
+            resp = get(GET_VEHICLES_STATE_URL)
+            vehicles = resp.json().get("vehicles", [])
 
         except Exception as e:
             print("[MASTER][ERROR] Failed to fetch vehicle state:", e)
@@ -26,6 +33,9 @@ def run_master():
             workflow = vehicle.get("workflow_state", {})
             risk_state = vehicle.get("risk_state", {})
 
+            # ================================
+            # 🚫 LIFECYCLE GATE
+            # ================================
             if workflow.get("current_stage") in {
                 "DIAGNOSIS_PENDING",
                 "DIAGNOSIS_COMPLETE",
@@ -62,7 +72,7 @@ def run_master():
 
             try:
                 post(
-                    f"{BASE_API_URL}/diagnosis/queue",
+                    PUT_DIAGNOSIS_URL,
                     json={
                         "vehicle_id": vehicle_id,
                         "features_snapshot": latest,
@@ -70,6 +80,7 @@ def run_master():
                     }
                 )
                 print(f"[MASTER][QUEUED] {vehicle_id} → DIAGNOSIS_PENDING")
+
             except Exception as e:
                 print(f"[MASTER][ERROR] Failed to queue {vehicle_id}: {e}")
 
