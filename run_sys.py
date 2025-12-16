@@ -2,6 +2,9 @@ import subprocess
 import sys
 import os
 
+#PYTHONPATH=. python backend/simulator.py
+ 
+
 ENV = os.environ.copy()
 ENV["PYTHONPATH"] = "."
 

@@ -68,6 +68,15 @@ def evolve(state: dict, failing: bool) -> dict:
 
     return state
 
+def to_json_safe(d: dict) -> dict:
+    """Convert numpy types to native Python types for JSON serialization."""
+    safe = {}
+    for k, v in d.items():
+        if hasattr(v, "item"):   # numpy scalar
+            safe[k] = v.item()
+        else:
+            safe[k] = v
+    return safe
 
 def run_simulator():
     print("[SIMULATOR] Started.")
@@ -88,7 +97,8 @@ def run_simulator():
             df = pd.DataFrame(history)
 
             # --- Feature extraction (core step)
-            features = extract_features_from_vehicle(df)
+            raw_features = extract_features_from_vehicle(df)
+            features = to_json_safe(raw_features)
 
             payload = {
                 "vehicle_id": vid,
