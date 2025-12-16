@@ -7,37 +7,34 @@ router = APIRouter(prefix="/telematics", tags=["Telemetry"])
 
 @router.post("/data")
 def receive_telemetry(payload: dict):
-    """
-    Responsibilities:
-    1. Store full telemetry history
-    2. Maintain per-vehicle latest + previous telemetry
-    3. Do NOT touch workflow or risk flags
-    """
+  
+    vehicle_id = payload["vehicle_id"]
+    features = payload["features"]
 
     now = datetime.now(timezone.utc)
 
     # ----------------------------
-    # 1️⃣ Store immutable telemetry history
+    # 1️⃣ Store immutable history
     # ----------------------------
-    telemetry_doc = {
-        **payload,
-        "timestamp": now
-    }
-    db.telemetry.insert_one(telemetry_doc)
-
-    vehicle_id = payload["vehicle_id"]
+    db.telemetry.insert_one({
+        "vehicle_id": vehicle_id,
+        "timestamp": payload.get("timestamp", now),
+        "features": features
+    })
 
     # ----------------------------
-    # 2️⃣ Fetch existing state (if any)
+    # 2️⃣ Fetch existing state
     # ----------------------------
     existing_state = db.vehicle_state.find_one(
         {"vehicle_id": vehicle_id},
-        {"latest_telemetry": 1}
+        {"latest_features": 1}
     )
 
-    previous_telemetry = None
-    if existing_state and "latest_telemetry" in existing_state:
-        previous_telemetry = existing_state["latest_telemetry"]
+    previous_features = (
+        existing_state["latest_features"]
+        if existing_state and "latest_features" in existing_state
+        else None
+    )
 
     # ----------------------------
     # 3️⃣ Update vehicle_state
@@ -47,12 +44,12 @@ def receive_telemetry(payload: dict):
         {
             "$set": {
                 "vehicle_id": vehicle_id,
-                "latest_telemetry": telemetry_doc,
-                "previous_telemetry": previous_telemetry,
+                "latest_features": features,
+                "previous_features": previous_features,
                 "last_updated": now
             },
             "$setOnInsert": {
-                # Initialize workflow & risk state ONLY on first insert
+                # Initialized once, never overwritten here
                 "workflow_state": {
                     "current_stage": "IDLE",
                     "flags": {
