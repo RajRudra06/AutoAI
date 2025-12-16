@@ -1,18 +1,24 @@
 # agents/master_agent.py
-import time
-from datetime import datetime, timezone
 
-from backend.db.connection import db
+import time
+from agents.utils.agent_api_client import get, post
 from helpers.logic.health_gate import needs_diagnosis
 
 POLL_INTERVAL = 15  # seconds
-
+BASE_API_URL = "http://127.0.0.1:8000/api"
 
 def run_master():
     print("[MASTER] Agent started. Observing vehicle_state...")
 
     while True:
-        vehicles = list(db.vehicle_state.find({}))
+        try:
+            resp = get(f"{BASE_API_URL}/vehicle-state/")
+            vehicles = resp.json()
+
+        except Exception as e:
+            print("[MASTER][ERROR] Failed to fetch vehicle state:", e)
+            time.sleep(POLL_INTERVAL)
+            continue
 
         for vehicle in vehicles:
             vehicle_id = vehicle["vehicle_id"]
@@ -21,6 +27,7 @@ def run_master():
             risk_state = vehicle.get("risk_state", {})
 
             if workflow.get("current_stage") in {
+                "DIAGNOSIS_PENDING",
                 "DIAGNOSIS_COMPLETE",
                 "SCHEDULING",
                 "IN_SERVICE"
@@ -50,32 +57,21 @@ def run_master():
                 f"flags={flags}"
             )
 
-
             if not should_trigger:
                 continue
 
-            db.diagnosis_jobs.insert_one({
-                "vehicle_id": vehicle_id,
-                "features_snapshot": latest,
-                "trigger_reasons": reasons,
-                "status": "PENDING",
-                "created_at": datetime.now(timezone.utc)
-            })
-
-            db.vehicle_state.update_one(
-                {"vehicle_id": vehicle_id},
-                {
-                    "$set": {
-                        "workflow_state.current_stage": "DIAGNOSIS_PENDING",
-                        "workflow_state.flags.diagnosis_required": True,
-                        "last_updated": datetime.now(timezone.utc)
+            try:
+                post(
+                    f"{BASE_API_URL}/diagnosis/queue",
+                    json={
+                        "vehicle_id": vehicle_id,
+                        "features_snapshot": latest,
+                        "trigger_reasons": reasons
                     }
-                }
-            )
-
-            print(
-                f"[MASTER][QUEUED] {vehicle_id} → DIAGNOSIS_PENDING | reasons={reasons}"
-            )
+                )
+                print(f"[MASTER][QUEUED] {vehicle_id} → DIAGNOSIS_PENDING")
+            except Exception as e:
+                print(f"[MASTER][ERROR] Failed to queue {vehicle_id}: {e}")
 
         time.sleep(POLL_INTERVAL)
 

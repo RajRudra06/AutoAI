@@ -6,6 +6,8 @@ from backend.routes.predict import router as predict_router
 from backend.routes.schedule import router as schedule_router
 from backend.routes.feedback import router as feedback_router
 from backend.routes.ueba import router as ueba_router
+from backend.routes.vehicle_state import router as vehicle_state_router
+from backend.routes.put_diagnosis_job import router as diagnosis_router
 
 # ----------------------------
 # Public app (NO middleware)
@@ -28,6 +30,8 @@ protected_app.include_router(predict_router)
 protected_app.include_router(schedule_router)
 protected_app.include_router(feedback_router)
 protected_app.include_router(ueba_router)
+protected_app.include_router(vehicle_state_router)
+protected_app.include_router(diagnosis_router)
 
 # ----------------------------
 # Mount protected app

@@ -15,3 +15,6 @@ def post(url: str, json: dict, timeout: int = 5):
         headers=HEADERS,
         timeout=timeout
     )
+
+def get(url: str, timeout: int = 5):
+    return requests.get(url, headers=HEADERS, timeout=timeout)
