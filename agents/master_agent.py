@@ -17,8 +17,6 @@ def run_master():
         for vehicle in vehicles:
             vehicle_id = vehicle["vehicle_id"]
 
-            
-
             workflow = vehicle.get("workflow_state", {})
             risk_state = vehicle.get("risk_state", {})
 
