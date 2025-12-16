@@ -2,15 +2,19 @@
 
 import time
 import pandas as pd
-import requests
+from agents.utils.agent_api_client import post
+from dotenv import load_dotenv
+import os
 
 from backend.raw_data_generator import RawDataGenerator, VEHICLE_IDS
 from helpers.logic.generate_feature_simulator import extract_features_from_vehicle
 
+load_dotenv()
+
 READINGS_PER_VEHICLE = 120
 SLEEP_SECONDS = 10
-MOCK_API_URL = "http://127.0.0.1:8000/telematics/data"
-
+BASE_API_URL = os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")
+TELEMETRY_API_URL = f"{BASE_API_URL}/api/telematics/data"
 
 def to_json_safe(obj):
     if isinstance(obj, dict):
@@ -45,7 +49,7 @@ class CollectorAgent:
                 }
 
                 try:
-                    requests.post(MOCK_API_URL, json=payload, timeout=2)
+                    post(TELEMETRY_API_URL, json=payload, timeout=2)
                     print(f"✅ Sent 43-feature summary for {vid}")
                 except Exception as e:
                     print(f"❌ Failed for {vid}: {e}")

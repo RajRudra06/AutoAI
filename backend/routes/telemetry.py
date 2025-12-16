@@ -4,7 +4,6 @@ from backend.db.connection import db
 
 router = APIRouter(prefix="/telematics", tags=["Telemetry"])
 
-
 @router.post("/data")
 def receive_telemetry(payload: dict):
   
