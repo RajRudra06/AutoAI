@@ -1,9 +1,5 @@
-# helpers/logic/health_gate.py
 from typing import Dict, Tuple, List
 
-# ----------------------------
-# Thresholds on ENGINEERED FEATURES
-# ----------------------------
 ENGINE_TEMP_HIGH = 105
 BRAKE_HEALTH_LOW = 5.5
 BATTERY_HEALTH_LOW = 11.0
@@ -21,9 +17,6 @@ def needs_diagnosis(
     if not telemetry:
         return False, reasons
 
-    # ----------------------------
-    # Absolute checks (cheap)
-    # ----------------------------
     if telemetry.get("engine_temp_c", 0) > ENGINE_TEMP_HIGH:
         reasons.append("engine_temp_high")
 
@@ -39,9 +32,6 @@ def needs_diagnosis(
     if telemetry.get("engine_stress_index", 0) > ENGINE_STRESS_HIGH:
         reasons.append("engine_stress_high")
 
-    # ----------------------------
-    # Trend checks (optional)
-    # ----------------------------
     if previous_telemetry:
         if (
             telemetry.get("engine_temp_mean_7d", 0)

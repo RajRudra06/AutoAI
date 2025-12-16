@@ -13,18 +13,12 @@ def receive_telemetry(payload: dict):
 
     now = datetime.now(timezone.utc)
 
-    # ----------------------------
-    # 1️⃣ Store immutable history
-    # ----------------------------
     db.telemetry.insert_one({
         "vehicle_id": vehicle_id,
         "timestamp": payload.get("timestamp", now),
         "features": features
     })
 
-    # ----------------------------
-    # 2️⃣ Fetch existing state
-    # ----------------------------
     existing_state = db.vehicle_state.find_one(
         {"vehicle_id": vehicle_id},
         {"latest_features": 1}
@@ -36,9 +30,6 @@ def receive_telemetry(payload: dict):
         else None
     )
 
-    # ----------------------------
-    # 3️⃣ Update vehicle_state
-    # ----------------------------
     db.vehicle_state.update_one(
         {"vehicle_id": vehicle_id},
         {

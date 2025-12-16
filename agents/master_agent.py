@@ -26,7 +26,6 @@ def run_master():
             if flags.get("diagnosis_required"):
                 continue
 
-         
             should_trigger, reasons = needs_diagnosis(
                 telemetry=latest,
                 previous_telemetry=previous
