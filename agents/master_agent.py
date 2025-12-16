@@ -33,9 +33,12 @@ def run_master():
 
             print(
                 f"[MASTER][CHECK] {vehicle_id} | "
+                f"trigger={should_trigger} | "
+                f"reasons={reasons} | "
                 f"stage={workflow.get('current_stage')} | "
                 f"flags={flags}"
             )
+
 
             if not should_trigger:
                 continue
