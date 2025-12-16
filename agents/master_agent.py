@@ -17,11 +17,24 @@ def run_master():
         for vehicle in vehicles:
             vehicle_id = vehicle["vehicle_id"]
 
-            latest = vehicle.get("latest_features")
-            previous = vehicle.get("previous_features")
+            
 
             workflow = vehicle.get("workflow_state", {})
+            risk_state = vehicle.get("risk_state", {})
+
+            if workflow.get("current_stage") in {
+                "DIAGNOSIS_COMPLETE",
+                "SCHEDULING",
+                "IN_SERVICE"
+            }:
+                continue
+
+            if risk_state.get("high_risk_active"):
+                continue
+
             flags = workflow.get("flags", {})
+            latest = vehicle.get("latest_features")
+            previous = vehicle.get("previous_features")
 
             if flags.get("diagnosis_required"):
                 continue

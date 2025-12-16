@@ -4,8 +4,8 @@ import numpy as np
 from datetime import datetime, timezone
 
 from backend.db.connection import db
-from helpers.logic.get_feature_name import get_feature_names  
-from helpers.logic.risk_scoring import transform_scores_to_risk     
+from helpers.logic.get_feature_name import get_feature_names
+from helpers.logic.risk_scoring import transform_scores_to_risk
 
 POLL_INTERVAL = 10  # seconds
 
@@ -16,7 +16,7 @@ WINDOW_SIZE = 120
 
 print("[DIAGNOSIS] Loading ML model...")
 model = joblib.load(MODEL_PATH)
-FEATURE_ORDER = get_feature_names() 
+FEATURE_ORDER = get_feature_names()
 print("[DIAGNOSIS] Model loaded.")
 
 
@@ -24,7 +24,6 @@ def run_diagnosis():
     print("[DIAGNOSIS] Agent started. Waiting for jobs...")
 
     while True:
-        # Only pick jobs that are not already being processed
         jobs = list(db.diagnosis_jobs.find({"status": "PENDING"}))
 
         for job in jobs:
@@ -32,6 +31,35 @@ def run_diagnosis():
             vehicle_id = job["vehicle_id"]
             features_dict = job["features_snapshot"]
 
+            # ================================
+            # 🚫 LIFECYCLE GATE (NEW)
+            # ================================
+            vehicle_state = db.vehicle_state.find_one(
+                {"vehicle_id": vehicle_id},
+                {
+                    "workflow_state.current_stage": 1,
+                    "risk_state.high_risk_active": 1
+                }
+            )
+
+            if vehicle_state:
+                stage = vehicle_state.get("workflow_state", {}).get("current_stage")
+                high_risk = vehicle_state.get("risk_state", {}).get("high_risk_active", False)
+
+                if stage in {"DIAGNOSIS_COMPLETE", "SCHEDULING", "IN_SERVICE"} or high_risk:
+                    db.diagnosis_jobs.update_one(
+                        {"_id": job_id},
+                        {
+                            "$set": {
+                                "status": "COMPLETED_SKIPPED",
+                                "skipped_at": datetime.now(timezone.utc),
+                                "skip_reason": "Lifecycle gate active"
+                            }
+                        }
+                    )
+                    continue
+
+            # Mark job in progress
             db.diagnosis_jobs.update_one(
                 {"_id": job_id, "status": "PENDING"},
                 {
@@ -45,10 +73,8 @@ def run_diagnosis():
             print(f"[DIAGNOSIS] Processing {vehicle_id}")
 
             try:
-             
                 X = np.array([[features_dict[f] for f in FEATURE_ORDER]])
 
-                
                 anomaly_scores = model.score_samples(X)
                 risk_scores = transform_scores_to_risk(anomaly_scores)
 
@@ -82,6 +108,7 @@ def run_diagnosis():
                             "risk_state.high_risk_active": is_anomaly,
                             "risk_state.unresolved_issues": unresolved_issues,
 
+                            "last_diagnosis_at": datetime.now(timezone.utc),
                             "last_updated": datetime.now(timezone.utc)
                         }
                     }
@@ -103,7 +130,6 @@ def run_diagnosis():
                 )
 
             except Exception as e:
-    
                 db.diagnosis_jobs.update_one(
                     {"_id": job_id},
                     {
