@@ -4,11 +4,8 @@ from datetime import datetime, timedelta
 import requests
 import pandas as pd
 
-from generate_feature_simulator import extract_features_from_vehicle
+from helpers.logic.generate_feature_simulator import extract_features_from_vehicle
 
-# ======================================================
-# CONFIG
-# ======================================================
 URL = "http://127.0.0.1:8000/telematics/data"
 
 VEHICLE_IDS = ["V001", "V002", "V003", "V004", "V005"]
@@ -20,9 +17,6 @@ SLEEP_SECONDS = 10
 # Vehicles that degrade faster (for realism)
 FAILING_VEHICLES = {"V004"}
 
-# ======================================================
-# INITIAL STATE PER VEHICLE
-# ======================================================
 vehicle_state = {}
 
 for vid in VEHICLE_IDS:
@@ -52,9 +46,6 @@ for vid in VEHICLE_IDS:
     }
 
 
-# ======================================================
-# EVOLUTION LOGIC
-# ======================================================
 def evolve(state: dict, failing: bool) -> dict:
     state["engine_temp_c"] += random.uniform(0.1, 0.3 if failing else 0.15)
     state["oil_pressure_psi"] -= random.uniform(0.05, 0.15 if failing else 0.08)
@@ -78,9 +69,6 @@ def evolve(state: dict, failing: bool) -> dict:
     return state
 
 
-# ======================================================
-# MAIN LOOP
-# ======================================================
 def run_simulator():
     print("[SIMULATOR] Started.")
 

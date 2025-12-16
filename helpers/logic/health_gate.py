@@ -1,15 +1,14 @@
+# helpers/logic/health_gate.py
 from typing import Dict, Tuple, List
 
 # ----------------------------
-# Domain thresholds (v1)
+# Thresholds on ENGINEERED FEATURES
 # ----------------------------
-ENGINE_TEMP_HIGH = 105          # °C
-BRAKE_WEAR_HIGH = 0.80          # 80%
-BATTERY_LOW = 35                # %
-VIBRATION_HIGH = 0.70           
-
-ENGINE_TEMP_SPIKE = 15          # °C jump
-BRAKE_WEAR_SPIKE = 0.20         # 20% jump
+ENGINE_TEMP_HIGH = 105
+BRAKE_HEALTH_LOW = 5.5
+BATTERY_HEALTH_LOW = 11.0
+VIBRATION_HIGH = 1.2
+ENGINE_STRESS_HIGH = 3.0
 
 
 def needs_diagnosis(
@@ -19,42 +18,36 @@ def needs_diagnosis(
 
     reasons: List[str] = []
 
-    # ----------------------------
-    # Read current values safely
-    # ----------------------------
-    engine_temp = telemetry.get("engine_temp", 0)
-    brake_wear = telemetry.get("brake_wear", 0)
-    battery = telemetry.get("battery_health", 100)
-    vibration = telemetry.get("vibration", 0)
+    if not telemetry:
+        return False, reasons
 
     # ----------------------------
-    # Absolute thresholds
+    # Absolute checks (cheap)
     # ----------------------------
-    if engine_temp > ENGINE_TEMP_HIGH:
+    if telemetry.get("engine_temp_c", 0) > ENGINE_TEMP_HIGH:
         reasons.append("engine_temp_high")
 
-    if brake_wear > BRAKE_WEAR_HIGH:
-        reasons.append("brake_wear_critical")
+    if telemetry.get("brake_health_score", 10) < BRAKE_HEALTH_LOW:
+        reasons.append("brake_health_low")
 
-    if battery < BATTERY_LOW:
-        reasons.append("battery_low")
+    if telemetry.get("battery_health_indicator", 15) < BATTERY_HEALTH_LOW:
+        reasons.append("battery_health_low")
 
-    if vibration > VIBRATION_HIGH:
+    if telemetry.get("vibration_level", 0) > VIBRATION_HIGH:
         reasons.append("high_vibration")
 
+    if telemetry.get("engine_stress_index", 0) > ENGINE_STRESS_HIGH:
+        reasons.append("engine_stress_high")
+
     # ----------------------------
-    # Trend-based checks (if history exists)
+    # Trend checks (optional)
     # ----------------------------
     if previous_telemetry:
-        prev_temp = previous_telemetry.get("engine_temp")
-        if prev_temp is not None and engine_temp - prev_temp > ENGINE_TEMP_SPIKE:
-            reasons.append("engine_temp_spike")
+        if (
+            telemetry.get("engine_temp_mean_7d", 0)
+            - previous_telemetry.get("engine_temp_mean_7d", 0)
+            > 5
+        ):
+            reasons.append("engine_temp_trend_up")
 
-        prev_brake = previous_telemetry.get("brake_wear")
-        if prev_brake is not None and brake_wear - prev_brake > BRAKE_WEAR_SPIKE:
-            reasons.append("brake_wear_spike")
-
-    # ----------------------------
-    # Decision
-    # ----------------------------
     return len(reasons) > 0, reasons

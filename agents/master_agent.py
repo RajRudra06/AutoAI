@@ -17,21 +17,16 @@ def run_master():
         for vehicle in vehicles:
             vehicle_id = vehicle["vehicle_id"]
 
-            latest = vehicle.get("latest_telemetry")
-            previous = vehicle.get("previous_telemetry")
+            latest = vehicle.get("latest_features")
+            previous = vehicle.get("previous_features")
 
             workflow = vehicle.get("workflow_state", {})
             flags = workflow.get("flags", {})
 
-            # ----------------------------
-            # 1️⃣ Skip if diagnosis already requested
-            # ----------------------------
             if flags.get("diagnosis_required"):
                 continue
 
-            # ----------------------------
-            # 2️⃣ Health gate (cheap pre-filter)
-            # ----------------------------
+         
             should_trigger, reasons = needs_diagnosis(
                 telemetry=latest,
                 previous_telemetry=previous
@@ -46,20 +41,14 @@ def run_master():
             if not should_trigger:
                 continue
 
-            # ----------------------------
-            # 3️⃣ Create diagnosis job
-            # ----------------------------
             db.diagnosis_jobs.insert_one({
                 "vehicle_id": vehicle_id,
-                "telemetry_snapshot": latest,
+                "features_snapshot": latest,
                 "trigger_reasons": reasons,
                 "status": "PENDING",
                 "created_at": datetime.now(timezone.utc)
             })
 
-            # ----------------------------
-            # 4️⃣ Advance WORKFLOW ONLY
-            # ----------------------------
             db.vehicle_state.update_one(
                 {"vehicle_id": vehicle_id},
                 {
