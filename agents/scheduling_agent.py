@@ -35,7 +35,7 @@ def run_scheduler():
             if not flags.get("scheduling_required"):
                 continue
 
-            booking_resp = requests.get(
+            booking_resp = get(
                 f"{GET_BOOKING_FOR_VEHICLE_URL}/{vehicle_id}"
             )
 
@@ -55,12 +55,12 @@ def run_scheduler():
                 "created_at": datetime.now(timezone.utc).isoformat()
             }
 
-            requests.post(
+            post(
                 f"{BOOK_SCHEDULE_URL}",
                 json=booking_payload,
             )
 
-            requests.post(
+            post(
                 UPDATE_STATE_URL,
                 json={
                     "vehicle_id": vehicle_id,
