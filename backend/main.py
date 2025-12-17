@@ -11,6 +11,7 @@ from backend.routes.put_diagnosis_job import router as diagnosis_router
 from backend.routes.put_diagnosis import router as diag_job_queue
 from backend.routes.put_done_diagnosis import router as diag_done_routes
 from backend.routes.service import router as service_router
+from backend.routes.engagement import router as engagement_router
 
 # ----------------------------
 # Public app (NO middleware)
@@ -38,6 +39,7 @@ protected_app.include_router(diagnosis_router)
 protected_app.include_router(diag_job_queue)
 protected_app.include_router(diag_done_routes)
 protected_app.include_router(service_router)
+protected_app.include_router(engagement_router)
 
 # ----------------------------
 # Mount protected app
