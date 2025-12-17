@@ -29,15 +29,21 @@ def run_scheduler():
             workflow = vehicle.get("workflow_state", {})
             flags = workflow.get("flags", {})
 
+            if workflow.get("current_stage") == "SCHEDULING_COMPLETE":
+                continue
+
             if not flags.get("scheduling_required"):
                 continue
 
             booking_resp = requests.get(
-                f"{GET_BOOKING_FOR_VEHICLE_URL}/{vehicle_id}")
+                f"{GET_BOOKING_FOR_VEHICLE_URL}/{vehicle_id}"
+            )
 
-            if booking_resp.json().get("data"):
-                print(f"[SCHEDULER] Booking already exists for {vehicle_id}, skipping")
-                continue
+            if booking_resp.status_code == 200 and booking_resp.headers.get("content-type", "").startswith("application/json"):
+                data = booking_resp.json()
+                if data.get("data"):
+                    print(f"[SCHEDULER] Booking already exists for {vehicle_id}, skipping")
+                    continue
 
             print(f"[SCHEDULER] Creating tentative booking for {vehicle_id}")
 

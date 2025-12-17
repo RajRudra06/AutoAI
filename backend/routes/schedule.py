@@ -4,23 +4,25 @@ from datetime import datetime, timezone
 
 router = APIRouter(prefix="/schedule", tags=["Scheduling"])
 
+
 @router.post("/book")
 def book_slot(payload: dict):
-    db.bookings.update_one(
-        {"vehicle_id": payload["vehicle_id"]},
-        {"$set": payload},
-        upsert=True
-    )
+    payload.setdefault("created_at", datetime.now(timezone.utc))
+    db.bookings.insert_one(payload)
     return {"success": True}
+
 
 @router.get("/{vehicle_id}")
 def get_booking(vehicle_id: str):
-    appt = db.bookings.find_one({"vehicle_id": vehicle_id})
+    appt = db.bookings.find_one(
+        {"vehicle_id": vehicle_id},
+        {"_id": 0}
+    )
     return {"data": appt}
+
 
 @router.post("/update")
 def update_vehicle_state(payload: dict):
-
     vehicle_id = payload["vehicle_id"]
     now = datetime.now(timezone.utc)
 

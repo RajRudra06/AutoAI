@@ -15,7 +15,7 @@ def get_all_vehicle_states(request: Request):
 
 @router.get("/state/{vehicle_id}")
 def get_vehicle_state(vehicle_id: str, request: Request):
-    agent_id = request.state.agent_id  # future enforcement
+    agent_id = request.state.agent_id  
 
     vehicle = db.vehicle_state.find_one(
         {"vehicle_id": vehicle_id},
