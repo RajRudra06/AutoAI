@@ -157,6 +157,8 @@ from datetime import datetime, timezone
 import os
 from dotenv import load_dotenv
 
+from helpers.logic.email_service import send_email
+
 from crewai import Agent, Task, Crew
 from agents.utils.agent_api_client import get, post
 
@@ -192,74 +194,82 @@ POLL_INTERVAL = 15
 #     verbose=True
 # )
 
-def build_engagement_task(vehicle_id, prediction, booking):
-    description = f"""
-    Vehicle ID: {vehicle_id}
+# def build_engagement_task(vehicle_id, prediction, booking):
+#     description = f"""
+#     Vehicle ID: {vehicle_id}
 
-    Diagnosis Summary:
-    {prediction}
+#     Diagnosis Summary:
+#     {prediction}
 
-    Booking Details:
-    {booking}
+#     Booking Details:
+#     {booking}
 
-    Task:
-    - Write a short, clear message to the customer.
-    - Explain the issue severity without panic.
-    - Mention the scheduled service.
-    - Ask for confirmation or approval if needed.
-    """
+#     Task:
+#     - Write a short, clear message to the customer.
+#     - Explain the issue severity without panic.
+#     - Mention the scheduled service.
+#     - Ask for confirmation or approval if needed.
+#     """
 
-    return Task(
-        description=description,
-        expected_output="A customer-facing message explaining the issue and next steps.",
-        agent=engagement_llm_agent
-    )
+#     return Task(
+#         description=description,
+#         expected_output="A customer-facing message explaining the issue and next steps.",
+#         agent=engagement_llm_agent
+#     )
 
-def run_crewai_engagement(vehicle_id, prediction, booking):
-    task = build_engagement_task(vehicle_id, prediction, booking)
+# def run_crewai_engagement(vehicle_id, prediction, booking):
+#     task = build_engagement_task(vehicle_id, prediction, booking)
 
-    crew = Crew(
-        agents=[engagement_llm_agent],
-        tasks=[task],
-        verbose=True
-    )
+#     crew = Crew(
+#         agents=[engagement_llm_agent],
+#         tasks=[task],
+#         verbose=True
+#     )
 
-    return crew.kickoff()
+#     return crew.kickoff()
 
-# ─────────────────────────────────────────────
-# MOCK LLM (LLM-LIKE + PRINTING)
-# ─────────────────────────────────────────────
 def mock_llm_engagement_response(vehicle_id, prediction, booking):
     risk_level = prediction.get("risk_level", "MODERATE")
+    issues = prediction.get("issues", [])
     slot = booking.get("slot")
     center = booking.get("center_id")
 
+    # Severity framing
     if risk_level == "HIGH":
-        severity_line = (
-            "Our diagnostics have identified a condition that may affect your "
-            "vehicle’s performance if not addressed promptly."
+        opening = (
+            "This is an important update regarding your vehicle. "
+            "Our diagnostics indicate a condition that may impact safety or performance."
         )
+        urgency = "We recommend addressing this at the earliest opportunity."
     else:
-        severity_line = (
-            "Our routine diagnostics have identified a condition that requires attention."
+        opening = (
+            "This is a routine service update regarding your vehicle."
         )
+        urgency = "While not urgent, timely service is recommended."
+
+    # Issue summary
+    if issues:
+        issue_lines = ", ".join(
+            f"{i['component']} ({i['issue']})" for i in issues
+        )
+        issue_text = f"Our system detected concerns related to: {issue_lines}."
+    else:
+        issue_text = "Our system detected a general maintenance requirement."
 
     message = (
-        f"Dear Customer,\n\n"
-        f"{severity_line}\n\n"
-        f"A service appointment has been scheduled for your vehicle (ID: {vehicle_id}) "
-        f"on {slot} at our authorized service center ({center}).\n\n"
-        f"Our service team will perform a detailed inspection and take the necessary "
-        f"corrective actions to ensure continued safety and reliability.\n\n"
-        f"If the scheduled time works for you, no further action is required. "
-        f"If you prefer a different time, please contact us to reschedule.\n\n"
-        f"Best regards,\n"
-        f"Customer Support Team"
+        f"{opening}\n\n"
+        f"{issue_text}\n"
+        f"{urgency}\n\n"
+        f"A service appointment has been scheduled for your vehicle (ID {vehicle_id}) "
+        f"on {slot} at our authorized service center {center}.\n\n"
+        f"If this time works for you, no action is needed. "
+        f"If you wish to reschedule, please contact our support team.\n\n"
+        f"Thank you for choosing us. We’re committed to keeping your vehicle safe and reliable."
     )
 
-    # 🔹 CrewAI-style console output
+    # Console trace (LLM-like)
     print("\n" + "═" * 90)
-    print("🤖 Agent: Customer Engagement Specialist")
+    print("🤖 Agent: Customer Engagement Specialist (MOCK LLM)")
     print(f"📋 Vehicle ID: {vehicle_id}")
     print(f"⚠️  Risk Level: {risk_level}")
     print("🧠 Generating customer message...\n")
@@ -268,13 +278,12 @@ def mock_llm_engagement_response(vehicle_id, prediction, booking):
 
     return {
         "content": message,
-        "model": "mock-llm-v1",
-        "confidence": "high"
+        "risk_level": risk_level,
+        "tone": "reassuring" if risk_level != "HIGH" else "urgent",
+        "model": "mock-llm-v2",
+        "confidence": 0.95
     }
 
-# ─────────────────────────────────────────────
-# MAIN LOOP
-# ─────────────────────────────────────────────
 def run_engagement_agent():
     print("[ENGAGEMENT] Agent started.\n")
 
@@ -309,6 +318,12 @@ def run_engagement_agent():
                 vehicle_id, pred, booking
             )
             message_text = mock_response["content"]
+
+            send_email(
+                to_email="customer@example.com",  # mock email
+                subject="Important Update About Your Vehicle",
+                body=message_text
+            )
 
             post(
                 ENGAGEMENT_LOG_URL,

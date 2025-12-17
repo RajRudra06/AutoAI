@@ -13,6 +13,7 @@ GET_VEHICLES_STATE_URL = f"{BASE_API_URL}/api/vehicles/state"
 GET_BOOKING_FOR_VEHICLE_URL = f"{BASE_API_URL}/api/schedule"
 BOOK_SCHEDULE_URL = f"{BASE_API_URL}/api/schedule/book"
 UPDATE_STATE_URL = f"{BASE_API_URL}/api/schedule/update"
+GET_SERVICE_SLOT = f"{BASE_API_URL}/api/schedule/get_slot"
 
 POLL_INTERVAL = 15  # seconds
 
@@ -47,9 +48,13 @@ def run_scheduler():
 
             print(f"[SCHEDULER] Creating tentative booking for {vehicle_id}")
 
+            slot_resp = get(GET_SERVICE_SLOT)
+            slot_to_book = slot_resp.text.strip('"')
+
+
             booking_payload = {
                 "vehicle_id": vehicle_id,
-                "slot": generate_random_service_slot(), 
+                "slot": slot_to_book, 
                 "center_id": "SC-01",
                 "status": "TENTATIVE",
                 "created_at": datetime.now(timezone.utc).isoformat()
