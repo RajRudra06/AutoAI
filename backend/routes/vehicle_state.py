@@ -12,7 +12,6 @@ def get_all_vehicle_states(request: Request):
     )
     return {"vehicles": vehicles}
 
-
 @router.get("/state/{vehicle_id}")
 def get_vehicle_state(vehicle_id: str, request: Request):
     agent_id = request.state.agent_id  

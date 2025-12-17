@@ -178,19 +178,19 @@ POLL_INTERVAL = 15
 # ─────────────────────────────────────────────
 # CREW AI AGENT (KEPT)
 # ─────────────────────────────────────────────
-engagement_llm_agent = Agent(
-    role="Customer Engagement Specialist",
-    goal=(
-        "Explain vehicle issues clearly, reassure the customer, "
-        "and guide them toward service completion."
-    ),
-    backstory=(
-        "You are an automotive service advisor AI. "
-        "You receive technical diagnoses and must translate them "
-        "into calm, actionable customer communication."
-    ),
-    verbose=True
-)
+# engagement_llm_agent = Agent(
+#     role="Customer Engagement Specialist",
+#     goal=(
+#         "Explain vehicle issues clearly, reassure the customer, "
+#         "and guide them toward service completion."
+#     ),
+#     backstory=(
+#         "You are an automotive service advisor AI. "
+#         "You receive technical diagnoses and must translate them "
+#         "into calm, actionable customer communication."
+#     ),
+#     verbose=True
+# )
 
 def build_engagement_task(vehicle_id, prediction, booking):
     description = f"""
