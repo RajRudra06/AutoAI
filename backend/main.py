@@ -10,6 +10,7 @@ from backend.routes.vehicle_state import router as vehicle_state_router
 from backend.routes.put_diagnosis_job import router as diagnosis_router
 from backend.routes.put_diagnosis import router as diag_job_queue
 from backend.routes.put_done_diagnosis import router as diag_done_routes
+from backend.routes.service import router as service_router
 
 # ----------------------------
 # Public app (NO middleware)
@@ -36,9 +37,17 @@ protected_app.include_router(vehicle_state_router)
 protected_app.include_router(diagnosis_router)
 protected_app.include_router(diag_job_queue)
 protected_app.include_router(diag_done_routes)
-
+protected_app.include_router(service_router)
 
 # ----------------------------
 # Mount protected app
 # ----------------------------
 app.mount("/api", protected_app)
+
+
+# from agents.utils.agent_api_client import post
+
+# post(
+#     "http://127.0.0.1:8000/api/service/complete",
+#     json={"vehicle_id": "V001"}
+# )

@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from backend.db.connection import db
+from datetime import datetime, timezone
 
 router = APIRouter(prefix="/schedule", tags=["Scheduling"])
 
@@ -16,3 +17,24 @@ def book_slot(payload: dict):
 def get_booking(vehicle_id: str):
     appt = db.bookings.find_one({"vehicle_id": vehicle_id})
     return {"data": appt}
+
+@router.post("/update")
+def update_vehicle_state(payload: dict):
+
+    vehicle_id = payload["vehicle_id"]
+    now = datetime.now(timezone.utc)
+
+    update_doc = {"last_updated": now}
+
+    if "workflow_state" in payload:
+        update_doc["workflow_state"] = payload["workflow_state"]
+
+    if "risk_state" in payload:
+        update_doc["risk_state"] = payload["risk_state"]
+
+    db.vehicle_state.update_one(
+        {"vehicle_id": vehicle_id},
+        {"$set": update_doc}
+    )
+
+    return {"success": True}
