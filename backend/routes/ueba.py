@@ -1,13 +1,17 @@
 from fastapi import APIRouter
-from datetime import datetime
+from datetime import datetime, timezone
 from backend.db.connection import db
 
 router = APIRouter(prefix="/ueba", tags=["UEBA"])
 
 @router.post("/log")
 def log_ueba_event(payload: dict):
-    payload["timestamp"] = datetime.utcnow()
-    db.ueba_logs.insert_one(payload)
+    db.ueba_logs.insert_one({
+        "vehicle_id": payload["vehicle_id"],
+        "event": payload["event"],
+        "details": payload.get("details", {}),
+        "created_at": datetime.now(timezone.utc)
+    })
     return {"success": True}
 
 @router.get("/logs")
