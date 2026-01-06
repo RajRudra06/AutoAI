@@ -89,3 +89,9 @@ def run_master():
 
 if __name__ == "__main__":
     run_master()
+
+
+# import time 
+# from helpers.logic.health_gate import needs_diagnosis
+
+# class MasterAgent:
