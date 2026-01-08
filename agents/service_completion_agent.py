@@ -1,5 +1,3 @@
-# service_completion_agent
-
 import time
 import os
 from dotenv import load_dotenv
@@ -9,50 +7,75 @@ from agents.utils.agent_api_client import get, post
 
 load_dotenv()
 
-BASE_API_URL = os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")
-GET_VEHICLES_STATE_URL = f"{BASE_API_URL}/api/vehicles/state"
-GET_VEHICLE_SCHEDULE = f"{BASE_API_URL}/api/schedule"
-VEHICLE_SCHEDULE_UPDATE = f"{BASE_API_URL}/api/schedule/update"
-UPDATE_VEHICLE_STATE = f"{BASE_API_URL}/api/vehicles/update"
-FEEDBACK_LOG_URL=f"{BASE_API_URL}/api/feedback/log"
+class ServiceCompletionAgent:
+    def __init__(self,base_api_url:str,poll_interval:int):
+        self.base_api_url=base_api_url
+        self.poll_interval=poll_interval
 
-POLL_INTERVAL=20
+    def fetch_vehicle_state(self)->dict:
+        vehicle_state_url=f"{self.base_api_url}/api/vehicles/state"
 
-def run_service_completion_agent():
-    print("[SERVICE] Agent started. Waiting for service completion...")
+        try:
+            resp = get(vehicle_state_url)
+            vehicles = resp.json().get("vehicles", [])
 
-    while True:
-        resp = get(GET_VEHICLES_STATE_URL)
-        vehicles = resp.json().get("vehicles", [])
+        except Exception as e:
+            print("[SERVICE COMPLETION][ERROR] Failed to fetch vehicle state:", e)
+            time.sleep(self.poll_interval)
+            return []
+            
+        return vehicles
+    
+    def process_vehicles(self,vehicles:dict):
+        
+        for vehicle in vehicles:
+            vehicle_id=vehicle["vehicle_id"]
+            stage = vehicle["workflow_state"]["current_stage"]
 
-        for v in vehicles:
-            vehicle_id = v["vehicle_id"]
-            stage = v["workflow_state"]["current_stage"]
+            lifecycle_gate_check=self.lifecycle_gate_check(vehicle_id=vehicle_id,stage=stage)
 
-            if stage != "ENGAGEMENT_COMPLETE":
-                continue
-
-            booking = get(
-                f"{GET_VEHICLE_SCHEDULE}/{vehicle_id}",
-            ).json().get("data")
-
-            if not booking or booking.get("status") == "COMPLETED":
+            if lifecycle_gate_check:
                 continue
 
             print(f"[SERVICE] Completing service for {vehicle_id}")
 
-            post(
-                f"{VEHICLE_SCHEDULE_UPDATE}",
-                json={
-                    "vehicle_id": vehicle_id,
-                    "status": "COMPLETED",
-                    "completed_at": datetime.now(timezone.utc).isoformat()
-                },
-            )
+            update_vehicle_schedule=self.update_vehicle_schedule(vehicle_id=vehicle_id)
 
-            post(
-                f"{UPDATE_VEHICLE_STATE}",
-                json={
+            if update_vehicle_schedule:
+                continue
+
+            update_vehicle_state=self.update_vehicle_state(vehicle_id=vehicle_id)
+
+            if update_vehicle_state:
+                continue
+
+            print(f"[SERVICE] Completing logging for {vehicle_id}")
+
+            post_feedback_log=self.post_feedback_log(vehicle_id=vehicle_id)
+
+            if post_feedback_log:
+                continue
+
+            print(f"[SERVICE] Lifecycle closed for {vehicle_id}")
+    
+    def post_feedback_log(self,vehicle_id:str)->bool:
+        feedback_log_api=f"{self.base_api_url}/api/feedback/log"
+
+        post_feedback_log_resp=post(feedback_log_api,json={
+                    "vehicle_id": vehicle_id,
+                    "message": "Service completed successfully",
+                    "created_at": datetime.now(timezone.utc).isoformat()
+                })
+
+        if post_feedback_log_resp.status_code==200:
+            return False
+        return True
+
+
+    def update_vehicle_state(self,vehicle_id:str)->bool:
+        update_vehicle_state_api=f"{self.base_api_url}/api/vehicles/update"
+
+        update_vehicle_state_resp=post(update_vehicle_state_api,json={
                     "vehicle_id": vehicle_id,
                     "workflow_state": {
                         "current_stage": "IDLE",
@@ -66,23 +89,61 @@ def run_service_completion_agent():
                         "high_risk_active": False,
                         "unresolved_issues": []
                     }
-                },
-            )
+                })
 
-            # 3️⃣ Log feedback
-            post(
-                FEEDBACK_LOG_URL,
-                json={
-                    "vehicle_id": vehicle_id,
-                    "message": "Service completed successfully",
-                    "created_at": datetime.now(timezone.utc).isoformat()
-                },
-            )
+        if update_vehicle_state_resp.status_code==200:
+            return False
+        return True
+         
 
-            print(f"[SERVICE] Lifecycle closed for {vehicle_id}")
+    def update_vehicle_schedule(self,vehicle_id:str)->bool:
 
-        time.sleep(POLL_INTERVAL)
+        update_schedule_api=f"{self.base_api_url}/api/schedule/update"
 
+        update_vehicle_schedule_resp=post(update_schedule_api,json={
+            "vehicle_id":vehicle_id,
+            "status":"COMPLETED",
+            "completed_at":datetime.now(timezone.utc).isoformat()
+        })
 
-if __name__ == "__main__":
-    run_service_completion_agent()
+        if update_vehicle_schedule_resp.status_code==200:
+            return False
+        return True
+
+    def lifecycle_gate_check(self,vehicle_id:str,stage:str)->bool:
+
+        if stage != "ENGAGEMENT_COMPLETE":
+            return True
+        
+        booking_status=self.get_booking_status(vehicle_id=vehicle_id)
+        if not booking_status:
+            return True
+        
+        if booking_status.json().get("data").get("status")=="COMPLETED":
+            return True
+        
+        return False
+    
+    def get_booking_status(self,vehicle_id:str)->bool:
+        booking_status_api=f"{self.base_api_url}/api/schedule/{vehicle_id}"
+
+        booking_status_resp=get(booking_status_api)
+
+        if booking_status_resp.status_code==200 and booking_status_resp:
+            return booking_status_resp
+        
+        return False
+        
+    def run(self):
+        print("[SERVICE COMPLETION] Agent started. Waiting for service completion...")
+
+        while True:
+            get_vehicles_state=self.fetch_vehicle_state()
+            self.process_vehicles(vehicles=get_vehicles_state)
+
+            time.sleep(self.poll_interval)
+
+if __name__=="__main__":
+        base_api_url=os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")
+        service_completion_agent=ServiceCompletionAgent(base_api_url=base_api_url,poll_interval=15)
+        service_completion_agent.run()

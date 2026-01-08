@@ -162,8 +162,6 @@ class SchedulingAgent:
             return True
         
         return False
-        
-
 
     def run(self):
         
