@@ -127,7 +127,7 @@ class DiagnosisAgent:
 
         post_complete_job_resp=post(complete_job_api,json=payload)
 
-        if post_complete_job_resp==200:
+        if post_complete_job_resp.status_code==200:
             print(f"Diagnosis Job Posted: {vehicle_id}")
             return True
             
