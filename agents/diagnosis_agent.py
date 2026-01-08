@@ -219,7 +219,10 @@ class DiagnosisAgent:
 
             post_complete_job=self.post_complete_job(payload=run_inference_on_vehicle,vehicle_id=vehicle_id)
 
-            if post_complete_job
+            if post_complete_job==False:
+                self.fail_job_post(vehicle_id=vehicle_id)
+
+        time.sleep(self.poll_interval)
 
     def run_inference(self,feature_order:list,feature_dict:dict,model,unresolved_issues:list,vehicle_id:str,job_id:str)->dict:
         X = np.array([[feature_dict[f] for f in feature_order]])
@@ -264,6 +267,12 @@ class DiagnosisAgent:
             return True
             
         return False
+    
+    def fail_job_post(self,job_id:str,vehicle_id:str):
+        fail_job_api=f"{self.base_api_url}/api/diagnosis/fail"
+        post_fail_job=post(fail_job_api,json={"job_id":job_id,"error":"error occured while diagnosing the job"})
+
+        print(f"[DIAGNOSIS][ERROR] {vehicle_id}")
     
 
     def start_job_post(self,job_id:str)->bool:
