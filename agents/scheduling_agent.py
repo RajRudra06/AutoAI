@@ -4,10 +4,7 @@ from datetime import datetime, timezone
 import os
 from dotenv import load_dotenv
 
-
 load_dotenv()
-
-
 
 class SchedulingAgent:
     def __init__(self,base_api_url:str,poll_interval:int):
@@ -30,11 +27,11 @@ class SchedulingAgent:
     
     def extract_vehicle_params(self, vehicle: dict) -> dict:
         vehicle_id = vehicle["vehicle_id"]
-        workflow = vehicle.get("workflow_state", {})
-        risk_state = vehicle.get("risk_state", {})
-        flags = workflow.get("flags", {})
-        latest = vehicle.get("latest_features", {})
-        previous = vehicle.get("previous_features", {})
+        workflow = vehicle.get("workflow_state") or {}
+        risk_state = vehicle.get("risk_state") or {}
+        flags = workflow.get("flags") or {}
+        latest = vehicle.get("latest_features") or {}
+        previous = vehicle.get("previous_features") or {}
 
         return {
             "vehicle_id": vehicle_id,

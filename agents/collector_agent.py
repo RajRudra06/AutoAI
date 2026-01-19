@@ -23,7 +23,6 @@ def to_json_safe(obj):
         return obj.item()
     return obj
 
-
 class CollectorAgent:
     def __init__(self):
         self.generator = RawDataGenerator()

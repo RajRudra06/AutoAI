@@ -100,11 +100,11 @@ class MasterAgent:
 
     def extract_vehicle_params(self, vehicle: dict) -> dict:
         vehicle_id = vehicle["vehicle_id"]
-        workflow = vehicle.get("workflow_state", {})
-        risk_state = vehicle.get("risk_state", {})
-        flags = workflow.get("flags", {})
-        latest = vehicle.get("latest_features", {})
-        previous = vehicle.get("previous_features", {})
+        workflow = vehicle.get("workflow_state") or {}
+        risk_state = vehicle.get("risk_state") or {}
+        flags = workflow.get("flags") or {}
+        latest = vehicle.get("latest_features") or {}
+        previous = vehicle.get("previous_features") or {}
 
         return {
             "vehicle_id": vehicle_id,
@@ -137,12 +137,16 @@ class MasterAgent:
         
     
     def lifecycle_gate(self,workflow_stage: str,high_risk_active:bool) -> bool:
+
+        # if workflow_stage in {""}
         return (
+
         workflow_stage in {
             "DIAGNOSIS_PENDING",
             "DIAGNOSIS_COMPLETE",
-            "SCHEDULING",
-            "IN_SERVICE",
+            "SCHEDULING_COMPLETE",
+            "ENGAGEMENT_COMPLETE"
+            
         }
         or high_risk_active
     )

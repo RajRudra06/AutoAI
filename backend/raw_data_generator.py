@@ -6,7 +6,6 @@ from datetime import datetime, timedelta
 VEHICLE_IDS = ["V001", "V002", "V003", "V004", "V005"]
 FAILING_VEHICLES = {"V004"}
 
-
 class RawDataGenerator:
     def __init__(self):
         self.state = {}

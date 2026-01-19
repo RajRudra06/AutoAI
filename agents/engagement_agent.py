@@ -144,7 +144,7 @@ def run_engagement_agent():
             vehicle_id = v["vehicle_id"]
             flags = v["workflow_state"]["flags"]
             current_stage = v["workflow_state"].get("current_stage")
-
+            risk_state=v["risk_state"]
             if current_stage == "ENGAGEMENT_COMPLETE":
                 continue
 
@@ -192,7 +192,8 @@ def run_engagement_agent():
                         "flags": {
                             "engagement_required": False
                         }
-                    }
+                    },
+                    "risk_state":risk_state
                 }
             )
 
