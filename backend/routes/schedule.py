@@ -21,34 +21,37 @@ def get_booking(vehicle_id: str):
     )
 
     if not appt or "created_at" not in appt:
-        return {
-            "data":False
-        }
-    
+        return {"data": False}
+
     vehicle = db.vehicle_state.find_one(
         {"vehicle_id": vehicle_id},
         {"_id": 0}
     )
 
-    created_at = datetime.fromisoformat(
-        appt["created_at"].replace("Z", "+00:00")
-    )
+    if not vehicle:
+        return {"data": False}
+
+    created_at = appt["created_at"]
+
+    if isinstance(created_at, str):
+        created_at = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
+
+    if created_at.tzinfo is None:
+        created_at = created_at.replace(tzinfo=timezone.utc)
 
     now = datetime.now(timezone.utc)
 
-    workflow_state = vehicle["workflow_state"]
-    flags = workflow_state["flags"]
+    workflow_state = vehicle.get("workflow_state", {})
+    flags = workflow_state.get("flags", {})
 
-    current_stage = workflow_state["current_stage"] 
-    scheduling_required = flags["scheduling_required"]
-    engagement_required = flags["engagement_required"]
+    current_stage = workflow_state.get("current_stage")
+    scheduling_required = flags.get("scheduling_required", False)
+    engagement_required = flags.get("engagement_required", False)
 
-
-
-    if created_at < now and current_stage=="DIAGNOSIS_COMPLETE" and scheduling_required:
+    if created_at < now and current_stage == "DIAGNOSIS_COMPLETE" and scheduling_required:
         return {"data": False}
-    
-    if created_at < now and current_stage=="SCHEDULING_COMPLETE" and engagement_required:
+
+    if created_at < now and current_stage == "SCHEDULING_COMPLETE" and engagement_required:
         return {"data": appt}
 
     return {"data": appt}
