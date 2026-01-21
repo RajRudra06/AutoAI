@@ -77,9 +77,11 @@ class SchedulingAgent:
 
         if post_booking_resp.status_code==200 and post_booking_resp.headers.get("content-type", "").startswith("application/json"):
             data = post_booking_resp.json()
-            if data.get("data"):
-                    print(f"[SCHEDULER] Booking already exists for {vehicle_id}, skipping")
-                    return True
+            booking=data.get("data")
+
+            if isinstance(booking, dict):
+                print(f"[SCHEDULER] Booking already exists for {vehicle_id}, skipping")
+                return True
             
         print(f"[SCHEDULER] Creating tentative booking for {vehicle_id}")  
 

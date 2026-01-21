@@ -133,47 +133,151 @@ def mock_llm_engagement_response(vehicle_id, prediction, booking):
         "confidence": 0.95
     }
 
+# def run_engagement_agent():
+#     print("[ENGAGEMENT] Agent started.\n")
+
+#     while True:
+#         resp = get(GET_VEHICLES_STATE_URL)
+#         vehicles = resp.json().get("vehicles", [])
+
+#         for v in vehicles:
+#             vehicle_id = v["vehicle_id"]
+#             flags = v["workflow_state"]["flags"]
+#             current_stage = v["workflow_state"].get("current_stage")
+#             risk_state=v["risk_state"]
+#             if current_stage == "ENGAGEMENT_COMPLETE":
+#                 continue
+
+#             if not flags.get("engagement_required"):
+#                 continue
+
+#             pred = get(
+#                 f"{GET_VEHICLE_PREDICTION}/{vehicle_id}"
+#             ).json().get("data")
+
+#             booking = get(
+#                 f"{GET_VEHICLE_SCHEDULE}/{vehicle_id}"
+#             ).json().get("data")
+
+#             if not pred or not booking:
+#                 continue
+
+#             # ✅ MOCK LLM (prints like real LLM)
+#             mock_response = mock_llm_engagement_response(
+#                 vehicle_id, pred, booking
+#             )
+#             message_text = mock_response["content"]
+
+#             send_email(
+#                 to_email="customer@example.com",  # mock email
+#                 subject="Important Update About Your Vehicle",
+#                 body=message_text
+#             )
+
+#             post(
+#                 ENGAGEMENT_LOG_URL,
+#                 json={
+#                     "vehicle_id": vehicle_id,
+#                     "message": message_text,
+#                     "created_at": datetime.now(timezone.utc).isoformat()
+#                 }
+#             )
+
+#             post(
+#                 UPDATE_VEHICLE_STATE,
+#                 json={
+#                     "vehicle_id": vehicle_id,
+#                     "workflow_state": {
+#                         "current_stage": "ENGAGEMENT_COMPLETE",
+#                         "flags": {
+#                             "engagement_required": False
+#                         }
+#                     },
+#                     "risk_state":risk_state
+#                 }
+#             )
+
+#             print(f"[ENGAGEMENT] Completed for {vehicle_id}\n")
+
+#         time.sleep(POLL_INTERVAL)
+
 def run_engagement_agent():
-    print("[ENGAGEMENT] Agent started.\n")
+    print("[ENGAGEMENT] Agent started.")
+    print(f"[ENGAGEMENT] Polling every {POLL_INTERVAL}s")
+    print(f"[ENGAGEMENT] Backend URL: {BASE_API_URL}\n")
 
     while True:
+        print("[ENGAGEMENT] Fetching vehicle states...")
         resp = get(GET_VEHICLES_STATE_URL)
+
+        if resp.status_code != 200:
+            print(f"[ERROR] Failed to fetch vehicles state: {resp.status_code}")
+            time.sleep(POLL_INTERVAL)
+            continue
+
         vehicles = resp.json().get("vehicles", [])
+        print(f"[ENGAGEMENT] Vehicles received: {len(vehicles)}")
 
         for v in vehicles:
             vehicle_id = v["vehicle_id"]
             flags = v["workflow_state"]["flags"]
             current_stage = v["workflow_state"].get("current_stage")
-            risk_state=v["risk_state"]
+            risk_state = v["risk_state"]
+
+            print(f"\n[VEHICLE] Processing {vehicle_id}")
+            print(f"  ├─ Current stage: {current_stage}")
+            print(f"  ├─ Flags: {flags}")
+            print(f"  └─ Risk state: {risk_state}")
+
             if current_stage == "ENGAGEMENT_COMPLETE":
+                print("  ⏭ Skipping: engagement already completed")
                 continue
 
             if not flags.get("engagement_required"):
+                print("  ⏭ Skipping: engagement not required")
                 continue
 
-            pred = get(
-                f"{GET_VEHICLE_PREDICTION}/{vehicle_id}"
-            ).json().get("data")
+            print("  ▶ Fetching prediction...")
+            pred_resp = get(f"{GET_VEHICLE_PREDICTION}/{vehicle_id}")
+            pred = pred_resp.json().get("data") if pred_resp.status_code == 200 else None
 
-            booking = get(
-                f"{GET_VEHICLE_SCHEDULE}/{vehicle_id}"
-            ).json().get("data")
-
-            if not pred or not booking:
+            if not pred:
+                print("  ❌ Prediction missing, skipping vehicle")
                 continue
 
-            # ✅ MOCK LLM (prints like real LLM)
+            print("  ✔ Prediction received")
+
+            print("  ▶ Fetching booking...")
+            booking_resp = get(f"{GET_VEHICLE_SCHEDULE}/{vehicle_id}")
+            booking = booking_resp.json().get("data") if booking_resp.status_code == 200 else None
+
+            if not booking:
+                print("  ❌ Booking missing or expired, skipping vehicle")
+                continue
+
+            print("  ✔ Booking received")
+
+            print("  ▶ Generating engagement message...")
             mock_response = mock_llm_engagement_response(
                 vehicle_id, pred, booking
             )
+
             message_text = mock_response["content"]
+            print("  ✔ Message generated")
 
-            send_email(
-                to_email="customer@example.com",  # mock email
-                subject="Important Update About Your Vehicle",
-                body=message_text
-            )
+            print("  ▶ Sending email...")
+            try:
+                send_email(
+                    to_email="customer@example.com",
+                    subject="Important Update About Your Vehicle",
+                    body=message_text
+                )
+                print("  ✔ Email sent")
+            except Exception as e:
+                print(f"  ❌ Email failed: {e}")
+                continue
 
+            print("  ▶ Logging engagement...")
             post(
                 ENGAGEMENT_LOG_URL,
                 json={
@@ -182,7 +286,9 @@ def run_engagement_agent():
                     "created_at": datetime.now(timezone.utc).isoformat()
                 }
             )
+            print("  ✔ Engagement logged")
 
+            print("  ▶ Updating vehicle workflow state...")
             post(
                 UPDATE_VEHICLE_STATE,
                 json={
@@ -193,13 +299,15 @@ def run_engagement_agent():
                             "engagement_required": False
                         }
                     },
-                    "risk_state":risk_state
+                    "risk_state": risk_state
                 }
             )
 
-            print(f"[ENGAGEMENT] Completed for {vehicle_id}\n")
+            print(f"[ENGAGEMENT] ✅ Completed for {vehicle_id}")
 
+        print(f"\n[ENGAGEMENT] Sleeping for {POLL_INTERVAL}s...\n")
         time.sleep(POLL_INTERVAL)
+
 
 # ─────────────────────────────────────────────
 if __name__ == "__main__":

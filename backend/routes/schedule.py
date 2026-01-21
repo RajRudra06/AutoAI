@@ -19,6 +19,38 @@ def get_booking(vehicle_id: str):
         {"vehicle_id": vehicle_id},
         {"_id": 0}
     )
+
+    if not appt or "created_at" not in appt:
+        return {
+            "data":False
+        }
+    
+    vehicle = db.vehicle_state.find_one(
+        {"vehicle_id": vehicle_id},
+        {"_id": 0}
+    )
+
+    created_at = datetime.fromisoformat(
+        appt["created_at"].replace("Z", "+00:00")
+    )
+
+    now = datetime.now(timezone.utc)
+
+    workflow_state = vehicle["workflow_state"]
+    flags = workflow_state["flags"]
+
+    current_stage = workflow_state["current_stage"] 
+    scheduling_required = flags["scheduling_required"]
+    engagement_required = flags["engagement_required"]
+
+
+
+    if created_at < now and current_stage=="DIAGNOSIS_COMPLETE" and scheduling_required:
+        return {"data": False}
+    
+    if created_at < now and current_stage=="SCHEDULING_COMPLETE" and engagement_required:
+        return {"data": appt}
+
     return {"data": appt}
 
 @router.get("/get_slot")
