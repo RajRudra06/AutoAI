@@ -153,7 +153,7 @@ class MasterAgent:
         
 if __name__ == "__main__":
     base_api_url_val=os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")
-    master_agent=MasterAgent(api_base_url_val=base_api_url_val,poll_interval_val=15)
+    master_agent=MasterAgent(api_base_url_val=base_api_url_val,poll_interval_val=1)
     master_agent.run()
 
 

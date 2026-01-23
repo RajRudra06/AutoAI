@@ -174,6 +174,6 @@ class SchedulingAgent:
 
 if __name__=="__main__":
         base_api_url=os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")
-        scheduling_agent=SchedulingAgent(base_api_url=base_api_url,poll_interval=15)
+        scheduling_agent=SchedulingAgent(base_api_url=base_api_url,poll_interval=1)
         scheduling_agent.run()
 

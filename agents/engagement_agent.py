@@ -24,7 +24,7 @@ GET_VEHICLE_SCHEDULE = f"{BASE_API_URL}/api/schedule"
 ENGAGEMENT_LOG_URL = f"{BASE_API_URL}/api/engagement/log"
 UPDATE_VEHICLE_STATE = f"{BASE_API_URL}/api/vehicles/update"
 
-POLL_INTERVAL = 15
+POLL_INTERVAL = 1
 
 # ─────────────────────────────────────────────
 # CREW AI AGENT (KEPT)
