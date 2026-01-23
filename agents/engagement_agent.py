@@ -26,7 +26,91 @@ GET_VEHICLE_SCHEDULE = f"{BASE_API_URL}/api/schedule"
 ENGAGEMENT_LOG_URL = f"{BASE_API_URL}/api/engagement/log"
 UPDATE_VEHICLE_STATE = f"{BASE_API_URL}/api/vehicles/update"
 
-POLL_INTERVAL = 1
+POLL_INTERVAL = 3
+
+SEVEN_DAY_RULES = {
+    # Engine temperature
+    "engine_temp_mean_7d": {
+        "threshold": 105,
+        "unit": "°C",
+        "category": "engine_temperature"
+    },
+    "engine_temp_max_7d": {
+        "threshold": 110,
+        "unit": "°C",
+        "category": "engine_temperature"
+    },
+    "engine_temp_std_7d": {
+        "threshold": 2.0,
+        "unit": "°C",
+        "category": "engine_temperature_stability"
+    },
+
+    # Oil pressure
+    "oil_pressure_mean_7d": {
+        "threshold": 30,
+        "unit": "psi",
+        "category": "oil_pressure"
+    },
+    "oil_pressure_min_7d": {
+        "threshold": 28,
+        "unit": "psi",
+        "category": "oil_pressure"
+    },
+    "oil_pressure_std_7d": {
+        "threshold": 1.0,
+        "unit": "psi",
+        "category": "oil_pressure_stability"
+    },
+
+    # Battery
+    "battery_voltage_mean_7d": {
+        "threshold": 12.0,
+        "unit": "V",
+        "category": "battery_health"
+    },
+    "battery_voltage_min_7d": {
+        "threshold": 11.8,
+        "unit": "V",
+        "category": "battery_health"
+    },
+
+    # Coolant
+    "coolant_temp_mean_7d": {
+        "threshold": 95,
+        "unit": "°C",
+        "category": "coolant_temperature"
+    },
+    "coolant_temp_max_7d": {
+        "threshold": 100,
+        "unit": "°C",
+        "category": "coolant_temperature"
+    },
+
+    # Vibration
+    "vibration_mean_7d": {
+        "threshold": 2.0,
+        "unit": "g",
+        "category": "vibration"
+    },
+    "vibration_max_7d": {
+        "threshold": 2.5,
+        "unit": "g",
+        "category": "vibration"
+    },
+
+    # Transmission
+    "transmission_temp_mean_7d": {
+        "threshold": 100,
+        "unit": "°C",
+        "category": "transmission_temperature"
+    },
+    "transmission_temp_max_7d": {
+        "threshold": 105,
+        "unit": "°C",
+        "category": "transmission_temperature"
+    }
+}
 
 # ─────────────────────────────────────────────
 # CREW AI AGENT (KEPT)
@@ -51,20 +135,22 @@ engagement_llm_agent = Agent(
     verbose=True
 )
 
-def build_engagement_task(vehicle_id, prediction, booking):
+def build_engagement_task(vehicle_id, issue, booking):
     description = f"""
     Vehicle ID: {vehicle_id}
 
     Diagnosis Summary:
-    {prediction}
+    {issue}
 
     Booking Details:
     {booking}
 
     Task:
-    - Write a short, clear message to the customer.
+    - Write a short 20 words clear message to the customer.
     - Explain the issue severity without panic.
+    - All the top issues are mentioned in the diagnosis summary dictornary with thier severity and their thresholds.
     - Mention the scheduled service.
+    - Just have the message as your reply, do not put it into "" or have more sentence after the message.
     - Ask for confirmation or approval if needed.
     """
 
@@ -74,8 +160,8 @@ def build_engagement_task(vehicle_id, prediction, booking):
         agent=engagement_llm_agent
     )
 
-def run_crewai_engagement(vehicle_id, prediction, booking):
-    task = build_engagement_task(vehicle_id, prediction, booking)
+def run_crewai_engagement(vehicle_id, issue, booking):
+    task = build_engagement_task(vehicle_id, issue, booking)
 
     crew = Crew(
         agents=[engagement_llm_agent],
@@ -84,6 +170,41 @@ def run_crewai_engagement(vehicle_id, prediction, booking):
     )
 
     return crew.kickoff()
+
+def compute_severity(value, threshold):
+    return abs(value - threshold) / threshold
+
+def extract_7d_top_issues(vehicle_id, features_snapshot):
+    issues = []
+
+    for feature, rule in SEVEN_DAY_RULES.items():
+        if feature not in features_snapshot:
+            continue
+
+        value = features_snapshot[feature]
+        threshold = rule["threshold"]
+
+        severity = compute_severity(value, threshold)
+
+        issues.append({
+            "feature": feature,
+            "category": rule["category"],
+            "value": round(value, 3),
+            "threshold": threshold,
+            "unit": rule["unit"],
+            "severity": round(severity, 4)
+        })
+
+    issues.sort(key=lambda x: x["severity"], reverse=True)
+
+    top_issues = issues[:6]
+
+
+    return {
+        "vehicle_id": vehicle_id,
+        "issues": top_issues
+    }
+
 
 def mock_llm_engagement_response(vehicle_id, prediction, booking):
     risk_level = prediction.get("risk_level", "MODERATE")
@@ -182,6 +303,8 @@ def run_engagement_agent():
             pred_resp = get(f"{GET_VEHICLE_PREDICTION}/{vehicle_id}")
             pred = pred_resp.json().get("data") if pred_resp.status_code == 200 else None
 
+            issues=extract_7d_top_issues(vehicle_id=vehicle_id,features_snapshot=pred["features_snapshot"])
+
             if not pred:
                 print("  ❌ Prediction missing, skipping vehicle")
                 continue
@@ -201,8 +324,11 @@ def run_engagement_agent():
             print("  ▶ Generating engagement message...")
             try:
 
-                crew_output = run_crewai_engagement(vehicle_id, pred, booking)
+                crew_output = run_crewai_engagement(vehicle_id, issues, booking)
                 message_text = str(crew_output)
+            except Exception as e:
+                print(f"❌ Engagement failed for {vehicle_id}: {e}")
+                continue
 
             print("  ✔ Message generated")
 
@@ -245,6 +371,7 @@ def run_engagement_agent():
             )
 
             print(f"[ENGAGEMENT] ✅ Completed for {vehicle_id}")
+            time.sleep(3)
 
         print(f"\n[ENGAGEMENT] Sleeping for {POLL_INTERVAL}s...\n")
         time.sleep(POLL_INTERVAL)
