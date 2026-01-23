@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 from helpers.logic.email_service import send_email
 
 from crewai import Agent, Task, Crew
+from crewai.llm import LLM
+
 from agents.utils.agent_api_client import get, post
 
 # ─────────────────────────────────────────────
@@ -29,53 +31,59 @@ POLL_INTERVAL = 1
 # ─────────────────────────────────────────────
 # CREW AI AGENT (KEPT)
 # ─────────────────────────────────────────────
-# engagement_llm_agent = Agent(
-#     role="Customer Engagement Specialist",
-#     goal=(
-#         "Explain vehicle issues clearly, reassure the customer, "
-#         "and guide them toward service completion."
-#     ),
-#     backstory=(
-#         "You are an automotive service advisor AI. "
-#         "You receive technical diagnoses and must translate them "
-#         "into calm, actionable customer communication."
-#     ),
-#     verbose=True
-# )
+groq_llm = LLM(
+    model="groq/llama-3.1-8b-instant",
+    api_key=os.getenv("GROQ_API_KEY")
+)
 
-# def build_engagement_task(vehicle_id, prediction, booking):
-#     description = f"""
-#     Vehicle ID: {vehicle_id}
+engagement_llm_agent = Agent(
+    role="Customer Engagement Specialist",
+    goal=(
+        "Explain vehicle issues clearly, reassure the customer, "
+        "and guide them toward service completion."
+    ),
+    backstory=(
+        "You are an automotive service advisor AI. "
+        "You receive technical diagnoses and must translate them "
+        "into calm, actionable customer communication."
+    ),
+    llm=groq_llm,
+    verbose=True
+)
 
-#     Diagnosis Summary:
-#     {prediction}
+def build_engagement_task(vehicle_id, prediction, booking):
+    description = f"""
+    Vehicle ID: {vehicle_id}
 
-#     Booking Details:
-#     {booking}
+    Diagnosis Summary:
+    {prediction}
 
-#     Task:
-#     - Write a short, clear message to the customer.
-#     - Explain the issue severity without panic.
-#     - Mention the scheduled service.
-#     - Ask for confirmation or approval if needed.
-#     """
+    Booking Details:
+    {booking}
 
-#     return Task(
-#         description=description,
-#         expected_output="A customer-facing message explaining the issue and next steps.",
-#         agent=engagement_llm_agent
-#     )
+    Task:
+    - Write a short, clear message to the customer.
+    - Explain the issue severity without panic.
+    - Mention the scheduled service.
+    - Ask for confirmation or approval if needed.
+    """
 
-# def run_crewai_engagement(vehicle_id, prediction, booking):
-#     task = build_engagement_task(vehicle_id, prediction, booking)
+    return Task(
+        description=description,
+        expected_output="A customer-facing message explaining the issue and next steps.",
+        agent=engagement_llm_agent
+    )
 
-#     crew = Crew(
-#         agents=[engagement_llm_agent],
-#         tasks=[task],
-#         verbose=True
-#     )
+def run_crewai_engagement(vehicle_id, prediction, booking):
+    task = build_engagement_task(vehicle_id, prediction, booking)
 
-#     return crew.kickoff()
+    crew = Crew(
+        agents=[engagement_llm_agent],
+        tasks=[task],
+        verbose=True
+    )
+
+    return crew.kickoff()
 
 def mock_llm_engagement_response(vehicle_id, prediction, booking):
     risk_level = prediction.get("risk_level", "MODERATE")
@@ -133,73 +141,6 @@ def mock_llm_engagement_response(vehicle_id, prediction, booking):
         "confidence": 0.95
     }
 
-# def run_engagement_agent():
-#     print("[ENGAGEMENT] Agent started.\n")
-
-#     while True:
-#         resp = get(GET_VEHICLES_STATE_URL)
-#         vehicles = resp.json().get("vehicles", [])
-
-#         for v in vehicles:
-#             vehicle_id = v["vehicle_id"]
-#             flags = v["workflow_state"]["flags"]
-#             current_stage = v["workflow_state"].get("current_stage")
-#             risk_state=v["risk_state"]
-#             if current_stage == "ENGAGEMENT_COMPLETE":
-#                 continue
-
-#             if not flags.get("engagement_required"):
-#                 continue
-
-#             pred = get(
-#                 f"{GET_VEHICLE_PREDICTION}/{vehicle_id}"
-#             ).json().get("data")
-
-#             booking = get(
-#                 f"{GET_VEHICLE_SCHEDULE}/{vehicle_id}"
-#             ).json().get("data")
-
-#             if not pred or not booking:
-#                 continue
-
-#             # ✅ MOCK LLM (prints like real LLM)
-#             mock_response = mock_llm_engagement_response(
-#                 vehicle_id, pred, booking
-#             )
-#             message_text = mock_response["content"]
-
-#             send_email(
-#                 to_email="customer@example.com",  # mock email
-#                 subject="Important Update About Your Vehicle",
-#                 body=message_text
-#             )
-
-#             post(
-#                 ENGAGEMENT_LOG_URL,
-#                 json={
-#                     "vehicle_id": vehicle_id,
-#                     "message": message_text,
-#                     "created_at": datetime.now(timezone.utc).isoformat()
-#                 }
-#             )
-
-#             post(
-#                 UPDATE_VEHICLE_STATE,
-#                 json={
-#                     "vehicle_id": vehicle_id,
-#                     "workflow_state": {
-#                         "current_stage": "ENGAGEMENT_COMPLETE",
-#                         "flags": {
-#                             "engagement_required": False
-#                         }
-#                     },
-#                     "risk_state":risk_state
-#                 }
-#             )
-
-#             print(f"[ENGAGEMENT] Completed for {vehicle_id}\n")
-
-#         time.sleep(POLL_INTERVAL)
 
 def run_engagement_agent():
     print("[ENGAGEMENT] Agent started.")
@@ -258,11 +199,11 @@ def run_engagement_agent():
             print("  ✔ Booking received")
 
             print("  ▶ Generating engagement message...")
-            mock_response = mock_llm_engagement_response(
-                vehicle_id, pred, booking
-            )
+            try:
 
-            message_text = mock_response["content"]
+                crew_output = run_crewai_engagement(vehicle_id, pred, booking)
+                message_text = str(crew_output)
+
             print("  ✔ Message generated")
 
             print("  ▶ Sending email...")
