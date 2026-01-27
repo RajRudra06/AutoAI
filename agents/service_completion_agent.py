@@ -31,7 +31,7 @@ class ServiceCompletionAgent:
         for vehicle in vehicles:
             vehicle_id=vehicle["vehicle_id"]
             stage = vehicle["workflow_state"]["current_stage"]
-
+            temp_last_processed_telemetry=vehicle["temp_last_processed_telemetry"]
             lifecycle_gate_check=self.lifecycle_gate_check(vehicle_id=vehicle_id,stage=stage)
 
             if lifecycle_gate_check:
@@ -44,7 +44,7 @@ class ServiceCompletionAgent:
             if update_vehicle_schedule:
                 continue
 
-            update_vehicle_state=self.update_vehicle_state(vehicle_id=vehicle_id)
+            update_vehicle_state=self.update_vehicle_state(vehicle_id=vehicle_id,temp_last_processed_telemetry=temp_last_processed_telemetry)
 
             if update_vehicle_state:
                 continue
@@ -72,11 +72,13 @@ class ServiceCompletionAgent:
         return True
 
 
-    def update_vehicle_state(self,vehicle_id:str)->bool:
+    def update_vehicle_state(self,vehicle_id:str,temp_last_processed_telemetry:datetime)->bool:
         update_vehicle_state_api=f"{self.base_api_url}/api/vehicles/update"
 
         update_vehicle_state_resp=post(update_vehicle_state_api,json={
                     "vehicle_id": vehicle_id,
+                    # put the timestamp of the telemetry that caused the master to diagonse
+                    "last_processed_telemetry":temp_last_processed_telemetry,
                     "workflow_state": {
                         "current_stage": "IDLE",
                         "flags": {

@@ -40,10 +40,11 @@ def receive_telemetry(payload: dict):
                 "previous_features": previous_features,
                 "latest_feature_associated_telemetryID":latest_telemetry_ID,
                 "last_updated": now,
-                "last_processed_telemetry":datetime(1970, 1, 1, tzinfo=timezone.utc)
             },
             "$setOnInsert": {
+                "temp_last_processed_telemetry":datetime(1969, 1, 1, tzinfo=timezone.utc),
                 # Initialized once, never overwritten here
+                "last_processed_telemetry":datetime(1970, 1, 1, tzinfo=timezone.utc),
                 "workflow_state": {
                     "current_stage": "IDLE",
                     "flags": {
