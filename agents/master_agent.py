@@ -177,7 +177,7 @@ import os
 from dotenv import load_dotenv
 from agents.utils.agent_api_client import get, post
 from helpers.logic.health_gate import needs_diagnosis
-from datetime import datetime
+from datetime import datetime,timezone
 
 load_dotenv()
 
@@ -282,7 +282,8 @@ class MasterAgent:
                 f"{vehicle_state_params['latest_feature_associated_telemetryID']}"
             )
 
-            post(
+            print(vehicle_state_params["latest_feature_associated_telemetryID"])
+            reply=post(
                 f"{self.api_base_url}/api/vehicles/update",
                 json={
                     "vehicle_id": vehicle_state_params["vehicle_id"],
@@ -290,6 +291,8 @@ class MasterAgent:
                         vehicle_state_params["latest_feature_associated_telemetryID"]
                 }
             )
+
+            print(reply)
 
             print(f"[MASTER][UPDATE] temp_last_processed_telemetry updated")
 
@@ -376,7 +379,7 @@ class MasterAgent:
             }
             or high_risk_active
             or last_processed_telemetry >= latest_feature_associated_telemetryID
-        ):
+            ):
             print("[MASTER][GATE] Vehicle blocked by lifecycle gate")
             return True
 

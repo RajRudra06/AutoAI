@@ -13,6 +13,13 @@ def receive_telemetry(payload: dict):
     now = datetime.now(timezone.utc)
 
     latest_telemetry_ID=payload.get("timestamp", now)
+
+    if isinstance(latest_telemetry_ID, str):
+        latest_telemetry_ID = (
+            datetime.fromisoformat(latest_telemetry_ID)
+            .replace(tzinfo=timezone.utc)
+        )
+
     db.telemetry.insert_one({
         "vehicle_id": vehicle_id,
         "telemetryID": latest_telemetry_ID,
