@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from agents.utils.agent_api_client import get, post
 from helpers.logic.health_gate import needs_diagnosis
-
+from datetime import datetime
 load_dotenv()
 
 class MasterAgent:
@@ -124,6 +124,12 @@ class MasterAgent:
             # Features (snapshots)
             "latest_features": latest,
             "previous_features": previous,
+
+            "last_updated": vehicle.get("last_updated"),
+            "last_processed_telemetry": vehicle.get("last_processed_telemetry"),
+            "latest_feature_associated_telemetryID": vehicle.get(
+                "latest_feature_associated_telemetryID"
+            ),
         }
     
     def process_vehicle(self,vehicle: dict):
@@ -131,25 +137,23 @@ class MasterAgent:
 
         vehicle_state_params=self.extract_vehicle_params(vehicle)
 
-        check_skip_vehicle=self.lifecycle_gate(workflow_stage=vehicle_state_params["workflow_stage"] ,high_risk_active=vehicle_state_params["high_risk_active"])
+        check_skip_vehicle=self.lifecycle_gate(workflow_stage=vehicle_state_params["workflow_stage"] ,high_risk_active=vehicle_state_params["high_risk_active"],last_processed_telemetry=vehicle_state_params["last_processed_telemetry"],feature_associated_telemetryID=vehicle_state_params["latest_feature_associated_telemetryID"])
 
         return check_skip_vehicle
         
     
-    def lifecycle_gate(self,workflow_stage: str,high_risk_active:bool) -> bool:
+    def lifecycle_gate(self,workflow_stage: str,high_risk_active:bool,last_processed_telemetry:datetime,feature_associated_telemetryID:datetime) -> bool:
 
-        # if workflow_stage in {""}
-        return (
-
-        workflow_stage in {
+        if workflow_stage in {
             "DIAGNOSIS_PENDING",
             "DIAGNOSIS_COMPLETE",
             "SCHEDULING_COMPLETE",
             "ENGAGEMENT_COMPLETE"
             
-        }
-        or high_risk_active
-    )
+        } or high_risk_active or last_processed_telemetry>=feature_associated_telemetryID:
+            return True
+        
+        return False
         
 if __name__ == "__main__":
     base_api_url_val=os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")

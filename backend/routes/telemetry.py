@@ -12,10 +12,12 @@ def receive_telemetry(payload: dict):
 
     now = datetime.now(timezone.utc)
 
+    latest_telemetry_ID=payload.get("timestamp", now)
     db.telemetry.insert_one({
         "vehicle_id": vehicle_id,
-        "timestamp": payload.get("timestamp", now),
-        "features": features
+        "telemetryID": latest_telemetry_ID,
+        "features": features,
+        "status":"new"
     })
 
     existing_state = db.vehicle_state.find_one(
@@ -36,7 +38,9 @@ def receive_telemetry(payload: dict):
                 "vehicle_id": vehicle_id,
                 "latest_features": features,
                 "previous_features": previous_features,
-                "last_updated": now
+                "latest_feature_associated_telemetryID":latest_telemetry_ID,
+                "last_updated": now,
+                "last_processed_telemetry":datetime(1970, 1, 1, tzinfo=timezone.utc)
             },
             "$setOnInsert": {
                 # Initialized once, never overwritten here

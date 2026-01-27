@@ -32,12 +32,4 @@ def needs_diagnosis(
     if telemetry.get("engine_stress_index", 0) > ENGINE_STRESS_HIGH:
         reasons.append("engine_stress_high")
 
-    # if previous_telemetry:
-    #     if (
-    #         telemetry.get("engine_temp_mean_7d", 0)
-    #         - previous_telemetry.get("engine_temp_mean_7d", 0)
-    #         > 5
-    #     ):
-    #         reasons.append("engine_temp_trend_up")
-
     return len(reasons) > 0, reasons
