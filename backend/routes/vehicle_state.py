@@ -30,24 +30,6 @@ def get_vehicle_state(vehicle_id: str, request: Request):
 
     return vehicle
 
-# @router.post("/update")
-# def update_vehicle_state(payload: dict):
-#     vehicle_id = payload["vehicle_id"]
-#     workflow_state = payload.get("workflow_state")
-#     risk_state=payload.get("risk_state")
-
-#     update_doc = {}
-#     if workflow_state:
-#         update_doc["workflow_state"] = workflow_state
-#         update_doc["risk_state"]=risk_state
-
-#     db.vehicle_state.update_one(
-#         {"vehicle_id": vehicle_id},
-#         {"$set": update_doc}
-#     )
-
-#     return {"success": True}
-
 @router.post("/update")
 def update_vehicle_state(payload: dict):
     vehicle_id = payload["vehicle_id"]
