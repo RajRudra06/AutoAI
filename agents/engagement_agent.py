@@ -350,7 +350,6 @@ def run_engagement_agent():
                 print(f"❌ CrewAI agent failed, try mock llm for {vehicle_id}: {e}")
                 mock_response=mock_llm_engagement_response(vehicle_id=vehicle_id,prediction=pred,booking=booking)
                 message_text=mock_response["content"]
-                
 
             print("  ✔ Message generated")
 
