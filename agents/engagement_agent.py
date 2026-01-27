@@ -132,7 +132,7 @@ engagement_llm_agent = Agent(
         "into calm, actionable customer communication."
     ),
     llm=groq_llm,
-    verbose=True
+    verbose=False
 )
 
 def build_engagement_task(vehicle_id, issue, booking):
@@ -146,6 +146,8 @@ def build_engagement_task(vehicle_id, issue, booking):
     {booking}
 
     Task:
+    - Output ONLY the final customer message.
+    - Do NOT include Thought, Reasoning, Analysis, or explanations.
     - Write a short 20 words clear message to the customer.
     - Explain the issue severity without panic.
     - All the top issues are mentioned in the diagnosis summary dictornary with thier severity and their thresholds.
@@ -199,7 +201,6 @@ def extract_7d_top_issues(vehicle_id, features_snapshot):
 
     top_issues = issues[:6]
 
-
     return {
         "vehicle_id": vehicle_id,
         "issues": top_issues
@@ -207,45 +208,62 @@ def extract_7d_top_issues(vehicle_id, features_snapshot):
 
 
 def mock_llm_engagement_response(vehicle_id, prediction, booking):
+    # --- Normalize inputs ---
     risk_level = prediction.get("risk_level", "MODERATE")
     issues = prediction.get("issues", [])
+
     slot = booking.get("slot")
-    center = booking.get("center_id")
+    if not slot or slot == '{"data":false}':
+        slot = "the scheduled service slot"
 
-    # Severity framing
+    center = booking.get("center_id", "our authorized service center")
+
+    # --- Severity framing ---
     if risk_level == "HIGH":
-        opening = (
-            "This is an important update regarding your vehicle. "
-            "Our diagnostics indicate a condition that may impact safety or performance."
-        )
-        urgency = "We recommend addressing this at the earliest opportunity."
+        opening = "This is an important update regarding your vehicle."
+        urgency = "We recommend addressing this soon to avoid potential issues."
+        tone = "urgent"
+    elif risk_level == "LOW":
+        opening = "This is a routine update regarding your vehicle."
+        urgency = "No immediate action is required."
+        tone = "reassuring"
     else:
-        opening = (
-            "This is a routine service update regarding your vehicle."
-        )
-        urgency = "While not urgent, timely service is recommended."
+        opening = "This is a service update regarding your vehicle."
+        urgency = "Timely service is recommended."
+        tone = "reassuring"
 
-    # Issue summary
+    # --- Issue summarization (generic) ---
     if issues:
-        issue_lines = ", ".join(
-            f"{i['component']} ({i['issue']})" for i in issues
-        )
-        issue_text = f"Our system detected concerns related to: {issue_lines}."
-    else:
-        issue_text = "Our system detected a general maintenance requirement."
+        summarized = []
+        for i in issues[:3]:
+            category = i.get("category", "system")
+            value = i.get("value")
+            threshold = i.get("threshold")
+            unit = i.get("unit", "")
 
+            if value is not None and threshold is not None:
+                summarized.append(f"{category} near threshold ({value}{unit})")
+            else:
+                summarized.append(category)
+
+        issue_text = (
+            "Our diagnostics identified the following indicators: "
+            + ", ".join(summarized) + "."
+        )
+    else:
+        issue_text = "Our diagnostics identified routine maintenance indicators."
+
+    # --- Final message ---
     message = (
-        f"{opening}\n\n"
-        f"{issue_text}\n"
-        f"{urgency}\n\n"
-        f"A service appointment has been scheduled for your vehicle (ID {vehicle_id}) "
-        f"on {slot} at our authorized service center {center}.\n\n"
-        f"If this time works for you, no action is needed. "
-        f"If you wish to reschedule, please contact our support team.\n\n"
-        f"Thank you for choosing us. We’re committed to keeping your vehicle safe and reliable."
+        f"{opening} "
+        f"{issue_text} "
+        f"{urgency} "
+        f"A service appointment is scheduled for vehicle {vehicle_id} "
+        f"at {center}. "
+        f"Please confirm or request rescheduling if needed."
     )
 
-    # Console trace (LLM-like)
+    # --- Console trace ---
     print("\n" + "═" * 90)
     print("🤖 Agent: Customer Engagement Specialist (MOCK LLM)")
     print(f"📋 Vehicle ID: {vehicle_id}")
@@ -257,11 +275,10 @@ def mock_llm_engagement_response(vehicle_id, prediction, booking):
     return {
         "content": message,
         "risk_level": risk_level,
-        "tone": "reassuring" if risk_level != "HIGH" else "urgent",
-        "model": "mock-llm-v2",
-        "confidence": 0.95
+        "tone": tone,
+        "model": "mock-llm-v3-generic",
+        "confidence": 0.97
     }
-
 
 def run_engagement_agent():
     print("[ENGAGEMENT] Agent started.")
@@ -324,11 +341,16 @@ def run_engagement_agent():
             print("  ▶ Generating engagement message...")
             try:
 
+                raise ValueError("ABCD")
                 crew_output = run_crewai_engagement(vehicle_id, issues, booking)
-                message_text = str(crew_output)
+                result = crew_output.tasks_output[0]
+                message_text = result.raw or result.output
+
             except Exception as e:
-                print(f"❌ Engagement failed for {vehicle_id}: {e}")
-                continue
+                print(f"❌ CrewAI agent failed, try mock llm for {vehicle_id}: {e}")
+                mock_response=mock_llm_engagement_response(vehicle_id=vehicle_id,prediction=pred,booking=booking)
+                message_text=mock_response["content"]
+                
 
             print("  ✔ Message generated")
 
