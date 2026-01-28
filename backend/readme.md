@@ -29,3 +29,15 @@ Terminal 7 - Service Completion (complete the lifecycle)
 PYTHONPATH=. python agents/service_completion_agent.py
 
 If any one is missing → diagnosis agent waits forever.
+
+IDEAS:
+
+* For now each agent is polling and not event driven architecture is there, and also since each agent is converted into class based system but it is not being used as class based since it is still one instance for all vehicle so high sequentiality nature of the entire flow
+
+* To mitigate this we can have either thread based system where master pulls each vehicle and see which one needs to go thru lifecycle if required new Orchestrator thread is created whcih create their own thread of each agent and runs the entire lifecycle.
+
+Other thread method could be master initiates one diagnosis thread and before dying this diagnosis agent instantiate next agent required and this goes till vehicle is out of lifecycle 
+
+But for both these u cant have lets say more than 50-100 threads since that will choke the system so thread pool will be used 
+
+Another approach is to go with celery+redis and event driver architecture 
