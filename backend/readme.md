@@ -36,8 +36,10 @@ IDEAS:
 
 * To mitigate this we can have either thread based system where master pulls each vehicle and see which one needs to go thru lifecycle if required new Orchestrator thread is created whcih create their own thread of each agent and runs the entire lifecycle.
 
-Other thread method could be master initiates one diagnosis thread and before dying this diagnosis agent instantiate next agent required and this goes till vehicle is out of lifecycle 
+* Other thread method could be master initiates one diagnosis thread and before dying this diagnosis agent instantiate next agent required and this goes till vehicle is out of lifecycle 
 
-But for both these u cant have lets say more than 50-100 threads since that will choke the system so thread pool will be used 
+* But for both these u cant have lets say more than 50-100 threads since that will choke the system so thread pool will be used 
 
-Another approach is to go with celery+redis and event driver architecture 
+* Another approach is to go with celery+redis and event driver architecture 
+
+* For demo add metric end point to store each step and uses crewai to write a rapport for showing it to the user what happened at each step.
