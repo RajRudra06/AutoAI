@@ -185,7 +185,8 @@ class MasterAgent:
             last_processed_telemetry=vehicle_state_params["last_processed_telemetry"],
             latest_feature_associated_telemetryID=
                 vehicle_state_params["latest_feature_associated_telemetryID"],
-            pipeline_associated=vehicle_state_params["pipeline_associated"] or {}
+            pipeline_associated=vehicle_state_params["pipeline_associated"] or {},
+            vehicle=vehicle
  )
 
         return check_skip_vehicle
@@ -196,11 +197,13 @@ class MasterAgent:
         high_risk_active: bool,
         last_processed_telemetry: datetime,
         latest_feature_associated_telemetryID: datetime,
-        pipeline_associated: dict
+        pipeline_associated: dict,vehicle: dict
     ) -> bool:
 
         pipeline_status = pipeline_associated.get("pipeline_status", "UNKNOWN")
         pipeline_assigned_at = pipeline_associated.get("pipeline_assigned_at")
+        now=datetime.now(timezone.utc)
+        timeout=3600
 
         if (
             workflow_stage in {
@@ -213,11 +216,27 @@ class MasterAgent:
             or last_processed_telemetry >= latest_feature_associated_telemetryID or pipeline_status != "TELEMETRY_INITIATED" or pipeline_assigned_at > datetime(1968, 1, 1, tzinfo=timezone.utc)
             ):
             print("[MASTER][GATE] Vehicle blocked by lifecycle gate")
+
+            if pipeline_status != "TELEMETRY_INITIATED" and (now - pipeline_assigned_at) > timeout:
+                self.reset_stale_vehicle(vehiecle=vehicle)
+                print("[MASTER][GATE] Stale vehicle reset")
+                
             return True
 
         print("[MASTER][GATE] Vehicle allowed to proceed")
         return False
+    
+    def reset_stale_vehicle(self, vehicle: dict):
+        vehicle_state_api=f"{self.api_base_url}/api/vehicles/update"
+        vehicle_state_params=self.extract_vehicle_params(vehicle)
 
+        update_req=post(vehicle_state_api,json={
+                    "vehicle_id": vehicle_state_params["vehicle_id"],
+                     "pipeline_associated":{
+                    "pipeline_status":"TELEMETRY_INITIATED",
+                    "pipeline_assigned_at":"1968-01-01T00:00:00Z"
+                }
+                })
 
 if __name__ == "__main__":
     base_api_url_val = os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")

@@ -38,6 +38,7 @@ def update_vehicle_state(payload: dict):
     risk_state = payload.get("risk_state")
     temp_last_processed_telemetry = payload.get("temp_last_processed_telemetry")
     last_processed_telemetry=payload.get("last_processed_telemetry")
+    pipeline_associated=payload.get("pipeline_associated")
 
     update_doc = {}
 
@@ -60,7 +61,19 @@ def update_vehicle_state(payload: dict):
             if isinstance(last_processed_telemetry,str)
             else last_processed_telemetry
         )
+    if pipeline_associated is not None:
+        if "pipeline_status" in pipeline_associated:
+            update_doc["pipeline_associated.pipeline_status"] = (
+                pipeline_associated["pipeline_status"]
+            )
 
+        if "pipeline_assigned_at" in pipeline_associated:
+            ts = pipeline_associated["pipeline_assigned_at"]
+            update_doc["pipeline_associated.pipeline_assigned_at"] = (
+                datetime.fromisoformat(ts.replace("Z", "+00:00"))
+                if isinstance(ts, str)
+                else ts
+            )
     # ✅ Prevent no-op updates
     if update_doc:
         db.vehicle_state.update_one(
