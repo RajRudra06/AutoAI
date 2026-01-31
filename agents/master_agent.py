@@ -146,7 +146,7 @@ class MasterAgent:
 
         return {
             "vehicle_id": vehicle_id,
-
+            "pipeline_associated": vehicle.get("pipeline_associated"),
             "workflow_stage": workflow.get("current_stage"),
             "workflow_flags": {
                 "diagnosis_required": flags.get("diagnosis_required", False),
@@ -180,11 +180,13 @@ class MasterAgent:
 
         check_skip_vehicle = self.lifecycle_gate(
             workflow_stage=vehicle_state_params["workflow_stage"],
+            pipeline_status=vehicle_state_params["pipeline_status"],
             high_risk_active=vehicle_state_params["high_risk_active"],
             last_processed_telemetry=vehicle_state_params["last_processed_telemetry"],
             latest_feature_associated_telemetryID=
-                vehicle_state_params["latest_feature_associated_telemetryID"]
-        )
+                vehicle_state_params["latest_feature_associated_telemetryID"],
+            pipeline_associated=vehicle_state_params["pipeline_associated"] or {}
+ )
 
         return check_skip_vehicle
 
@@ -193,8 +195,12 @@ class MasterAgent:
         workflow_stage: str,
         high_risk_active: bool,
         last_processed_telemetry: datetime,
-        latest_feature_associated_telemetryID: datetime
+        latest_feature_associated_telemetryID: datetime,
+        pipeline_associated: dict
     ) -> bool:
+
+        pipeline_status = pipeline_associated.get("pipeline_status", "UNKNOWN")
+        pipeline_assigned_at = pipeline_associated.get("pipeline_assigned_at")
 
         if (
             workflow_stage in {
@@ -204,7 +210,7 @@ class MasterAgent:
                 "ENGAGEMENT_COMPLETE"
             }
             or high_risk_active
-            or last_processed_telemetry >= latest_feature_associated_telemetryID
+            or last_processed_telemetry >= latest_feature_associated_telemetryID or pipeline_status != "TELEMETRY_INITIATED" or pipeline_assigned_at > datetime(1968, 1, 1, tzinfo=timezone.utc)
             ):
             print("[MASTER][GATE] Vehicle blocked by lifecycle gate")
             return True

@@ -49,6 +49,10 @@ def receive_telemetry(payload: dict):
                 "last_updated": now,
             },
             "$setOnInsert": {
+                "pipeline_associated":{
+                    "pipeline_status":"TELEMETRY_INITIATED",
+                    "pipeline_assigned_at":datetime(1968, 1, 1, tzinfo=timezone.utc)
+                },
                 "temp_last_processed_telemetry":datetime(1969, 1, 1, tzinfo=timezone.utc),
                 # Initialized once, never overwritten here
                 "last_processed_telemetry":datetime(1970, 1, 1, tzinfo=timezone.utc),
