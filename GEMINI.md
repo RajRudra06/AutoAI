@@ -81,7 +81,10 @@ Open multiple terminals and run the components in the following order. The `PYTH
 
 The following are the primary development goals for the AutoAI project:
 
-1.  **Introduce Concurrency:** Transition from the current `while True` loop-based polling to a more concurrent execution model, likely leveraging the existing Celery integration.
+1.  **Introduce Concurrency:** Transition from the current `while True` loop-based polling to a more concurrent execution model, leveraging the existing Celery integration. This involves:
+    *   **1.1. Separate Decision and Execution Layers:** For each of the five major agents (Master, Diagnosis, Scheduling, Engagement, Service Completion), split their functionality into a "decision part" (to remain in the agent script for agentic control) and an "execution part" (to be converted into a Celery task).
+    *   **1.2. Implement Sharding for Decision Layers:** Run multiple instances (e.g., 2-3) of each agent's decision layer. Each instance will process a chunk of incoming vehicle states and then push corresponding execution tasks to Redis queues.
+    *   **1.3. Implement 5 Dedicated Redis Queues:** Utilize five separate Redis queues, one for each agent type, to provide logical separation, prevent head-of-line blocking, and allow for differentiated scaling and prioritization of execution tasks.
 2.  **Mature Agentic Decision Thinking:** Enhance the decision-making processes of the agents, focusing on more sophisticated logic without introducing excessive complexity.
 3.  **Refine Layering:** Improve the architectural separation and interaction between the database, FastAPI backend, various agents, and the Celery task queue for increased robustness and maintainability.
 4.  **Develop Frontend with Real-time Simulation:** Create a web-based frontend application that provides a real-time simulation of the vehicle maintenance lifecycle. This frontend will allow users (recruiters) to:
