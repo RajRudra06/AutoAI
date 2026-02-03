@@ -28,6 +28,10 @@ PYTHONPATH=. python agents/engagement_agent.py
 Terminal 7 - Service Completion (complete the lifecycle)
 PYTHONPATH=. python agents/service_completion_agent.py
 
+Terminal 8 -  Celery Worker Diagnosis
+
+PYTHONPATH=. celery -A tasks_celery.celery_app worker -l info -Q diagnosis_queue
+
 If any one is missing → diagnosis agent waits forever.
 
 IDEAS:

@@ -1,6 +1,6 @@
 # tasks/diagnosis_tasks.py
 
-from celery_app import app
+from .celery_config import app
 from celery.utils.log import get_task_logger
 from datetime import datetime, timezone
 import joblib
@@ -23,7 +23,7 @@ logger.info(f"[DIAGNOSIS TASK] Model loaded from {MODEL_PATH}")
 
 @app.task(
     bind=True,
-    name='diagnosis_tasks.run_diagnosis',
+    name='task.diagnosis.run_diagnosis',
     max_retries=3,
     default_retry_delay=60,
     autoretry_for=(Exception,),
