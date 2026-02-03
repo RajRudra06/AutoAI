@@ -30,7 +30,7 @@ PYTHONPATH=. python agents/service_completion_agent.py
 
 Terminal 8 -  Celery Worker Diagnosis
 
-PYTHONPATH=. celery -A tasks_celery.celery_app worker -l info -Q diagnosis_queue
+PYTHONPATH=. celery -A worker_tasks.celery_config worker -l info -Q diagnosis_queue
 
 If any one is missing → diagnosis agent waits forever.
 
