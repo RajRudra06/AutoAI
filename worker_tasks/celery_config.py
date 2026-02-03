@@ -10,10 +10,10 @@ app = Celery(
     broker=os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0'),
     backend=os.getenv('CELERY_RESULT_BACKEND', 'redis://localhost:6379/1'),
     include=[
-        'worker_task.diagnosis_tasks',
-        'worker_task.scheduling_tasks',
-        'worker_task.engagement_tasks',
-        'worker_task.service_completion_tasks'
+        'worker_tasks.diagnosis_tasks',
+        # 'worker_tasks.scheduling_tasks',
+        # 'worker_tasks.engagement_tasks',
+        # 'worker_tasks.service_completion_tasks'
     ]
 )
 

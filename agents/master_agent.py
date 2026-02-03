@@ -10,7 +10,7 @@ from multiprocessing import Process
 from concurrent.futures import ThreadPoolExecutor
 
 # Import Celery task
-from worker_task.diagnosis import run_diagnosis
+from worker_tasks.diagnosis_tasks import run_diagnosis
 
 load_dotenv()
 
