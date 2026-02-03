@@ -1,4 +1,5 @@
 
+import threading
 import time
 import os
 from dotenv import load_dotenv
@@ -9,7 +10,7 @@ from multiprocessing import Process
 from concurrent.futures import ThreadPoolExecutor
 
 # Import Celery task
-from tasks.diagnosis_tasks import run_diagnosis
+from tasks_celery.diagnosis_task import run_diagnosis
 
 load_dotenv()
 
@@ -25,7 +26,6 @@ class MasterAgent:
         print(f"[MASTER SHARD {shard_id}][INIT] Shard {shard_id} of {total_shards}, max_threads={max_threads}")
 
     def owns_vehicle(self, vehicle_id: str) -> bool:
-        """NEW: Deterministic sharding"""
         return hash(vehicle_id) % self.total_shards == self.shard_id
 
     def fetch_vehicle_state(self):
@@ -36,7 +36,7 @@ class MasterAgent:
             resp = get(vehicle_state_url)
             all_vehicles = resp.json().get("vehicles", [])
             
-            # Filter to only my shard
+            
             vehicles = [v for v in all_vehicles if self.owns_vehicle(v["vehicle_id"])]
             
             print(f"[MASTER SHARD {self.shard_id}][FETCH] Total: {len(all_vehicles)}, My shard: {len(vehicles)}")
@@ -79,19 +79,18 @@ class MasterAgent:
         return {"reasons": reasons, "should_trigger": should_trigger}
 
     def cycle(self):
-        """NEW: Now processes vehicles in parallel using ThreadPoolExecutor"""
+        
         print(f"[MASTER SHARD {self.shard_id}][CYCLE] Starting cycle")
 
         vehicles = self.fetch_vehicle_state()
 
-        # NEW: Process vehicles concurrently using ThreadPool
         with ThreadPoolExecutor(max_workers=self.max_threads) as executor:
             executor.map(self.process_single_vehicle, vehicles)
 
         print(f"[MASTER SHARD {self.shard_id}][CYCLE] Cycle complete")
 
     def process_single_vehicle(self, vehicle):
-        """NEW: Process one vehicle (runs in thread)"""
+        
         print(f"[MASTER SHARD {self.shard_id}][CYCLE] Processing vehicle {vehicle.get('vehicle_id')}")
 
         vehicle_skip_check = self.process_vehicle(vehicle)
@@ -108,19 +107,20 @@ class MasterAgent:
 
         self.enqueue_diagnosis_task(vehicle, diagnosis_result["reasons"])
 
-        time.sleep(10)
+        time.sleep(2)
 
     def enqueue_diagnosis_task(self, vehicle: dict, reasons: dict):
-        """NEW: Enqueue Celery task for diagnosis execution"""
         vehicle_state_params = self.extract_vehicle_params(vehicle)
         vehicle_id = vehicle_state_params["vehicle_id"]
+        thread_id = threading.get_ident()
 
         try:
             print(f"[MASTER SHARD {self.shard_id}][ENQUEUE] Enqueuing diagnosis task for {vehicle_id}")
 
-            # Enqueue Celery task (non-blocking)
             run_diagnosis.delay(
                 vehicle_id=vehicle_id,
+                master_shard_id=self.shard_id,
+                thread_id=thread_id,
                 features_snapshot=vehicle_state_params["latest_features"],
                 trigger_reasons=reasons,
                 api_base_url=self.api_base_url,
@@ -130,7 +130,7 @@ class MasterAgent:
             print(f"[MASTER SHARD {self.shard_id}][ENQUEUE] Task queued for {vehicle_id}")
 
         except Exception as e:
-            print(f"[MASTER SHARD {self.shard_id}][ERROR] Failed to enqueue {vehicle_id}: {e}")
+             print(f"[MASTER SHARD {self.shard_id}][TID:{thread_id}][ENQUEUE] Task queued for {vehicle_id}")
 
     def run(self):
         print(f"[MASTER SHARD {self.shard_id}] Agent started. Observing vehicle_state...")
@@ -257,13 +257,8 @@ class MasterAgent:
             }
         )
 
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# NEW: MULTIPROCESSING ORCHESTRATOR
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 def run_shard(shard_id, total_shards, base_api_url, poll_interval, max_threads):
-    """Run a single shard in its own process"""
+    
     master_agent = MasterAgent(
         api_base_url_val=base_api_url,
         poll_interval_val=poll_interval,
@@ -275,8 +270,7 @@ def run_shard(shard_id, total_shards, base_api_url, poll_interval, max_threads):
 
 
 def start_all_shards(total_shards, base_api_url, poll_interval, max_threads):
-    """NEW: Spawn multiple shard processes"""
-    print(f"[ORCHESTRATOR] Starting {total_shards} shards...")
+    print(f"[MASTER_ORCHESTRATOR] Starting {total_shards} shards...")
     
     processes = []
     for shard_id in range(total_shards):
@@ -286,17 +280,17 @@ def start_all_shards(total_shards, base_api_url, poll_interval, max_threads):
         )
         p.start()
         processes.append(p)
-        print(f"[ORCHESTRATOR] Shard {shard_id} started (PID: {p.pid})")
+        print(f"[MASTER_ORCHESTRATOR] Shard {shard_id} started (PID: {p.pid})")
     
     # Wait for all shards (they run forever)
     try:
         for p in processes:
             p.join()
     except KeyboardInterrupt:
-        print("\n[ORCHESTRATOR] Shutting down all shards...")
+        print("\n[MASTER_ORCHESTRATOR] Shutting down all shards...")
         for p in processes:
             p.terminate()
-        print("[ORCHESTRATOR] All shards terminated")
+        print("[MASTER_ORCHESTRATOR] All shards terminated")
 
 
 if __name__ == "__main__":

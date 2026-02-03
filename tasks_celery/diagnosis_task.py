@@ -23,37 +23,33 @@ logger.info(f"[DIAGNOSIS TASK] Model loaded from {MODEL_PATH}")
 
 @app.task(
     bind=True,
-    name='tasks.diagnosis_tasks.run_diagnosis',
+    name='diagnosis_tasks.run_diagnosis',
     max_retries=3,
     default_retry_delay=60,
     autoretry_for=(Exception,),
     retry_backoff=True,
     retry_jitter=True,
 )
-def run_diagnosis(self, vehicle_id: str, features_snapshot: dict, trigger_reasons: list, api_base_url: str, latest_feature_associated_telemetryID):
-    """
-    Celery task: Execute diagnosis work
-    This contains the actual execution (ML inference + DB updates)
-    """
-    logger.info(f"[DIAGNOSIS TASK] Processing {vehicle_id}")
+
+def run_diagnosis(self, vehicle_id: str, features_snapshot: dict, trigger_reasons: list, api_base_url: str, latest_feature_associated_telemetryID,thread_id:int,master_shard_id:int):
+   
+    logger.info(f"[DIAGNOSIS TASK] Processing {vehicle_id} on shard {master_shard_id} with thread {thread_id}")
     
-    # Call the actual work function
     return put_diagnosis_job(
         vehicle_id=vehicle_id,
         features_snapshot=features_snapshot,
         trigger_reasons=trigger_reasons,
         api_base_url=api_base_url,
-        latest_feature_associated_telemetryID=latest_feature_associated_telemetryID
+        latest_feature_associated_telemetryID=latest_feature_associated_telemetryID,
+        master_shard_id=master_shard_id,
+        thread_id=thread_id
     )
 
 
-def put_diagnosis_job(vehicle_id: str, features_snapshot: dict, trigger_reasons: dict, api_base_url: str, latest_feature_associated_telemetryID):
-    """
-    EXACT COPY from original MasterAgent.put_diagnosis_job()
-    This is the EXECUTION work that was in the old master agent
-    """
+def put_diagnosis_job(vehicle_id: str, features_snapshot: dict, trigger_reasons: dict, api_base_url: str, latest_feature_associated_telemetryID,master_shard_id:int,thread_id:int):
+
     try:
-        print(f"[DIAGNOSIS TASK][QUEUE] Sending diagnosis job for {vehicle_id}")
+        print(f"[DIAGNOSIS TASK][QUEUE] Sending diagnosis job for {vehicle_id} for shard {master_shard_id} with thread {thread_id}")
 
         post(
             f"{api_base_url}/api/diagnosis/queue",
