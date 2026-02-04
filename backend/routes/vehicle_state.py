@@ -4,6 +4,15 @@ from datetime import datetime,timezone
 
 router = APIRouter(prefix="/vehicles", tags=["Vehicle State"])
 
+# @router.get("/state")
+# def get_all_vehicle_states(request: Request):
+#     agent_id = request.state.agent_id  # future use
+
+#     vehicles = list(
+#         db.vehicle_state.find({},  {"_id": 0})
+#     )
+#     return {"vehicles": vehicles}
+
 @router.get("/state")
 def get_all_vehicle_states(request: Request):
     agent_id = request.state.agent_id  # future use
@@ -11,6 +20,30 @@ def get_all_vehicle_states(request: Request):
     vehicles = list(
         db.vehicle_state.find({}, {"_id": 0})
     )
+    
+    # Ensure all datetime fields are timezone-aware and serialized
+    for vehicle in vehicles:
+        datetime_fields = [
+            'last_updated',
+            'last_processed_telemetry', 
+            'temp_last_processed_telemetry',
+            'latest_feature_associated_telemetryID'
+        ]
+        
+        for field in datetime_fields:
+            if field in vehicle and isinstance(vehicle[field], datetime):
+                if vehicle[field].tzinfo is None:
+                    vehicle[field] = vehicle[field].replace(tzinfo=timezone.utc)
+                vehicle[field] = vehicle[field].isoformat()
+        
+        # Handle nested pipeline_associated
+        if 'pipeline_associated' in vehicle and vehicle['pipeline_associated']:
+            pa = vehicle['pipeline_associated'].get('pipeline_assigned_at')
+            if pa and isinstance(pa, datetime):
+                if pa.tzinfo is None:
+                    pa = pa.replace(tzinfo=timezone.utc)
+                vehicle['pipeline_associated']['pipeline_assigned_at'] = pa.isoformat()
+    
     return {"vehicles": vehicles}
 
 @router.get("/state/{vehicle_id}")

@@ -2,6 +2,7 @@
 import threading
 import time
 import os
+import traceback
 from dotenv import load_dotenv
 from agents.utils.agent_api_client import get, post
 from helpers.logic.health_gate import needs_diagnosis
@@ -91,23 +92,32 @@ class MasterAgent:
 
     def process_single_vehicle(self, vehicle):
         
-        print(f"[MASTER SHARD {self.shard_id}][CYCLE] Processing vehicle {vehicle.get('vehicle_id')}")
+            try:
+                print(f"[MASTER SHARD {self.shard_id}][CYCLE] Processing vehicle {vehicle.get('vehicle_id')}")
 
-        vehicle_skip_check = self.process_vehicle(vehicle)
+                vehicle_skip_check = self.process_vehicle(vehicle)
 
-        if vehicle_skip_check:
-            print(f"[MASTER SHARD {self.shard_id}][CYCLE] Skipped by lifecycle gate")
-            return
+                if vehicle_skip_check:
+                    print(f"[MASTER SHARD {self.shard_id}][CYCLE] Skipped by lifecycle gate")
+                    return
 
-        diagnosis_result = self.diagnosis_check(vehicle)
+                diagnosis_result = self.diagnosis_check(vehicle)
 
-        if diagnosis_result is None:
-            print(f"[MASTER SHARD {self.shard_id}][CYCLE] Diagnosis not required")
-            return
+                if diagnosis_result is None:
+                    print(f"[MASTER SHARD {self.shard_id}][CYCLE] Diagnosis not required")
+                    return
 
-        self.enqueue_diagnosis_task(vehicle, diagnosis_result["reasons"])
+                self.enqueue_diagnosis_task(vehicle, diagnosis_result["reasons"])
 
-        time.sleep(2)
+                time.sleep(2)
+
+    # --- ADD THIS EXCEPT BLOCK ---
+            except Exception as e:
+                print(f"\n---!!! UNHANDLED EXCEPTION IN THREAD !!!---")
+                print(f"--- For Vehicle: {vehicle.get('vehicle_id')} on Shard {self.shard_id} ---")
+                print(f"--- Error: {e} ---")
+                traceback.print_exc()
+                print(f"-------------------------------------------\n")
 
     def enqueue_diagnosis_task(self, vehicle: dict, reasons: dict):
         vehicle_state_params = self.extract_vehicle_params(vehicle)
@@ -193,23 +203,54 @@ class MasterAgent:
             vehicle=vehicle
         )
 
+        print(f"[MASTER SHARD {self.shard_id}][GATE] check_skip_vehicle={check_skip_vehicle}")
+
         return check_skip_vehicle
 
     def lifecycle_gate(
-        self,
-        workflow_stage: str,
-        high_risk_active: bool,
-        last_processed_telemetry: datetime,
-        latest_feature_associated_telemetryID: datetime,
-        pipeline_associated: dict,
-        vehicle: dict
-    ) -> bool:
+    self,
+    workflow_stage: str,
+    high_risk_active: bool,
+    last_processed_telemetry: datetime,
+    latest_feature_associated_telemetryID: datetime,
+    pipeline_associated: dict,
+    vehicle: dict
+) -> bool:
 
         pipeline_status = pipeline_associated.get("pipeline_status", "UNKNOWN")
         pipeline_assigned_at = pipeline_associated.get("pipeline_assigned_at")
         now = datetime.now(timezone.utc)
         timeout = 3600
+        
+        # FORCE TIMEZONE-AWARENESS IMMEDIATELY - DO THIS FIRST!
+        # Handle last_processed_telemetry
+        if isinstance(last_processed_telemetry, str):
+            last_processed_telemetry = datetime.fromisoformat(
+                last_processed_telemetry.replace('Z', '+00:00')
+            )
+        if isinstance(last_processed_telemetry, datetime) and last_processed_telemetry.tzinfo is None:
+            last_processed_telemetry = last_processed_telemetry.replace(tzinfo=timezone.utc)
+        
+        # Handle latest_feature_associated_telemetryID
+        if isinstance(latest_feature_associated_telemetryID, str):
+            latest_feature_associated_telemetryID = datetime.fromisoformat(
+                latest_feature_associated_telemetryID.replace('Z', '+00:00')
+            )
+        if isinstance(latest_feature_associated_telemetryID, datetime) and latest_feature_associated_telemetryID.tzinfo is None:
+            latest_feature_associated_telemetryID = latest_feature_associated_telemetryID.replace(tzinfo=timezone.utc)
+        
+        # Handle pipeline_assigned_at
+        if isinstance(pipeline_assigned_at, str):
+            pipeline_assigned_at = datetime.fromisoformat(
+                pipeline_assigned_at.replace('Z', '+00:00')
+            )
+        if isinstance(pipeline_assigned_at, datetime) and pipeline_assigned_at.tzinfo is None:
+            pipeline_assigned_at = pipeline_assigned_at.replace(tzinfo=timezone.utc)
 
+        # Create comparison datetime
+        comparison_datetime = datetime(1968, 1, 1, tzinfo=timezone.utc)
+        
+        # Now the rest of your logic
         if (
             workflow_stage in {
                 "DIAGNOSIS_PENDING",
@@ -220,22 +261,14 @@ class MasterAgent:
             or high_risk_active
             or last_processed_telemetry >= latest_feature_associated_telemetryID 
             or pipeline_status != "TELEMETRY_INITIATED" 
-            or (pipeline_assigned_at and pipeline_assigned_at > datetime(1968, 1, 1, tzinfo=timezone.utc))
+            or (pipeline_assigned_at and pipeline_assigned_at > comparison_datetime)
         ):
             print(f"[MASTER SHARD {self.shard_id}][GATE] Vehicle blocked by lifecycle gate")
 
             if pipeline_status != "TELEMETRY_INITIATED" and pipeline_assigned_at:
-                try:
-                    if isinstance(pipeline_assigned_at, str):
-                        assigned_at = datetime.fromisoformat(pipeline_assigned_at.replace('Z', '+00:00'))
-                    else:
-                        assigned_at = pipeline_assigned_at
-                    
-                    if (now - assigned_at).total_seconds() > timeout:
-                        self.reset_stale_vehicle(vehicle=vehicle)
-                        print(f"[MASTER SHARD {self.shard_id}][GATE] Stale vehicle reset")
-                except Exception as e:
-                    print(f"[MASTER SHARD {self.shard_id}][ERROR] Stale check failed: {e}")
+                if (now - pipeline_assigned_at).total_seconds() > timeout:
+                    self.reset_stale_vehicle(vehicle=vehicle)
+                    print(f"[MASTER SHARD {self.shard_id}][GATE] Stale vehicle reset")
                 
             return True
 
