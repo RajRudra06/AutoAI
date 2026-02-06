@@ -52,7 +52,8 @@ def receive_telemetry(payload: dict):
                 "version":1,
                 "pipeline_associated":{
                     "pipeline_status":"TELEMETRY_INITIATED",
-                    "pipeline_assigned_at":datetime(1968, 1, 1, tzinfo=timezone.utc)
+                    "pipeline_assigned_at":datetime(1968, 1, 1, tzinfo=timezone.utc),
+                    "celery_task_id": None
                 },
                 "temp_last_processed_telemetry":datetime(1969, 1, 1, tzinfo=timezone.utc),
                 # Initialized once, never overwritten here

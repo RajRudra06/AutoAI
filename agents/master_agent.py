@@ -1,5 +1,6 @@
 # Master Agent Implementation 
 
+from multiprocessing.pool import AsyncResult
 import threading
 import time
 import os
@@ -82,20 +83,6 @@ class MasterAgent:
         try:
             print(f"[MASTER SHARD {self.shard_id}][ENQUEUE] Enqueuing diagnosis task for {vehicle_id}")
 
-            update_vehicle_state = post(
-                f"{self.api_base_url}/api/vehicles/update",
-                json={
-                    "vehicle_id": vehicle_id,
-                    "pipeline_associated": {
-                        "pipeline_status": "ASSIGNED_BY_MASTER_AGENT",
-                        "pipeline_assigned_at": datetime.now(timezone.utc).isoformat()
-                    }
-                }
-            )
-
-            if update_vehicle_state.status_code != 200:
-                print(f"[MASTER SHARD {self.shard_id}][ERROR] Failed to update vehicle state for vehicle {vehicle_id}")
-                return
 
             res = run_diagnosis.delay(
                 vehicle_id=vehicle_id,
@@ -107,7 +94,21 @@ class MasterAgent:
                 latest_feature_associated_telemetryID=vehicle_state_params["latest_feature_associated_telemetryID"]
             )
 
-           
+            update_vehicle_state = post(
+                f"{self.api_base_url}/api/vehicles/update",
+                json={
+                    "vehicle_id": vehicle_id,
+                    "pipeline_associated": {
+                        "pipeline_status": "ASSIGNED_BY_MASTER_AGENT",
+                        "pipeline_assigned_at": datetime.now(timezone.utc).isoformat(),
+                        "celery_task_id":res.id
+                    }
+                }
+            )
+            
+            if update_vehicle_state.status_code != 200:
+                print(f"[MASTER SHARD {self.shard_id}][ERROR] Failed to update vehicle state for vehicle {vehicle_id}")
+                return
 
             print(f"[MASTER SHARD {self.shard_id}][ENQUEUE] Task queued for {vehicle_id}, task_id={res.id}")
 
@@ -132,9 +133,12 @@ class MasterAgent:
         flags = workflow.get("flags") or {}
         latest = vehicle.get("latest_features") or {}
         previous = vehicle.get("previous_features") or {}
+        pipeline = vehicle.get("pipeline_associated") or {} 
+
         return {
             "vehicle_id": vehicle_id,
             "pipeline_associated": vehicle.get("pipeline_associated"),
+            "celery_task_id": pipeline.get("celery_task_id"),
             "workflow_stage": workflow.get("current_stage"),
             "workflow_flags": {
                 "diagnosis_required": flags.get("diagnosis_required", False),
@@ -183,7 +187,12 @@ class MasterAgent:
         pipeline_status = pipeline_associated.get("pipeline_status", "UNKNOWN")
         pipeline_assigned_at = pipeline_associated.get("pipeline_assigned_at")
         now = datetime.now(timezone.utc)
-        timeout = 3600 # 1 hour in seconds
+        current_stage=workflow_stage
+        vehicle_state_params = self.extract_vehicle_params(vehicle)
+        diagnosis_required = vehicle_state_params["workflow_flags"]["diagnosis_required"]
+        timeout = 120 # 5 mins
+
+        celery_task_id = vehicle_state_params["celery_task_id"]
         try:
             if isinstance(last_processed_telemetry, str):
                 last_processed_telemetry = datetime.fromisoformat(last_processed_telemetry.replace('Z', '+00:00'))
@@ -203,7 +212,7 @@ class MasterAgent:
             or (pipeline_assigned_at and pipeline_assigned_at > comparison_datetime)
         ):
             print(f"[MASTER SHARD {self.shard_id}][GATE] Vehicle blocked by lifecycle gate")
-            if pipeline_status != "TELEMETRY_INITIATED" and pipeline_assigned_at:
+            if (pipeline_status == "ASSIGNED_BY_MASTER_AGENT" and pipeline_assigned_at and workflow_stage == "IDLE" and not diagnosis_required and celery_task_id is not None) :
                 if (now - pipeline_assigned_at).total_seconds() > timeout:
                     self.reset_stale_vehicle(vehicle=vehicle)
                     print(f"[MASTER SHARD {self.shard_id}][GATE] Stale vehicle reset")
@@ -214,16 +223,42 @@ class MasterAgent:
     def reset_stale_vehicle(self, vehicle: dict):
         vehicle_state_api = f"{self.api_base_url}/api/vehicles/update"
         vehicle_state_params = self.extract_vehicle_params(vehicle)
-        update_req = post(
-            vehicle_state_api,
-            json={
-                "vehicle_id": vehicle_state_params["vehicle_id"],
-                "pipeline_associated": {
-                    "pipeline_status": "TELEMETRY_INITIATED",
-                    "pipeline_assigned_at": "1968-01-01T00:00:00Z"
+
+        vehicle_id=vehicle_state_params["vehicle_id"]
+        celery_task_id=vehicle_state_params["celery_task_id"]
+
+        if celery_task_id:
+            try:
+                print(f"[MASTER SHARD {self.shard_id}][RESET] Revoking task {celery_task_id} for vehicle {vehicle_id}")
+                AsyncResult(celery_task_id).revoke(terminate=True)
+                print(f"[MASTER SHARD {self.shard_id}][RESET] Task {celery_task_id} revoked successfully")
+            except Exception as e:
+                print(f"[MASTER SHARD {self.shard_id}][RESET] Failed to revoke task {celery_task_id}: {e}")
+                # Continue anyway - still reset the vehicle
+        else:
+            print(f"[MASTER SHARD {self.shard_id}][RESET] No task_id found for vehicle {vehicle_id}, skipping revoke")
+        
+        # STEP 2: Reset vehicle state in DB
+        try:
+            update_req = post(
+                vehicle_state_api,
+                json={
+                    "vehicle_id": vehicle_id,
+                    "pipeline_associated": {
+                        "pipeline_status": "TELEMETRY_INITIATED",
+                        "pipeline_assigned_at": "1968-01-01T00:00:00Z",
+                        "celery_task_id": None  # ← Clear task ID
+                    }
                 }
-            }
-        )
+            )
+            
+            if update_req.status_code == 200:
+                print(f"[MASTER SHARD {self.shard_id}][RESET] Vehicle {vehicle_id} reset successfully")
+            else:
+                print(f"[MASTER SHARD {self.shard_id}][RESET] Failed to reset vehicle {vehicle_id}")
+
+        except Exception as e:
+            print(f"[MASTER SHARD {self.shard_id}][RESET] Error resetting vehicle {vehicle_id}: {e}")
 
 # This new function is the single point of data fetching for the whole system
 def fetch_all_vehicles_globally(api_url: str) -> list:
