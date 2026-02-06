@@ -187,7 +187,6 @@ class MasterAgent:
         pipeline_status = pipeline_associated.get("pipeline_status", "UNKNOWN")
         pipeline_assigned_at = pipeline_associated.get("pipeline_assigned_at")
         now = datetime.now(timezone.utc)
-        current_stage=workflow_stage
         vehicle_state_params = self.extract_vehicle_params(vehicle)
         diagnosis_required = vehicle_state_params["workflow_flags"]["diagnosis_required"]
         timeout = 120 # 5 mins
@@ -289,7 +288,6 @@ def run_shard_cycle(work_packet: tuple):
 
 # This is the new main orchestrator function.
 def orchestrator_main():
-    """The new main loop for the entire system."""
     base_api_url_val = os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")
     total_shards = int(os.getenv("TOTAL_SHARDS", cpu_count()))
     poll_interval = int(os.getenv("POLL_INTERVAL", "20"))
