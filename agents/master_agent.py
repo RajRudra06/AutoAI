@@ -80,24 +80,22 @@ class MasterAgent:
         vehicle_id = vehicle_state_params["vehicle_id"]
         thread_id = threading.get_ident()
         try:
-            # print(f"[MASTER SHARD {self.shard_id}][ENQUEUE] Enqueuing diagnosis task for {vehicle_id}")
+            print(f"[MASTER SHARD {self.shard_id}][ENQUEUE] Enqueuing diagnosis task for {vehicle_id}")
 
-            #  # Task was successfully queued (no exception thrown)
-            # # Update vehicle state immediately
-            # update_vehicle_state = post(
-            #     f"{self.api_base_url}/api/vehicles/update",
-            #     json={
-            #         "vehicle_id": vehicle_id,
-            #         "pipeline_associated": {
-            #             "pipeline_status": "ASSIGNED_BY_MASTER_AGENT",
-            #             "pipeline_assigned_at": datetime.now(timezone.utc).isoformat()
-            #         }
-            #     }
-            # )
+            update_vehicle_state = post(
+                f"{self.api_base_url}/api/vehicles/update",
+                json={
+                    "vehicle_id": vehicle_id,
+                    "pipeline_associated": {
+                        "pipeline_status": "ASSIGNED_BY_MASTER_AGENT",
+                        "pipeline_assigned_at": datetime.now(timezone.utc).isoformat()
+                    }
+                }
+            )
 
-            # if update_vehicle_state.status_code != 200:
-            #     print(f"[MASTER SHARD {self.shard_id}][ERROR] Failed to update vehicle state for vehicle {vehicle_id}")
-            #     return
+            if update_vehicle_state.status_code != 200:
+                print(f"[MASTER SHARD {self.shard_id}][ERROR] Failed to update vehicle state for vehicle {vehicle_id}")
+                return
 
             res = run_diagnosis.delay(
                 vehicle_id=vehicle_id,
@@ -116,16 +114,16 @@ class MasterAgent:
         except Exception as e:
             print(f"[MASTER SHARD {self.shard_id}][ERROR] Task queueing failed, rolling back vehicle state: {e}")
 
-            # post(
-            #     f"{self.api_base_url}/api/vehicles/update",
-            #     json={
-            #         "vehicle_id": vehicle_id,
-            #         "pipeline_associated": {
-            #             "pipeline_status": "TELEMETRY_INITIATED",
-            #             "pipeline_assigned_at": "1968-01-01T00:00:00Z"
-            #         }
-            #     }
-            # )
+            post(
+                f"{self.api_base_url}/api/vehicles/update",
+                json={
+                    "vehicle_id": vehicle_id,
+                    "pipeline_associated": {
+                        "pipeline_status": "TELEMETRY_INITIATED",
+                        "pipeline_assigned_at": "1968-01-01T00:00:00Z"
+                    }
+                }
+            )
 
     def extract_vehicle_params(self, vehicle: dict) -> dict:
         vehicle_id = vehicle["vehicle_id"]
