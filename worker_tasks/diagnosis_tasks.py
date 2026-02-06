@@ -6,7 +6,6 @@ from datetime import datetime, timezone
 import joblib
 import numpy as np
 
-from backend.db.connection import db
 from helpers.logic.get_feature_name import get_feature_names
 from helpers.logic.risk_scoring import transform_scores_to_risk
 from agents.utils.agent_api_client import post
