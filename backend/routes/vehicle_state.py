@@ -107,6 +107,9 @@ def update_vehicle_state(payload: dict):
                 if isinstance(ts, str)
                 else ts
             )
+        if "celery_task_id" in pipeline_associated:
+            update_doc["pipeline_associated.celery_task_id"]=pipeline_associated["celery_task_id"]
+            
     # ✅ Prevent no-op updates
     if update_doc:
         db.vehicle_state.update_one(

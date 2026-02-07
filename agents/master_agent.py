@@ -94,6 +94,8 @@ class MasterAgent:
                 latest_feature_associated_telemetryID=vehicle_state_params["latest_feature_associated_telemetryID"]
             )
 
+            print(f"[MASTER SHARD {self.shard_id}][ENQUEUE] Task enqueued, task_id=***********************************{res.id}")
+
             update_vehicle_state = post(
                 f"{self.api_base_url}/api/vehicles/update",
                 json={
@@ -221,7 +223,7 @@ class MasterAgent:
             print(f"  - celery_task_id: {celery_task_id} (need not None)")
             print(f"  - pipeline_assigned_at: {pipeline_assigned_at}")
 
-            if (pipeline_status == "ASSIGNED_BY_MASTER_AGENT" and pipeline_assigned_at and workflow_stage == "IDLE" and not diagnosis_required) :
+            if (pipeline_status == "ASSIGNED_BY_MASTER_AGENT" and pipeline_assigned_at and workflow_stage == "IDLE" and not diagnosis_required and celery_task_id is not None) :
                 if (now - pipeline_assigned_at).total_seconds() > timeout:
                     self.reset_stale_vehicle(vehicle=vehicle)
                     print(f"[MASTER SHARD {self.shard_id}][GATE] Stale vehicle reset")
@@ -279,7 +281,6 @@ class MasterAgent:
 
 # This new function is the single point of data fetching for the whole system
 def fetch_all_vehicles_globally(api_url: str) -> list:
-    """Makes one API call to get all vehicles."""
     vehicle_state_url = f"{api_url}/api/vehicles/state"
     print(f"[ORCHESTRATOR][FETCH] Fetching all vehicle states from {vehicle_state_url}")
     try:
