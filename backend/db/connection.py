@@ -1,6 +1,7 @@
-from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 
 load_dotenv()
 
@@ -10,13 +11,15 @@ if not MONGO_URL:
 
 print("Connecting to MongoDB...")
 
+client = MongoClient(MONGO_URL, server_api=ServerApi('1'))
+
 try:
-    client = MongoClient(
-        MONGO_URL,
-        tls=True,
-        tlsAllowInvalidCertificates=True,
-        serverSelectionTimeoutMS=5000  # fail fast if cluster unreachable
-    )
+    # client = MongoClient(
+    #     MONGO_URL,
+    #     tls=True,
+    #     tlsAllowInvalidCertificates=True,
+    #     serverSelectionTimeoutMS=5000  # fail fast if cluster unreachable
+    # )
 
     # Force a ping to verify connection immediately
     client.admin.command("ping")

@@ -61,6 +61,7 @@ class DiagnosisAgent:
                 continue
 
             print(f"[DIAGNOSIS DISPATCHER] Delegating job {job_id} for {vehicle_id} to Celery.")
+            
             execute_diagnosis_job.delay(
                 job,
                 self.base_api_url,
@@ -125,7 +126,7 @@ class DiagnosisAgent:
 if __name__ == "__main__":
     base_api_url=os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")
     model_path="diag_agent_model/iForest/models/isolation_forest_v1.pkl"
-    poll_interval=1
+    poll_interval=20
     window_size=120
     model_version="isolation_forest_v1"
 

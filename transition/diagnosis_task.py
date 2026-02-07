@@ -13,6 +13,65 @@ from worker_tasks.celery_config import app
 
 load_dotenv()
 
+# Load ML model once
+MODEL_PATH = "diag_agent_model/iForest/models/isolation_forest_v1.pkl"
+FEATURE_ORDER = get_feature_names()
+MODEL = joblib.load(MODEL_PATH)
+
+print(f"[DIAGNOSIS TASK] Model loaded from {MODEL_PATH}")
+
+@app.task(
+    bind=True,
+    name='tasks.execute_diagnosis.execute_diagnosis_job',
+    max_retries=3,
+    default_retry_delay=60,
+    autoretry_for=(Exception,),
+    retry_backoff=True,
+    retry_jitter=True,
+)
+
+def execute_diagnosis_job(job_data: dict, base_api_url:str, model_path:str, window_size:int, model_version:str):
+    """
+    Celery task to execute the diagnosis for a single vehicle job.
+    """
+    job_id = job_data["_id"]
+    vehicle_id = job_data["vehicle_id"]
+    features_dict = job_data["features_snapshot"]
+    unresolved_issues = job_data.get("trigger_reasons", [])
+
+    print(f"[DIAGNOSIS TASK] Starting execution for job {job_id} for vehicle {vehicle_id}")
+
+    # Load model (can be optimized with a persistent worker-side model if needed)
+    feature_order, model = load_isolation_forest_model_task(model_path)
+
+    # 1. Start the job
+    if not start_job_post_task(job_id, base_api_url):
+        fail_job_post_task(job_id, vehicle_id, base_api_url)
+        return f"Failed to start job {job_id}"
+
+    # 2. Run the ML inference
+    payload = run_inference_task(
+        feature_order=feature_order,
+        feature_dict=features_dict,
+        model=model,
+        unresolved_issues=unresolved_issues,
+        vehicle_id=vehicle_id,
+        job_id=job_id,
+        window_size=window_size,
+        model_version=model_version
+    )
+
+    # 3. Post the completion or failure
+    if payload:
+        if not post_complete_job_task(payload, base_api_url):
+            fail_job_post_task(job_id, vehicle_id, base_api_url)
+            return f"Failed to complete job {job_id}"
+    else:
+        fail_job_post_task(job_id, vehicle_id, base_api_url)
+        return f"Failed during inference for job {job_id}"
+    
+    return f"Completed job {job_id} for vehicle {vehicle_id}"
+
 # Helper functions for the Celery task
 def load_isolation_forest_model_task(model_path:str):
     """Loads the Isolation Forest model and feature order."""
@@ -84,47 +143,3 @@ def start_job_post_task(job_id:str, base_api_url:str)->bool:
     except Exception as e:
         print(f"Exception starting job {job_id}: {e}")
         return False
-
-# Celery Task
-@app.task(name='tasks.diagnosis.execute_job')
-def execute_diagnosis_job(job_data: dict, base_api_url:str, model_path:str, window_size:int, model_version:str):
-    """
-    Celery task to execute the diagnosis for a single vehicle job.
-    """
-    job_id = job_data["_id"]
-    vehicle_id = job_data["vehicle_id"]
-    features_dict = job_data["features_snapshot"]
-    unresolved_issues = job_data.get("trigger_reasons", [])
-
-    print(f"[DIAGNOSIS TASK] Starting execution for job {job_id} for vehicle {vehicle_id}")
-
-    # Load model (can be optimized with a persistent worker-side model if needed)
-    feature_order, model = load_isolation_forest_model_task(model_path)
-
-    # 1. Start the job
-    if not start_job_post_task(job_id, base_api_url):
-        fail_job_post_task(job_id, vehicle_id, base_api_url)
-        return f"Failed to start job {job_id}"
-
-    # 2. Run the ML inference
-    payload = run_inference_task(
-        feature_order=feature_order,
-        feature_dict=features_dict,
-        model=model,
-        unresolved_issues=unresolved_issues,
-        vehicle_id=vehicle_id,
-        job_id=job_id,
-        window_size=window_size,
-        model_version=model_version
-    )
-
-    # 3. Post the completion or failure
-    if payload:
-        if not post_complete_job_task(payload, base_api_url):
-            fail_job_post_task(job_id, vehicle_id, base_api_url)
-            return f"Failed to complete job {job_id}"
-    else:
-        fail_job_post_task(job_id, vehicle_id, base_api_url)
-        return f"Failed during inference for job {job_id}"
-    
-    return f"Completed job {job_id} for vehicle {vehicle_id}"

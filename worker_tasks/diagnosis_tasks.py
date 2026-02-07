@@ -10,15 +10,6 @@ from helpers.logic.get_feature_name import get_feature_names
 from helpers.logic.risk_scoring import transform_scores_to_risk
 from agents.utils.agent_api_client import post,get
 
-logger = get_task_logger(__name__)
-
-# Load ML model once
-MODEL_PATH = "diag_agent_model/iForest/models/isolation_forest_v1.pkl"
-FEATURE_ORDER = get_feature_names()
-MODEL = joblib.load(MODEL_PATH)
-
-logger.info(f"[DIAGNOSIS TASK] Model loaded from {MODEL_PATH}")
-
 
 @app.task(
     bind=True,
@@ -58,7 +49,7 @@ def run_diagnosis(
     my_task_id = self.request.id  # Get the unique ID of THIS task execution
 
     # --- NEW: PRE-EXECUTION VERIFICATION STEP ---
-    logger.info(f"Task {my_task_id}: Verifying state for vehicle {vehicle_id} before execution.")
+    print(f"Task {my_task_id}: Verifying state for vehicle {vehicle_id} before execution.")
 
     try:
         # Fetch the most recent vehicle state from the database via the API
@@ -66,7 +57,7 @@ def run_diagnosis(
         vehicle_state_resp.raise_for_status()  # Raise an exception for non-200 responses
         current_vehicle_data = vehicle_state_resp.json()
     except Exception as e:
-        logger.error(f"Task {my_task_id}: ABORTING. Could not fetch state for vehicle {vehicle_id}. Error: {e}")
+        print(f"Task {my_task_id}: ABORTING. Could not fetch state for vehicle {vehicle_id}. Error: {e}")
         return  # Abort if we can't verify the state
 
     pipeline_data = current_vehicle_data.get("pipeline_associated", {})
@@ -76,7 +67,7 @@ def run_diagnosis(
         pipeline_data.get("pipeline_status") == "ASSIGNED_BY_MASTER_AGENT"
         and pipeline_data.get("celery_task_id") == my_task_id
     ):
-        logger.warning(
+        print(
             f"Task {my_task_id}: ABORTING. Task is stale or has been superseded. "
             f"Vehicle {vehicle_id} has been reset or assigned a new task."
         )
@@ -84,7 +75,7 @@ def run_diagnosis(
 
     # --- END OF VERIFICATION STEP ---
 
-    logger.info(f"Task {my_task_id}: Pre-execution check passed. Starting diagnosis.")
+    print(f"Task {my_task_id}: Pre-execution check passed. Starting diagnosis.")
     
     # If the check passes, proceed with the original logic
     return put_diagnosis_job(
