@@ -1,14 +1,12 @@
+# diagnosis_agent.py
+ 
+import datetime
 import time
-import joblib
-import numpy as np
-from datetime import datetime, timezone
 from dotenv import load_dotenv
 import os
 
-from backend.db.connection import db
-from helpers.logic.get_feature_name import get_feature_names
-from helpers.logic.risk_scoring import transform_scores_to_risk
 from agents.utils.agent_api_client import post, get
+from worker_tasks.execution_diagnosis_task import execute_diagnosis_job
 
 load_dotenv()
 
@@ -19,14 +17,6 @@ class DiagnosisAgent:
         self.model_path=model_path
         self.window_size=window_size
         self.model_version=model_version
-
-    def load_isolation_forest_model(self,model_path:str)->list[str]:
-        print("[DIAGNOSIS] Loading ML model...")
-        model = joblib.load(model_path)
-        FEATURE_ORDER = get_feature_names()
-        print("[DIAGNOSIS] Model loaded.")
-
-        return FEATURE_ORDER,model
     
     def get_diagnosis_jobs(self)->list:
         get_diagnosis_jobs_api=f"{self.base_api_url}/api/diagnosis/jobs"
@@ -42,10 +32,12 @@ class DiagnosisAgent:
         flags = workflow.get("flags", {})
         latest = vehicle.get("latest_features", {})
         previous = vehicle.get("previous_features", {})
+        pipeline = vehicle.get("pipeline_associated") or {} 
 
         return {
             "vehicle_id": vehicle_id,
-
+            "pipeline_associated": vehicle.get("pipeline_associated"),
+            "celery_task_id": pipeline.get("celery_task_id"),
             # Workflow
             "workflow_stage": workflow.get("current_stage"),
             "workflow_flags": {
@@ -61,92 +53,32 @@ class DiagnosisAgent:
             # Features (snapshots)
             "latest_features": latest,
             "previous_features": previous,
+
+            "last_updated": vehicle.get("last_updated"),
+            "temp_last_processed_telemetry": vehicle.get("temp_last_processed_telemetry"),
+            "last_processed_telemetry": vehicle.get("last_processed_telemetry"),
+            "latest_feature_associated_telemetryID": vehicle.get("latest_feature_associated_telemetryID"),
         }
     
-    def process_jobs(self,jobs:list,feature_order:list,model):
+    def process_jobs(self,jobs:list):
         for job in jobs:
             job_id=job["_id"]
             vehicle_id=job["vehicle_id"]
-            features_dict = job["features_snapshot"]
-            unresolved_issues = job.get("trigger_reasons", [])
 
             vehicle_lifecycle_gate_check=self.lifecycle_gate_check(job_id=job_id,vehicle_id=vehicle_id)
 
             if vehicle_lifecycle_gate_check == True:
                 continue
 
-            start_job_post=self.start_job_post(job_id=job_id)
+            print(f"[DIAGNOSIS DISPATCHER] Delegating job {job_id} for {vehicle_id} to Celery.")
 
-            if start_job_post==False:
-                continue
-
-            print(f"[DIAGNOSIS] Processing {vehicle_id}")
-            run_inference_on_vehicle=self.run_inference(feature_order=feature_order,feature_dict=features_dict,model=model,unresolved_issues=unresolved_issues,vehicle_id=vehicle_id,job_id=job_id)
-
-            post_complete_job=self.post_complete_job(payload=run_inference_on_vehicle,vehicle_id=vehicle_id)
-
-            if post_complete_job==False:
-                self.fail_job_post(job_id=job_id,vehicle_id=vehicle_id)
-
-
-    def run_inference(self,feature_order:list,feature_dict:dict,model,unresolved_issues:list,vehicle_id:str,job_id:str)->dict:
-        X = np.array([[feature_dict[f] for f in feature_order]])
-
-        anomaly_scores = model.score_samples(X)
-        risk_scores = transform_scores_to_risk(anomaly_scores)
-
-        anomaly_score = float(anomaly_scores[0])
-        risk_score = float(risk_scores[0])
-        is_anomaly = bool(model.predict(X)[0] == -1)
-
-        risk_level = "HIGH" if is_anomaly else "LOW"
-        
-        payload = {
-                    "job_id": job_id,
-                    "vehicle_id": vehicle_id,
-                    "anomaly_score": anomaly_score,
-                    "risk_score": risk_score,
-                    "risk_level": risk_level,
-                    "features_snapshot": feature_dict,
-                    "unresolved_issues": unresolved_issues,
-                    "feature_version": "v1",
-                    "window_size": self.window_size,
-                    "model_version": self.model_version
-                }
-        
-        print(
-                    f"[DIAGNOSIS][DONE] {vehicle_id} | "
-                    f"risk={risk_level} | score={risk_score:.3f}"
-                )
-         
-        return payload
-
-    def post_complete_job(self,payload:dict,vehicle_id:str)->bool:
-
-        complete_job_api=f"{self.base_api_url}/api/diagnosis/complete"       
-
-        post_complete_job_resp=post(complete_job_api,json=payload)
-
-        if post_complete_job_resp.status_code==200:
-            print(f"Diagnosis Job Posted: {vehicle_id}")
-            return True
-            
-        return False
-    
-    def fail_job_post(self,job_id:str,vehicle_id:str):
-        fail_job_api=f"{self.base_api_url}/api/diagnosis/fail"
-        post_fail_job=post(fail_job_api,json={"job_id":job_id,"error":"error occured while diagnosing the job"})
-
-        print(f"[DIAGNOSIS][ERROR] {vehicle_id}")
-    
-
-    def start_job_post(self,job_id:str)->bool:
-        try:
-            start_job_api=f"{self.base_api_url}/api/diagnosis/start"
-            start_job_resp=post(start_job_api,json={"job_id":job_id})
-            return True
-        except Exception:
-            return False
+            execute_diagnosis_job.delay(
+                job,
+                self.base_api_url,
+                self.model_path,
+                self.window_size,
+                self.model_version
+            )
 
     def get_vehicle_state(self, vehicle_id: str) -> dict:
         get_vehicle_state_api = f"{self.base_api_url}/api/vehicles/state/{vehicle_id}"
@@ -169,6 +101,7 @@ class DiagnosisAgent:
         
     def lifecycle_gate_check(self, job_id: str, vehicle_id: str) -> bool:
         vehicle_state = self.get_vehicle_state(vehicle_id)
+
         
         # Add None check before using vehicle_state
         if vehicle_state is None:
@@ -184,8 +117,14 @@ class DiagnosisAgent:
 
         vehicle_stage = vehicle_state_params["workflow_stage"]
         high_risk = vehicle_state_params["high_risk_active"]
+        last_processed_telemetry = vehicle_state_params["last_processed_telemetry"]
+        latest_feature_associated_telemetryID = vehicle_state_params["latest_feature_associated_telemetryID"]
+        pipeline_status = vehicle_state_params["pipeline_associated"].get("pipeline_status")
+        pipeline_assigned_at=vehicle_state_params["pipeline_associated"].get("pipeline_assigned_at")
 
-        if vehicle_stage in {"DIAGNOSIS_COMPLETE", "SCHEDULING", "IN_SERVICE"} or high_risk:
+        comparison_datetime = datetime.now()
+
+        if vehicle_stage in {"DIAGNOSIS_COMPLETE", "SCHEDULING_COMPLETE", "ENGAGEMENT_COMPLETE"} or high_risk or last_processed_telemetry>=latest_feature_associated_telemetryID or pipeline_status != "ASSIGNED_BY_MASTER_AGENT" or (pipeline_assigned_at and pipeline_assigned_at > comparison_datetime):
             skip_current_vehicle_job = self.skip_job(job_id=job_id)
             if skip_current_vehicle_job == True:
                 return True
@@ -195,11 +134,9 @@ class DiagnosisAgent:
     def run(self):
         print("[DIAGNOSIS] Agent started. Waiting for jobs...")
 
-        feature_order,model=self.load_isolation_forest_model(self.model_path)
-
         while True:
             get_diagnosis_jobs=self.get_diagnosis_jobs()
-            self.process_jobs(get_diagnosis_jobs,feature_order=feature_order,model=model)
+            self.process_jobs(get_diagnosis_jobs)
 
             time.sleep(self.poll_interval)
 
@@ -212,4 +149,3 @@ if __name__ == "__main__":
 
     diagnosis_agent=DiagnosisAgent(base_api_url=base_api_url,poll_interval=poll_interval,model_path=model_path,window_size=window_size,model_version=model_version)
     diagnosis_agent.run()
-        

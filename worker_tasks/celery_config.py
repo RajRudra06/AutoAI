@@ -11,7 +11,7 @@ app = Celery(
     backend=os.getenv('CELERY_RESULT_BACKEND', 'redis://localhost:6379/1'),
     include=[
         'worker_tasks.diagnosis_tasks',
-        # 'worker_tasks.scheduling_tasks',
+        'worker_tasks.execution_diagnosis_task',
         # 'worker_tasks.engagement_tasks',
         # 'worker_tasks.service_completion_tasks'
     ]
@@ -19,15 +19,16 @@ app = Celery(
 
 app.conf.task_queues = (
     Queue('diagnosis_queue'),
-    Queue('scheduling_queue'),
+    Queue('execution_diagnosis_task_queue'),
     Queue('engagement_queue'),
+    Queue('scheduling_queue'),
     Queue('service_completion_queue'),
     Queue('default')
 )
 
 app.conf.task_routes = {
      'task.diagnosis.*': {'queue': 'diagnosis_queue'},
-     'scheduling_tasks.*': {'queue': 'scheduling_queue'},
+     'tasks.execute_diagnosis.*': {'queue': 'execution_diagnosis_task_queue'},
      'engagement_tasks.*': {'queue': 'engagement_queue'},
      'service_completion_tasks.*': {'queue': 'service_completion_queue'},
     }
