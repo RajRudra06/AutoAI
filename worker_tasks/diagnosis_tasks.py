@@ -8,7 +8,7 @@ import numpy as np
 
 from helpers.logic.get_feature_name import get_feature_names
 from helpers.logic.risk_scoring import transform_scores_to_risk
-from agents.utils.agent_api_client import post
+from agents.utils.agent_api_client import post,get
 
 logger = get_task_logger(__name__)
 
@@ -30,10 +30,63 @@ logger.info(f"[DIAGNOSIS TASK] Model loaded from {MODEL_PATH}")
     retry_jitter=True,
 )
 
-def run_diagnosis(self, vehicle_id: str, features_snapshot: dict, trigger_reasons: list, api_base_url: str, latest_feature_associated_telemetryID,thread_id:int,master_shard_id:int):
+# def run_diagnosis(self, vehicle_id: str, features_snapshot: dict, trigger_reasons: list, api_base_url: str, latest_feature_associated_telemetryID,thread_id:int,master_shard_id:int):
    
-    logger.info(f"[DIAGNOSIS TASK] Processing {vehicle_id} on shard {master_shard_id} with thread {thread_id}")
+#     logger.info(f"[DIAGNOSIS TASK] Processing {vehicle_id} on shard {master_shard_id} with thread {thread_id}")
     
+#     return put_diagnosis_job(
+#         vehicle_id=vehicle_id,
+#         features_snapshot=features_snapshot,
+#         trigger_reasons=trigger_reasons,
+#         api_base_url=api_base_url,
+#         latest_feature_associated_telemetryID=latest_feature_associated_telemetryID,
+#         master_shard_id=master_shard_id,
+#         thread_id=thread_id
+#     )
+
+def run_diagnosis(
+    self,
+    vehicle_id: str,
+    features_snapshot: dict,
+    trigger_reasons: list,
+    api_base_url: str,
+    latest_feature_associated_telemetryID,
+    thread_id: int,
+    master_shard_id: int
+):
+    
+    my_task_id = self.request.id  # Get the unique ID of THIS task execution
+
+    # --- NEW: PRE-EXECUTION VERIFICATION STEP ---
+    logger.info(f"Task {my_task_id}: Verifying state for vehicle {vehicle_id} before execution.")
+
+    try:
+        # Fetch the most recent vehicle state from the database via the API
+        vehicle_state_resp = get(f"{api_base_url}/api/vehicles/state/{vehicle_id}")
+        vehicle_state_resp.raise_for_status()  # Raise an exception for non-200 responses
+        current_vehicle_data = vehicle_state_resp.json()
+    except Exception as e:
+        logger.error(f"Task {my_task_id}: ABORTING. Could not fetch state for vehicle {vehicle_id}. Error: {e}")
+        return  # Abort if we can't verify the state
+
+    pipeline_data = current_vehicle_data.get("pipeline_associated", {})
+    
+    # THE CHECK: Is the vehicle still waiting for ME specifically?
+    if not (
+        pipeline_data.get("pipeline_status") == "ASSIGNED_BY_MASTER_AGENT"
+        and pipeline_data.get("celery_task_id") == my_task_id
+    ):
+        logger.warning(
+            f"Task {my_task_id}: ABORTING. Task is stale or has been superseded. "
+            f"Vehicle {vehicle_id} has been reset or assigned a new task."
+        )
+        return  # Silently exit without doing any work
+
+    # --- END OF VERIFICATION STEP ---
+
+    logger.info(f"Task {my_task_id}: Pre-execution check passed. Starting diagnosis.")
+    
+    # If the check passes, proceed with the original logic
     return put_diagnosis_job(
         vehicle_id=vehicle_id,
         features_snapshot=features_snapshot,
@@ -43,7 +96,6 @@ def run_diagnosis(self, vehicle_id: str, features_snapshot: dict, trigger_reason
         master_shard_id=master_shard_id,
         thread_id=thread_id
     )
-
 
 def put_diagnosis_job(vehicle_id: str, features_snapshot: dict, trigger_reasons: dict, api_base_url: str, latest_feature_associated_telemetryID,master_shard_id:int,thread_id:int):
 
