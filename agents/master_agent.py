@@ -214,27 +214,11 @@ class MasterAgent:
         ):
             print(f"[MASTER SHARD {self.shard_id}][GATE] Vehicle blocked by lifecycle gate")
 
-             # ✅ ADD THIS DEBUG SECTION
-            vehicle_id = vehicle_state_params.get("vehicle_id", "UNKNOWN")
-            print(f"[MASTER SHARD {self.shard_id}][GATE][DEBUG] Vehicle {vehicle_id} - Checking reset conditions:")
-            print(f"  - pipeline_status: '{pipeline_status}' (need 'ASSIGNED_BY_MASTER_AGENT')")
-            print(f"  - workflow_stage: '{workflow_stage}' (need 'IDLE')")
-            print(f"  - diagnosis_required: {diagnosis_required} (need False)")
-            print(f"  - celery_task_id: {celery_task_id} (need not None)")
-            print(f"  - pipeline_assigned_at: {pipeline_assigned_at}")
-
             if (pipeline_status == "ASSIGNED_BY_MASTER_AGENT" and pipeline_assigned_at and workflow_stage == "IDLE" and not diagnosis_required and celery_task_id is not None) :
                 if (now - pipeline_assigned_at).total_seconds() > timeout:
                     self.reset_stale_vehicle(vehicle=vehicle)
                     print(f"[MASTER SHARD {self.shard_id}][GATE] Stale vehicle reset")
                     
-                    # DEBUG: Print the conditions that led to the reset decision
-                    print(f"[MASTER SHARD {self.shard_id}][GATE][DEBUG] Checking reset conditions:")
-                    print(f"  - pipeline_status == 'ASSIGNED_BY_MASTER_AGENT': {pipeline_status == 'ASSIGNED_BY_MASTER_AGENT'}")
-                    print(f"  - workflow_stage == 'IDLE': {workflow_stage == 'IDLE'}")
-                    print(f"  - not diagnosis_required: {not diagnosis_required}")
-                    print(f"  - celery_task_id is not None: {celery_task_id is not None}")
-                    print(f"  - pipeline_assigned_at: {pipeline_assigned_at}")
             return True
         print(f"[MASTER SHARD {self.shard_id}][GATE] Vehicle allowed to proceed")
         return False

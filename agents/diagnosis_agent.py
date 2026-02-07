@@ -1,9 +1,11 @@
 # diagnosis_agent.py
  
-import datetime
+from datetime import datetime, timezone
 import time
 from dotenv import load_dotenv
 import os
+from celery.result import AsyncResult
+from pytz import timezone 
 
 from agents.utils.agent_api_client import post, get
 from worker_tasks.execution_diagnosis_task import execute_diagnosis_job
@@ -72,13 +74,50 @@ class DiagnosisAgent:
 
             print(f"[DIAGNOSIS DISPATCHER] Delegating job {job_id} for {vehicle_id} to Celery.")
 
-            execute_diagnosis_job.delay(
-                job,
-                self.base_api_url,
-                self.model_path,
-                self.window_size,
-                self.model_version
-            )
+            try:
+                print(f"[DIAGNOSIS SHARD][ENQUEUE] Enqueuing execution diagnosis task for {vehicle_id}")
+
+                res=execute_diagnosis_job.delay(
+                    job,
+                    self.base_api_url,
+                    self.model_path,
+                    self.window_size,
+                    self.model_version
+                )
+
+                print(f"[DIAGNOSIS SHARD][ENQUEUE] Task enqueued, task_id=***********************************{res.id}")
+
+                update_vehicle_state = post(
+                f"{self.api_base_url}/api/vehicles/update",
+                json={
+                    "vehicle_id": vehicle_id,
+                    "pipeline_associated": {
+                        "pipeline_status": "ASSIGNED_BY_DIAGNOSIS_AGENT",
+                        "pipeline_assigned_at": datetime.now(timezone.utc).isoformat(),
+                        "celery_task_id":res.id
+                        }
+                    }
+                )   
+
+                if update_vehicle_state.status_code != 200:
+                    print(f"[DIAGNOSIS SHARD][ERROR] Failed to update vehicle state for vehicle {vehicle_id}")
+                    return
+
+                print(f"[DIAGNOSIS SHARD][ENQUEUE] Task queued for {vehicle_id}, task_id={res.id}")
+
+            except Exception as e:
+                print(f"[DIAGNOSIS SHARD][ERROR] Task queueing failed, rolling back vehicle state: {e}")
+
+                post(
+                    f"{self.api_base_url}/api/vehicles/update",
+                    json={
+                        "vehicle_id": vehicle_id,
+                        "pipeline_associated": {
+                            "pipeline_status": "DIAGNOSIS_PENDING",
+                            "pipeline_assigned_at": "1968-01-01T00:00:00Z"
+                        }
+                    }
+                )
 
     def get_vehicle_state(self, vehicle_id: str) -> dict:
         get_vehicle_state_api = f"{self.base_api_url}/api/vehicles/state/{vehicle_id}"
@@ -102,7 +141,6 @@ class DiagnosisAgent:
     def lifecycle_gate_check(self, job_id: str, vehicle_id: str) -> bool:
         vehicle_state = self.get_vehicle_state(vehicle_id)
 
-        
         # Add None check before using vehicle_state
         if vehicle_state is None:
             print(f"[DIAGNOSIS][ERROR] Could not fetch vehicle state for {vehicle_id}")
@@ -115,21 +153,76 @@ class DiagnosisAgent:
         
         vehicle_state_params = self.extract_vehicle_params(vehicle=vehicle_state)
 
-        vehicle_stage = vehicle_state_params["workflow_stage"]
+        workflow_stage = vehicle_state_params["workflow_stage"]
         high_risk = vehicle_state_params["high_risk_active"]
         last_processed_telemetry = vehicle_state_params["last_processed_telemetry"]
         latest_feature_associated_telemetryID = vehicle_state_params["latest_feature_associated_telemetryID"]
         pipeline_status = vehicle_state_params["pipeline_associated"].get("pipeline_status")
         pipeline_assigned_at=vehicle_state_params["pipeline_associated"].get("pipeline_assigned_at")
+        scheduling_required=vehicle_state_params["workflow_flags"]["scheduling_required"]
+        celery_task_id=vehicle_state_params["celery_task_id"]
 
-        comparison_datetime = datetime.now()
+        comparison_datetime = datetime.now(datetime.timezone.utc)
+        now = datetime.now(datetime.timezone.utc)
+        timeout=60
 
-        if vehicle_stage in {"DIAGNOSIS_COMPLETE", "SCHEDULING_COMPLETE", "ENGAGEMENT_COMPLETE"} or high_risk or last_processed_telemetry>=latest_feature_associated_telemetryID or pipeline_status != "ASSIGNED_BY_MASTER_AGENT" or (pipeline_assigned_at and pipeline_assigned_at > comparison_datetime):
+        if workflow_stage in {"DIAGNOSIS_COMPLETE", "SCHEDULING_COMPLETE", "ENGAGEMENT_COMPLETE"} or high_risk or last_processed_telemetry>=latest_feature_associated_telemetryID or pipeline_status != "ASSIGNED_BY_MASTER_AGENT" or (pipeline_assigned_at and pipeline_assigned_at > comparison_datetime):
+            if(pipeline_status == "ASSIGNED_BY_DIAGNOSIS_AGENT" and pipeline_assigned_at and workflow_stage == "DIAGNOSIS_PENDING" and not scheduling_required and celery_task_id is not None):
+
+                if(now-pipeline_assigned_at).total_seconds() > timeout: 
+                    self.reset_stale_vehicle(vehicle=vehicle_state)
+                    print(f"[DIAGNOSIS SHARD {self.shard_id}][GATE] Stale vehicle reset")
+
+            print(f"[DIAGONSIS SHARD][GATE] Vehicle blocked by lifecycle gate")
             skip_current_vehicle_job = self.skip_job(job_id=job_id)
             if skip_current_vehicle_job == True:
                 return True
                 
         return False
+    
+    def reset_stale_vehicle(self, vehicle: dict):
+        vehicle_state_api = f"{self.api_base_url}/api/vehicles/update"
+        vehicle_state_params = self.extract_vehicle_params(vehicle)
+
+        vehicle_id=vehicle_state_params["vehicle_id"]
+        pipeline_status = vehicle_state_params["pipeline_associated"].get("pipeline_status")
+        pipeline_assigned_at=vehicle_state_params["pipeline_associated"].get("pipeline_assigned_at")
+        scheduling_required=vehicle_state_params["workflow_flags"]["scheduling_required"]
+        celery_task_id=vehicle_state_params["celery_task_id"]
+
+        if celery_task_id:
+            try:
+                print(f"[DIAGNOSIS SHARD ][RESET] Revoking task {celery_task_id} for vehicle {vehicle_id}")
+                AsyncResult(celery_task_id).revoke(terminate=True)
+                print(f"[DIAGNOSIS SHARD {self.shard_id}][RESET] Task----------------------------------------------------------------------------- {celery_task_id} revoked successfully")
+            except Exception as e:
+                print(f"[DIAGNOSIS SHARD {self.shard_id}][RESET] Failed to revoke task {celery_task_id}: {e}")
+                # Continue anyway - still reset the vehicle
+        else:
+            print(f"[DIAGNOSIS SHARD {self.shard_id}][RESET] No task_id found for vehicle {vehicle_id}, skipping revoke")
+
+        # STEP 2: Reset vehicle state in DB
+        try:
+            update_req = post(
+                vehicle_state_api,
+                json={
+                    "vehicle_id": vehicle_id,
+                    "pipeline_associated": {
+                        "pipeline_status": "DIAGNOSIS_PENDING",
+                        "pipeline_assigned_at": "1968-01-01T00:00:00Z",
+                        "celery_task_id": None  # ← Clear task ID
+                    }
+                }
+            )
+            
+            if update_req.status_code == 200:
+                print(f"[DIAGNOSIS SHARD][RESET] Vehicle {vehicle_id} reset successfully -----------------------------------------------------------------------------")
+            else:
+                print(f"[DIAGNOSIS SHARD][RESET] Failed to reset vehicle {vehicle_id}")
+
+        except Exception as e:
+            print(f"[DIAGNOSIS SHARD][RESET] Error resetting vehicle {vehicle_id}: {e}")
+
 
     def run(self):
         print("[DIAGNOSIS] Agent started. Waiting for jobs...")
