@@ -13,12 +13,6 @@ from worker_tasks.celery_config import app
 
 load_dotenv()
 
-# Load ML model once
-MODEL_PATH = "diag_agent_model/iForest/models/isolation_forest_v1.pkl"
-FEATURE_ORDER = get_feature_names()
-MODEL = joblib.load(MODEL_PATH)
-
-print(f"[DIAGNOSIS TASK] Model loaded from {MODEL_PATH}")
 
 @app.task(
     bind=True,
@@ -30,7 +24,7 @@ print(f"[DIAGNOSIS TASK] Model loaded from {MODEL_PATH}")
     retry_jitter=True,
 )
 
-def execute_diagnosis_job(self,job_data: dict, base_api_url:str, model_path:str, window_size:int, model_version:str):
+def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int):
    
     job_id = job_data["_id"]
     vehicle_id = job_data["vehicle_id"]
@@ -70,7 +64,9 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str, model_path:str,
     print(f"Task {my_task_id}: Pre-execution check passed. Starting diagnosis by laoding model and running inference.")
 
     # Load model (can be optimized with a persistent worker-side model if needed)
-    feature_order, model = load_isolation_forest_model_task(model_path)
+
+    
+    feature_order, model,DEFAULT_MODEL_VERSION = load_isolation_forest_model_task()
 
     # 1. Start the job
     if not start_job_post_task(job_id, base_api_url):
@@ -85,15 +81,21 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str, model_path:str,
         unresolved_issues=unresolved_issues,
         vehicle_id=vehicle_id,
         job_id=job_id,
+        model_version=DEFAULT_MODEL_VERSION,
         window_size=window_size,
-        model_version=model_version
     )
 
     # 3. Post the completion or failure
-    if payload:
+    if payload and payload.get("risk_level") == "HIGH":
         if not post_complete_job_task(payload, base_api_url):
             fail_job_post_task(job_id, vehicle_id, base_api_url)
-            return f"Failed to complete job {job_id}"
+            return f"Failed to complete job {job_id} with high risk"
+        
+    elif payload and payload.get("risk_level") == "LOW":
+        if not complete_job_no_risk(job_id, vehicle_id, base_api_url,payload):
+            fail_job_no_risk(job_id, vehicle_id, base_api_url)
+            return f"Failed to complete job {job_id} with low risk"
+
     else:
         fail_job_post_task(job_id, vehicle_id, base_api_url)
         return f"Failed during inference for job {job_id}"
@@ -101,16 +103,20 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str, model_path:str,
     return f"Completed job {job_id} for vehicle {vehicle_id}"
 
 # Helper functions for the Celery task
-def load_isolation_forest_model_task(model_path:str):
-    """Loads the Isolation Forest model and feature order."""
+def load_isolation_forest_model_task():
+
+    # Load ML model once
+    MODEL_PATH = "diag_agent_model/iForest/models/isolation_forest_v1.pkl"
+    DEFAULT_MODEL_VERSION = os.getenv("DIAGNOSIS_MODEL_VERSION", "isolation_forest_v1")
+    
     print("[DIAGNOSIS TASK] Loading ML model...")
-    model = joblib.load(model_path)
+    model = joblib.load(MODEL_PATH)
     FEATURE_ORDER = get_feature_names()
     print("[DIAGNOSIS TASK] Model loaded.")
-    return FEATURE_ORDER, model
+    return FEATURE_ORDER, model, DEFAULT_MODEL_VERSION
 
-def run_inference_task(feature_order:list, feature_dict:dict, model, unresolved_issues:list, vehicle_id:str, job_id:str, window_size:int, model_version:str)->dict:
-    """Runs the machine learning inference for a single job."""
+def run_inference_task(feature_order:list, feature_dict:dict, model, unresolved_issues:list, vehicle_id:str, job_id:str, window_size:int,model_version:str)->dict:
+
     X = np.array([[feature_dict[f] for f in feature_order]])
 
     anomaly_scores = model.score_samples(X)
@@ -143,7 +149,7 @@ def run_inference_task(feature_order:list, feature_dict:dict, model, unresolved_
     return payload
 
 def post_complete_job_task(payload:dict, base_api_url:str)->bool:
-    """Notifies the backend that a job is complete."""
+  
     complete_job_api=f"{base_api_url}/api/diagnosis/complete"       
     post_complete_job_resp=post(complete_job_api,json=payload)
 
@@ -154,13 +160,13 @@ def post_complete_job_task(payload:dict, base_api_url:str)->bool:
     return False
 
 def fail_job_post_task(job_id:str, vehicle_id:str, base_api_url:str):
-    """Notifies the backend if a job failed."""
+
     fail_job_api=f"{base_api_url}/api/diagnosis/fail"
     post_fail_job=post(fail_job_api,json={"job_id":job_id,"error":"error occurred while diagnosing the job"})
     print(f"[DIAGNOSIS TASK][ERROR] {vehicle_id} - Job failed.")
 
 def start_job_post_task(job_id:str, base_api_url:str)->bool:
-    """Notifies the backend that a job is starting."""
+
     try:
         start_job_api=f"{base_api_url}/api/diagnosis/start"
         start_job_resp=post(start_job_api,json={"job_id":job_id})
@@ -170,4 +176,34 @@ def start_job_post_task(job_id:str, base_api_url:str)->bool:
         return False
     except Exception as e:
         print(f"Exception starting job {job_id}: {e}")
+        return False
+    
+def complete_job_no_risk(job_id:str, vehicle_id:str, base_api_url:str, payload:dict):
+
+    try:
+        complete_no_risk_url=f"{base_api_url}/api/diagnosis/complete/no_risk"
+        post_complete_no_risk_resp=post(complete_no_risk_url,json=payload)
+
+        if post_complete_no_risk_resp.status_code == 200:
+            print(f"Completed job with no risk: {vehicle_id}")
+            return True
+        print(f"Failed to complete no-risk job for {vehicle_id}. Status Code: {post_complete_no_risk_resp.status_code}")
+        return False
+    
+    except Exception as e:
+        print(f"Exception completing no-risk job for {vehicle_id}: {e}")
+        return False
+
+def fail_job_no_risk(job_id:str, vehicle_id:str, base_api_url:str):
+
+    try:
+        fail_no_risk_url=f"{base_api_url}/api/diagnosis/fail/no_risk"
+        post_fail_no_risk_resp=post(fail_no_risk_url,json={"job_id":job_id,"error":"error occurred while completing no-risk job",vehicle_id:vehicle_id})
+        print(f"[DIAGNOSIS TASK][ERROR] {vehicle_id} - No-risk job failed.")
+
+        if post_fail_no_risk_resp.status_code == 200:
+            return True
+        return False
+    except Exception as e:
+        print(f"Exception failing no-risk job for {vehicle_id}: {e}")
         return False
