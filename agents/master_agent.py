@@ -83,7 +83,6 @@ class MasterAgent:
         try:
             print(f"[MASTER SHARD {self.shard_id}][ENQUEUE] Enqueuing diagnosis task for {vehicle_id}")
 
-
             res = run_diagnosis.delay(
                 vehicle_id=vehicle_id,
                 master_shard_id=self.shard_id,

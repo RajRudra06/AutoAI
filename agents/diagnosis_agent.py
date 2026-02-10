@@ -74,50 +74,55 @@ class DiagnosisAgent:
 
             print(f"[DIAGNOSIS DISPATCHER] Delegating job {job_id} for {vehicle_id} to Celery.")
 
-            try:
-                print(f"[DIAGNOSIS SHARD][ENQUEUE] Enqueuing execution diagnosis task for {vehicle_id}")
+            self.enqueue_execution_diagnosis_task(job=job,vehicle_id=vehicle_id)
 
-                res=execute_diagnosis_job.delay(
-                    job,
-                    self.base_api_url,
-                    self.model_path,
-                    self.window_size,
-                    self.model_version
-                )
+            
+    def enqueue_execution_diagnosis_task(self, job: dict,vehicle_id:str):
 
-                print(f"[DIAGNOSIS SHARD][ENQUEUE] Task enqueued, task_id=***********************************{res.id}")
+        try:
+            print(f"[DIAGNOSIS SHARD][ENQUEUE] Enqueuing execution diagnosis task for {vehicle_id}")
 
-                update_vehicle_state = post(
+            res=execute_diagnosis_job.delay(
+                job,
+                self.base_api_url,
+                self.model_path,
+                self.window_size,
+                self.model_version
+            )
+
+            print(f"[DIAGNOSIS SHARD][ENQUEUE] Task enqueued, task_id=***********************************{res.id}")
+
+            update_vehicle_state = post(
+            f"{self.api_base_url}/api/vehicles/update",
+            json={
+                "vehicle_id": vehicle_id,
+                "pipeline_associated": {
+                    "pipeline_status": "ASSIGNED_BY_DIAGNOSIS_AGENT",
+                    "pipeline_assigned_at": datetime.now(timezone.utc).isoformat(),
+                    "celery_task_id":res.id
+                    }
+                }
+            )   
+
+            if update_vehicle_state.status_code != 200:
+                print(f"[DIAGNOSIS SHARD][ERROR] Failed to update vehicle state for vehicle {vehicle_id}")
+                return
+
+            print(f"[DIAGNOSIS SHARD][ENQUEUE] Task queued for {vehicle_id}, task_id={res.id}")
+
+        except Exception as e:
+            print(f"[DIAGNOSIS SHARD][ERROR] Task queueing failed, rolling back vehicle state: {e}")
+
+            post(
                 f"{self.api_base_url}/api/vehicles/update",
                 json={
                     "vehicle_id": vehicle_id,
                     "pipeline_associated": {
-                        "pipeline_status": "ASSIGNED_BY_DIAGNOSIS_AGENT",
-                        "pipeline_assigned_at": datetime.now(timezone.utc).isoformat(),
-                        "celery_task_id":res.id
-                        }
+                        "pipeline_status": "TELEMETRY_INITIATED",
+                        "pipeline_assigned_at": "1968-01-01T00:00:00Z"
                     }
-                )   
-
-                if update_vehicle_state.status_code != 200:
-                    print(f"[DIAGNOSIS SHARD][ERROR] Failed to update vehicle state for vehicle {vehicle_id}")
-                    return
-
-                print(f"[DIAGNOSIS SHARD][ENQUEUE] Task queued for {vehicle_id}, task_id={res.id}")
-
-            except Exception as e:
-                print(f"[DIAGNOSIS SHARD][ERROR] Task queueing failed, rolling back vehicle state: {e}")
-
-                post(
-                    f"{self.api_base_url}/api/vehicles/update",
-                    json={
-                        "vehicle_id": vehicle_id,
-                        "pipeline_associated": {
-                            "pipeline_status": "DIAGNOSIS_PENDING",
-                            "pipeline_assigned_at": "1968-01-01T00:00:00Z"
-                        }
-                    }
-                )
+                }
+            )
 
     def get_vehicle_state(self, vehicle_id: str) -> dict:
         get_vehicle_state_api = f"{self.base_api_url}/api/vehicles/state/{vehicle_id}"
@@ -167,6 +172,7 @@ class DiagnosisAgent:
         timeout=60
 
         if workflow_stage in {"DIAGNOSIS_COMPLETE", "SCHEDULING_COMPLETE", "ENGAGEMENT_COMPLETE"} or high_risk or last_processed_telemetry>=latest_feature_associated_telemetryID or pipeline_status != "ASSIGNED_BY_MASTER_AGENT" or (pipeline_assigned_at and pipeline_assigned_at > comparison_datetime):
+
             if(pipeline_status == "ASSIGNED_BY_DIAGNOSIS_AGENT" and pipeline_assigned_at and workflow_stage == "DIAGNOSIS_PENDING" and not scheduling_required and celery_task_id is not None):
 
                 if(now-pipeline_assigned_at).total_seconds() > timeout: 
@@ -208,10 +214,11 @@ class DiagnosisAgent:
                 json={
                     "vehicle_id": vehicle_id,
                     "pipeline_associated": {
-                        "pipeline_status": "DIAGNOSIS_PENDING",
+                        "pipeline_status": "TELEMETRY_INITIATED",
                         "pipeline_assigned_at": "1968-01-01T00:00:00Z",
                         "celery_task_id": None  # ← Clear task ID
-                    }
+                    },
+                    
                 }
             )
             
