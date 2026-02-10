@@ -30,16 +30,44 @@ print(f"[DIAGNOSIS TASK] Model loaded from {MODEL_PATH}")
     retry_jitter=True,
 )
 
-def execute_diagnosis_job(job_data: dict, base_api_url:str, model_path:str, window_size:int, model_version:str):
-    """
-    Celery task to execute the diagnosis for a single vehicle job.
-    """
+def execute_diagnosis_job(self,job_data: dict, base_api_url:str, model_path:str, window_size:int, model_version:str):
+   
     job_id = job_data["_id"]
     vehicle_id = job_data["vehicle_id"]
     features_dict = job_data["features_snapshot"]
     unresolved_issues = job_data.get("trigger_reasons", [])
 
+    my_task_id = self.request.id # Get the unique ID of THIS task execution
+
     print(f"[DIAGNOSIS TASK] Starting execution for job {job_id} for vehicle {vehicle_id}")
+
+    # Pre-execution verification step
+    print(f"Task {my_task_id}: Verifying state for vehicle {vehicle_id} before execution.")
+    try:
+    # Fetch the most recent diagosis from the database via the API
+        vehicle_state_resp = get(f"{base_api_url}/api/vehicles/state/{vehicle_id}")
+        vehicle_state_resp.raise_for_status()  # Raise an exception for non-200 responses
+        current_vehicle_data = vehicle_state_resp.json()
+    except Exception as e:
+            print(f"Task {my_task_id}: ABORTING. Could not fetch state for vehicle {vehicle_id}. Error: {e}")
+            return  # Abort if we can't verify the state
+    
+    pipeline_data = current_vehicle_data.get("pipeline_associated", {})
+
+     # THE CHECK: Is the vehicle still waiting for ME specifically?
+    if not (
+        pipeline_data.get("pipeline_status") == "ASSIGNED_BY_DIAGNOSIS_AGENT"
+        and pipeline_data.get("celery_task_id") == my_task_id
+    ):
+        print(
+            f"Task {my_task_id}: ABORTING. Task is stale or has been superseded. "
+            f"Vehicle {vehicle_id} has been reset or assigned a new task."
+        )
+        return  # Silently exit without doing any work
+
+    # --- END OF VERIFICATION STEP ---
+
+    print(f"Task {my_task_id}: Pre-execution check passed. Starting diagnosis by laoding model and running inference.")
 
     # Load model (can be optimized with a persistent worker-side model if needed)
     feature_order, model = load_isolation_forest_model_task(model_path)

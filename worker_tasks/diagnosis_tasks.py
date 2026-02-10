@@ -21,20 +21,6 @@ from agents.utils.agent_api_client import post,get
     retry_jitter=True,
 )
 
-# def run_diagnosis(self, vehicle_id: str, features_snapshot: dict, trigger_reasons: list, api_base_url: str, latest_feature_associated_telemetryID,thread_id:int,master_shard_id:int):
-   
-#     logger.info(f"[DIAGNOSIS TASK] Processing {vehicle_id} on shard {master_shard_id} with thread {thread_id}")
-    
-#     return put_diagnosis_job(
-#         vehicle_id=vehicle_id,
-#         features_snapshot=features_snapshot,
-#         trigger_reasons=trigger_reasons,
-#         api_base_url=api_base_url,
-#         latest_feature_associated_telemetryID=latest_feature_associated_telemetryID,
-#         master_shard_id=master_shard_id,
-#         thread_id=thread_id
-#     )
-
 def run_diagnosis(
     self,
     vehicle_id: str,

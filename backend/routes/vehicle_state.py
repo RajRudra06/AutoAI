@@ -4,15 +4,6 @@ from datetime import datetime,timezone
 
 router = APIRouter(prefix="/vehicles", tags=["Vehicle State"])
 
-# @router.get("/state")
-# def get_all_vehicle_states(request: Request):
-#     agent_id = request.state.agent_id  # future use
-
-#     vehicles = list(
-#         db.vehicle_state.find({},  {"_id": 0})
-#     )
-#     return {"vehicles": vehicles}
-
 @router.get("/state")
 def get_all_vehicle_states(request: Request):
     agent_id = request.state.agent_id  # future use

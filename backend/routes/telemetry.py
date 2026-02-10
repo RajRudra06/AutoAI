@@ -6,7 +6,7 @@ router = APIRouter(prefix="/telematics", tags=["Telemetry"])
 
 @router.post("/data")
 def receive_telemetry(payload: dict):
-  
+
     vehicle_id = payload["vehicle_id"]
     features = payload["features"]
 
