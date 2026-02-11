@@ -350,11 +350,11 @@ class DiagnosisAgent:
                     "vehicle_id": vehicle_id,
                     "pipeline_associated": {
                         "pipeline_status": "TELEMETRY_INITIATED",
-                        "pipeline_assigned_at": datetime(1968, 1, 1, tzinfo=timezone.utc),
+                        "pipeline_assigned_at": datetime(1968, 1, 1, tzinfo=timezone.utc).isoformat(),
                         "celery_task_id": None,
                     },
-                    "temp_last_processed_telemetry":datetime(1969, 1, 1, tzinfo=timezone.utc),
-                    "last_processed_telemetry":datetime(1970, 1, 1, tzinfo=timezone.utc),
+                    "temp_last_processed_telemetry":datetime(1969, 1, 1, tzinfo=timezone.utc).isoformat(),
+                    "last_processed_telemetry":datetime(1970, 1, 1, tzinfo=timezone.utc).isoformat()    ,
                     "workflow_state": {
                     "current_stage": "IDLE",
                     "flags": {

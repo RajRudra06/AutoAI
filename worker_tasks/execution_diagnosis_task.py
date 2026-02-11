@@ -55,8 +55,15 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int)
             return  # Abort if we can't verify the state
     
     pipeline_data = current_vehicle_data.get("pipeline_associated", {})
-
     curr_job_status=curr_job_data.get("status","")
+
+    print("----------------------------------------------------------------")
+
+    print(f"Task {my_task_id}: Pipeline Data for vehicle {vehicle_id} is {pipeline_data}")
+
+    print(f"Task {my_task_id}: Current Job Status for job {job_id} is {curr_job_status}")
+
+    print("----------------------------------------------------------------")
 
     if not (
         pipeline_data.get("pipeline_status") == "ASSIGNED_BY_DIAGNOSIS_AGENT"
