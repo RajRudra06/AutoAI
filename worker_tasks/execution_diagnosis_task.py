@@ -114,11 +114,12 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int)
         if not post_complete_job_task(payload, base_api_url):
             fail_job_post_task(job_id, vehicle_id, base_api_url)
             return f"Failed to complete job {job_id} with high risk"
+        print(f"Completed inference job {job_id} with high risk")
         
     elif payload and payload.get("risk_level") == "LOW":
         if not complete_job_no_risk(job_id, vehicle_id, base_api_url,payload):
             fail_job_no_risk(job_id, vehicle_id, base_api_url)
-            return f"Failed to complete job {job_id} with low risk"
+        print(f"No need to complete job {job_id} with low risk")
 
     else:
         fail_job_post_task(job_id, vehicle_id, base_api_url)
@@ -157,7 +158,7 @@ def run_inference_task(feature_order:list, feature_dict:dict, model, unresolved_
                 "vehicle_id": vehicle_id,
                 "anomaly_score": anomaly_score,
                 "risk_score": risk_score,
-                "risk_level": risk_level,
+                "risk_level": "LOW",
                 "features_snapshot": feature_dict,
                 "unresolved_issues": unresolved_issues,
                 "feature_version": "v1",
