@@ -187,8 +187,6 @@ class DiagnosisAgent:
         )
         vehicle_resp = get(get_vehicle_state_api)
 
-        print(f"{vehicle_resp.json()}poppppererppoppppererppoppppererppoppppererppoppppererppoppppererppoppppererppoppppererppoppppererppoppppererp")
-
         if vehicle_resp.status_code == 200:
             return vehicle_resp.json()
 

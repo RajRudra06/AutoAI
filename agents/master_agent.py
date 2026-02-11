@@ -208,7 +208,7 @@ class MasterAgent:
             workflow_stage in {"DIAGNOSIS_PENDING", "DIAGNOSIS_COMPLETE", "SCHEDULING_COMPLETE", "ENGAGEMENT_COMPLETE"}
             or high_risk_active
             or last_processed_telemetry >= latest_feature_associated_telemetryID
-            or (pipeline_status != "TELEMETRY_INITIATED" and pipeline_assigned_at)
+            or (pipeline_assigned_at and pipeline_status != "TELEMETRY_INITIATED")
            
         ):
             print(f"[MASTER SHARD {self.shard_id}][GATE] Vehicle blocked by lifecycle gate")
