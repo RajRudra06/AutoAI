@@ -57,13 +57,20 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int)
             f"Task {my_task_id}: ABORTING. Task is stale or has been superseded. "
             f"Vehicle {vehicle_id} has been reset or assigned a new task."
         )
-        return  # Silently exit without doing any work
+
+        # making a db call to update the diagnosis job status to stale and log the occurrence for monitoring and debugging purposes
+
+        update_stale_diagnosis_job=finalise_stale_jobs(self=self,vehicle_id=vehicle_id, base_api_url=base_api_url)
+
+        if update_stale_diagnosis_job:
+            return
+
+        return f"Task {my_task_id}: Failed to mark stale jobs for vehicle {vehicle_id}. Manual intervention may be required."
+     
 
     # --- END OF VERIFICATION STEP ---
 
     print(f"Task {my_task_id}: Pre-execution check passed. Starting diagnosis by laoding model and running inference.")
-
-    # Load model (can be optimized with a persistent worker-side model if needed)
 
     
     feature_order, model,DEFAULT_MODEL_VERSION = load_isolation_forest_model_task()
@@ -181,7 +188,7 @@ def start_job_post_task(job_id:str, base_api_url:str)->bool:
 def complete_job_no_risk(job_id:str, vehicle_id:str, base_api_url:str, payload:dict):
 
     try:
-        complete_no_risk_url=f"{base_api_url}/api/diagnosis/complete/no_risk"
+        complete_no_risk_url=f"{base_api_url}/api/diagnosis/complete_job_no_risk"
         post_complete_no_risk_resp=post(complete_no_risk_url,json=payload)
 
         if post_complete_no_risk_resp.status_code == 200:
@@ -197,8 +204,8 @@ def complete_job_no_risk(job_id:str, vehicle_id:str, base_api_url:str, payload:d
 def fail_job_no_risk(job_id:str, vehicle_id:str, base_api_url:str):
 
     try:
-        fail_no_risk_url=f"{base_api_url}/api/diagnosis/fail/no_risk"
-        post_fail_no_risk_resp=post(fail_no_risk_url,json={"job_id":job_id,"error":"error occurred while completing no-risk job",vehicle_id:vehicle_id})
+        fail_no_risk_url=f"{base_api_url}/api/diagnosis/failed_job_no_risk"
+        post_fail_no_risk_resp=post(fail_no_risk_url,json={"job_id":job_id,"error":"error occurred while completing no-risk job","vehicle_id":vehicle_id})
         print(f"[DIAGNOSIS TASK][ERROR] {vehicle_id} - No-risk job failed.")
 
         if post_fail_no_risk_resp.status_code == 200:
@@ -206,4 +213,18 @@ def fail_job_no_risk(job_id:str, vehicle_id:str, base_api_url:str):
         return False
     except Exception as e:
         print(f"Exception failing no-risk job for {vehicle_id}: {e}")
+        return False
+    
+def finalise_stale_jobs(self,vehicle_id:str, base_api_url:str):
+
+    try:
+        mark_stale_job_url=f"{base_api_url}/api/diagnosis/finalize/stale_diagnosis_jobs"
+        mark_post_stale_job_resp=post(mark_stale_job_url,json={"vehicle_id":vehicle_id})
+        print(f"[DIAGNOSIS TASK] Marked stale jobs for {vehicle_id}.")
+
+        if mark_post_stale_job_resp.status_code == 200:
+            return True
+        return False
+    except Exception as e:
+        print(f"Exception marking stale jobs for {vehicle_id}: {e}")
         return False

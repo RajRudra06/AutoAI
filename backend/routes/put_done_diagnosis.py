@@ -4,7 +4,6 @@ from bson import ObjectId
 from backend.db.connection import db
 
 router = APIRouter(prefix="/diagnosis", tags=["Diagnosis"])
-now = datetime.now(timezone.utc)
 
 @router.get("/jobs")
 def get_pending_jobs(limit: int = 5):
@@ -71,8 +70,8 @@ def fail_diagnosis(payload: dict):
 
     return {"success": True}
 
-@router.post("/fail/no_risk")
-def fail_diagnosis(payload: dict):
+@router.post("/failed_job_no_risk")
+def failed_job_no_risk(payload: dict):
     job_id = ObjectId(payload["job_id"])
     vehicle_id = payload["vehicle_id"]
 
@@ -87,6 +86,8 @@ def fail_diagnosis(payload: dict):
         }
     )
 
+    now = datetime.now(timezone.utc)
+
     db.vehicle_state.update_one(
         {"vehicle_id": vehicle_id},
         {
@@ -94,11 +95,13 @@ def fail_diagnosis(payload: dict):
                 "pipeline_associated.pipeline_status":"TELEMETRY_INITIATED",
                 "pipeline_associated.pipeline_assigned_at":datetime(1968, 1, 1, tzinfo=timezone.utc),
                 "pipeline_associated.celery_task_id": None,
+                "temp_last_processed_telemetry":datetime(1969, 1, 1, tzinfo=timezone.utc),
+                "last_processed_telemetry":datetime(1970, 1, 1, tzinfo=timezone.utc),
                 "workflow_state.current_stage": "TELEMETRY_INITIATED",
                 "workflow_state.flags.diagnosis_required": False,
                 "workflow_state.flags.scheduling_required": False,
                 "workflow_state.flags.engagement_required": False,
-                "risk_state.high_risk_active": "LOW",
+                "risk_state.high_risk_active": False,
                 "risk_state.unresolved_issues": [],
                 "last_diagnosis_at": now,
                 "last_updated": now
@@ -106,11 +109,10 @@ def fail_diagnosis(payload: dict):
         }
     )
 
-
     return {"success": True}
 
-@router.post("/complete/no_risk")
-def complete_diagnosis(payload: dict):
+@router.post("/complete_job_no_risk")
+def complete_job_no_risk(payload: dict):
     job_id = ObjectId(payload["job_id"])
     vehicle_id = payload["vehicle_id"]
 
@@ -135,11 +137,13 @@ def complete_diagnosis(payload: dict):
                 "pipeline_associated.pipeline_status":"TELEMETRY_INITIATED",
                 "pipeline_associated.pipeline_assigned_at":datetime(1968, 1, 1, tzinfo=timezone.utc),
                 "pipeline_associated.celery_task_id": None,
+                "temp_last_processed_telemetry":datetime(1969, 1, 1, tzinfo=timezone.utc),
+                "last_processed_telemetry":datetime(1970, 1, 1, tzinfo=timezone.utc),
                 "workflow_state.current_stage": "TELEMETRY_INITIATED",
                 "workflow_state.flags.diagnosis_required": False,
                 "workflow_state.flags.scheduling_required": False,
                 "workflow_state.flags.engagement_required": False,
-                "risk_state.high_risk_active": "LOW",
+                "risk_state.high_risk_active": False,
                 "risk_state.unresolved_issues": [],
                 "last_diagnosis_at": now,
                 "last_updated": now
@@ -206,3 +210,19 @@ def complete_diagnosis(payload: dict):
     return {"success": True}
 
 
+@router.post("/finalize/stale_diagnosis_jobs")
+def finalize_stale_diagnosis_jobs(payload: dict):
+    vehicle_id = payload["vehicle_id"]
+
+    db.diagnosis_jobs.update_one(
+
+        {"vehicle_id": vehicle_id}, 
+
+        {
+            "$set": {
+                "status": "STALE_JOB",
+                "skip_reason": "JOB GONE STALE"
+            }   
+        }
+        
+    )

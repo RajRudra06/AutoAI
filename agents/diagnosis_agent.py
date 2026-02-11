@@ -187,6 +187,8 @@ class DiagnosisAgent:
         )
         vehicle_resp = get(get_vehicle_state_api)
 
+        print(f"{vehicle_resp.json()}poppppererppoppppererppoppppererppoppppererppoppppererppoppppererppoppppererppoppppererppoppppererppoppppererp")
+
         if vehicle_resp.status_code == 200:
             return vehicle_resp.json()
 
@@ -287,11 +289,8 @@ class DiagnosisAgent:
                 and last_processed_telemetry
                 >= latest_feature_associated_telemetryID
             )
-            or pipeline_status != "ASSIGNED_BY_MASTER_AGENT"
-            or (
-                pipeline_assigned_at
-                and pipeline_assigned_at > comparison_datetime
-            )
+            or (pipeline_assigned_at and pipeline_status != "ASSIGNED_BY_MASTER_AGENT")
+           
         ):
             if (
                 pipeline_status == "ASSIGNED_BY_DIAGNOSIS_AGENT"
@@ -417,16 +416,10 @@ def orchestrator_main():
     base_api_url = os.getenv(
         "BACKEND_API_URL", "http://127.0.0.1:8000"
     )
-    # model_path = (
-    #     "diag_agent_model/iForest/models/isolation_forest_v1.pkl"
-    # )
     poll_interval = int(
         os.getenv("DIAGNOSIS_POLL_INTERVAL", "20")
     )
     window_size = int(os.getenv("DIAGNOSIS_WINDOW_SIZE", "120"))
-    # model_version = os.getenv(
-    #     "DIAGNOSIS_MODEL_VERSION", "isolation_forest_v1"
-    # )
     total_shards = int(
         os.getenv("DIAGNOSIS_TOTAL_SHARDS", cpu_count())
     )
