@@ -308,7 +308,8 @@ class DiagnosisAgent:
                 f"[DIAGNOSIS SHARD {self.shard_id}][GATE] "
                 f"Vehicle blocked by lifecycle gate for job {job_id}"
             )
-            return self.skip_job(job_id=job_id)
+            # return self.skip_job(job_id=job_id)
+            return True
 
         return False
 
@@ -342,6 +343,7 @@ class DiagnosisAgent:
             )
 
         try:
+            # reset the vehicle state to initial values
             update_req = post(
                 vehicle_state_api,
                 json={
@@ -368,7 +370,12 @@ class DiagnosisAgent:
                 },
             )
 
-            if update_req.status_code == 200:
+            # make the status of the diagnosis job corresponding to this vehicle as stale
+
+            update_job_to_stale_api=f"{self.base_api_url}/api/diagnosis/finalize/stale_diagnosis_jobs"
+            mark_job_stale_resp=post(update_job_to_stale_api,json={"vehicle_id":vehicle_id})
+
+            if update_req.status_code == 200 and mark_job_stale_resp.status_code==200:
                 print(
                     f"[DIAGNOSIS SHARD {self.shard_id}][RESET] "
                     f"Vehicle {vehicle_id} reset successfully"

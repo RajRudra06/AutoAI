@@ -31,28 +31,38 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int)
     features_dict = job_data["features_snapshot"]
     unresolved_issues = job_data.get("trigger_reasons", [])
 
-    my_task_id = self.request.id # Get the unique ID of THIS task execution
+    my_task_id = self.request.id 
 
     print(f"[DIAGNOSIS TASK] Starting execution for job {job_id} for vehicle {vehicle_id}")
 
-    # Pre-execution verification step
+   
     print(f"Task {my_task_id}: Verifying state for vehicle {vehicle_id} before execution.")
     try:
-    # Fetch the most recent diagosis from the database via the API
+    
+        # get latest vehicle state
         vehicle_state_resp = get(f"{base_api_url}/api/vehicles/state/{vehicle_id}")
-        vehicle_state_resp.raise_for_status()  # Raise an exception for non-200 responses
+        vehicle_state_resp.raise_for_status()  
         current_vehicle_data = vehicle_state_resp.json()
+
+        # get latest status of the current diagnosis job
+
+        diagnosis_job_state_api=f"{base_api_url}/api/diagnosis/job/{job_id}"
+        diagnosis_job_state_resp=get(diagnosis_job_state_api)
+        curr_job_data=diagnosis_job_state_resp.json()
+
     except Exception as e:
             print(f"Task {my_task_id}: ABORTING. Could not fetch state for vehicle {vehicle_id}. Error: {e}")
             return  # Abort if we can't verify the state
     
     pipeline_data = current_vehicle_data.get("pipeline_associated", {})
 
-     # THE CHECK: Is the vehicle still waiting for ME specifically?
+    curr_job_status=curr_job_data.get("status","")
+
     if not (
         pipeline_data.get("pipeline_status") == "ASSIGNED_BY_DIAGNOSIS_AGENT"
         and pipeline_data.get("celery_task_id") == my_task_id
-    ):
+        
+    ) or curr_job_status == "STALE_JOB":
         print(
             f"Task {my_task_id}: ABORTING. Task is stale or has been superseded. "
             f"Vehicle {vehicle_id} has been reset or assigned a new task."

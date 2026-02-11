@@ -16,6 +16,17 @@ def get_pending_jobs(limit: int = 5):
 
     return {"jobs": jobs}
 
+@router.get("/job/{job_id}")
+def get_job_details(job_id: str):
+    job = db.diagnosis_jobs.find_one({"_id": ObjectId(job_id)})
+
+    if not job:
+        raise HTTPException(404, "Job not found")
+
+    job["_id"] = str(job["_id"])
+
+    return job
+
 @router.post("/start")
 def start_diagnosis(payload: dict):
     job_id = ObjectId(payload["job_id"])
