@@ -8,7 +8,7 @@ router = APIRouter(prefix="/diagnosis", tags=["Diagnosis"])
 @router.get("/jobs")
 def get_pending_jobs(limit: int = 5):
     jobs = list(
-        db.diagnosis_jobs.find({"status": "PENDING"}).limit(limit)
+        db.diagnosis_jobs.find({"status": "PENDING", "RELEVENT": True}).limit(limit)
     )
 
     for job in jobs:
@@ -18,7 +18,7 @@ def get_pending_jobs(limit: int = 5):
 
 @router.get("/job/{job_id}")
 def get_job_details(job_id: str):
-    job = db.diagnosis_jobs.find_one({"_id": ObjectId(job_id)})
+    job = db.diagnosis_jobs.find_one({"_id": ObjectId(job_id), "RELEVENT": True})
 
     if not job:
         raise HTTPException(404, "Job not found")
@@ -32,7 +32,7 @@ def start_diagnosis(payload: dict):
     job_id = ObjectId(payload["job_id"])
 
     res = db.diagnosis_jobs.update_one(
-        {"_id": job_id, "status": "PENDING"},
+        {"_id": job_id, "status": "PENDING", "RELEVENT": True},
         {
             "$set": {
                 "status": "IN_PROGRESS",
@@ -57,7 +57,8 @@ def skip_diagnosis(payload: dict):
             "$set": {
                 "status": "COMPLETED_SKIPPED",
                 "skipped_at": datetime.now(timezone.utc),
-                "skip_reason": reason
+                "skip_reason": reason,
+                "RELEVENT":False
             }
         }
     )
@@ -74,7 +75,8 @@ def fail_diagnosis(payload: dict):
             "$set": {
                 "status": "FAILED",
                 "error": payload.get("error"),
-                "failed_at": datetime.now(timezone.utc)
+                "failed_at": datetime.now(timezone.utc),
+                "RELEVENT":False
             }
         }
     )
@@ -92,7 +94,8 @@ def failed_job_no_risk(payload: dict):
             "$set": {
                 "status": "FAILED",
                 "error": payload.get("error"),
-                "failed_at": datetime.now(timezone.utc)
+                "failed_at": datetime.now(timezone.utc),
+                "RELEVENT":False
             }
         }
     )
@@ -167,7 +170,8 @@ def complete_job_no_risk(payload: dict):
         {
             "$set": {
                 "status": "COMPLETED",
-                "completed_at": now
+                "completed_at": now,
+                "RELEVENT":False
             }
         }
     )
@@ -213,7 +217,8 @@ def complete_diagnosis(payload: dict):
         {
             "$set": {
                 "status": "COMPLETED",
-                "completed_at": now
+                "completed_at": now,
+                "RELEVENT":False
             }
         }
     )
@@ -232,7 +237,8 @@ def finalize_stale_diagnosis_jobs(payload: dict):
         {
             "$set": {
                 "status": "STALE_JOB",
-                "skip_reason": "JOB GONE STALE"
+                "skip_reason": "JOB GONE STALE",
+                "RELEVENT":False
             }   
         }
         

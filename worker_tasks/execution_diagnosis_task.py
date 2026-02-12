@@ -65,11 +65,11 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int)
 
     print("----------------------------------------------------------------")
 
-    if not (
+    if (not (
         pipeline_data.get("pipeline_status") == "ASSIGNED_BY_DIAGNOSIS_AGENT"
         and pipeline_data.get("celery_task_id") == my_task_id
         
-    ) or curr_job_status == "STALE_JOB":
+    ) and current_vehicle_data.get("workflow_state", {}).get("current_stage") == "IDLE" and pipeline_data.get("celery_task_id") is None ) or curr_job_status == "STALE_JOB":
         print(
             f"Task {my_task_id}: ABORTING. Task is stale or has been superseded. "
             f"Vehicle {vehicle_id} has been reset or assigned a new task."
@@ -119,7 +119,7 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int)
     elif payload and payload.get("risk_level") == "LOW":
         if not complete_job_no_risk(job_id, vehicle_id, base_api_url,payload):
             fail_job_no_risk(job_id, vehicle_id, base_api_url)
-        print(f"No need to complete job {job_id} with low risk")
+        print(f"No need to complete job {job_id} with low risk for {vehicle_id}, but marked as completed to free up the vehicle for scheduling.")
 
     else:
         fail_job_post_task(job_id, vehicle_id, base_api_url)

@@ -23,7 +23,8 @@ def queue_diagnosis(payload: dict, request: Request):
         "trigger_reasons": reasons,
         "status": "PENDING",
         "created_at": datetime.now(timezone.utc),
-        "requested_by": agent_id
+        "requested_by": agent_id,
+        "RELEVENT":True
     })
 
     # Update vehicle workflow

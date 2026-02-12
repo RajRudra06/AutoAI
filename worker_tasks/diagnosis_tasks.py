@@ -52,7 +52,7 @@ def run_diagnosis(
     if not (
         pipeline_data.get("pipeline_status") == "ASSIGNED_BY_MASTER_AGENT"
         and pipeline_data.get("celery_task_id") == my_task_id
-    ):
+    ) and current_vehicle_data.get("workflow_state", {}).get("current_stage") == "IDLE" and pipeline_data.get("celery_task_id") is None:
         print(
             f"Task {my_task_id}: ABORTING. Task is stale or has been superseded. "
             f"Vehicle {vehicle_id} has been reset or assigned a new task."
