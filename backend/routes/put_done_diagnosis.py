@@ -50,7 +50,8 @@ def start_diagnosis(payload: dict):
 def skip_diagnosis(payload: dict):
     job_id = ObjectId(payload["job_id"])
     reason = payload.get("reason", "Lifecycle gate active")
-
+    vehicle_id = payload["vehicle_id"]
+    
     db.diagnosis_jobs.update_one(
         {"_id": job_id},
         {
@@ -63,11 +64,35 @@ def skip_diagnosis(payload: dict):
         }
     )
 
+    now = datetime.now(timezone.utc)
+    
+    db.vehicle_state.update_one(
+        {"vehicle_id": vehicle_id},
+        {
+            "$set": {
+                "pipeline_associated.pipeline_status":"TELEMETRY_INITIATED",
+                "pipeline_associated.pipeline_assigned_at":datetime(1968, 1, 1, tzinfo=timezone.utc),
+                "pipeline_associated.celery_task_id": None,
+                "temp_last_processed_telemetry":datetime(1969, 1, 1, tzinfo=timezone.utc),
+                "last_processed_telemetry":datetime(1970, 1, 1, tzinfo=timezone.utc),
+                "workflow_state.current_stage": "IDLE",
+                "workflow_state.flags.diagnosis_required": False,
+                "workflow_state.flags.scheduling_required": False,
+                "workflow_state.flags.engagement_required": False,
+                "risk_state.high_risk_active": False,
+                "risk_state.unresolved_issues": [],
+                "last_diagnosis_at": now,
+                "last_updated": now
+            }
+        }
+    )
+
     return {"success": True}
 
 @router.post("/fail")
 def fail_diagnosis(payload: dict):
     job_id = ObjectId(payload["job_id"])
+    vehicle_id = payload["vehicle_id"]
 
     db.diagnosis_jobs.update_one(
         {"_id": job_id},
@@ -77,6 +102,29 @@ def fail_diagnosis(payload: dict):
                 "error": payload.get("error"),
                 "failed_at": datetime.now(timezone.utc),
                 "RELEVENT":False
+            }
+        }
+    )
+
+    now = datetime.now(timezone.utc)
+
+    db.vehicle_state.update_one(
+        {"vehicle_id": vehicle_id},
+        {
+            "$set": {
+                "pipeline_associated.pipeline_status":"TELEMETRY_INITIATED",
+                "pipeline_associated.pipeline_assigned_at":datetime(1968, 1, 1, tzinfo=timezone.utc),
+                "pipeline_associated.celery_task_id": None,
+                "temp_last_processed_telemetry":datetime(1969, 1, 1, tzinfo=timezone.utc),
+                "last_processed_telemetry":datetime(1970, 1, 1, tzinfo=timezone.utc),
+                "workflow_state.current_stage": "IDLE",
+                "workflow_state.flags.diagnosis_required": False,
+                "workflow_state.flags.scheduling_required": False,
+                "workflow_state.flags.engagement_required": False,
+                "risk_state.high_risk_active": False,
+                "risk_state.unresolved_issues": [],
+                "last_diagnosis_at": now,
+                "last_updated": now
             }
         }
     )
@@ -207,7 +255,8 @@ def complete_diagnosis(payload: dict):
                 "risk_state.high_risk_active": payload["risk_level"] == "HIGH",
                 "risk_state.unresolved_issues": payload["unresolved_issues"],
                 "last_diagnosis_at": now,
-                "last_updated": now
+                "last_updated": now,
+                "pipeline_associated.celery_task_id": None,
             }
         }
     )

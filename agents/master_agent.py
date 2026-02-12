@@ -122,8 +122,23 @@ class MasterAgent:
                     "vehicle_id": vehicle_id,
                     "pipeline_associated": {
                         "pipeline_status": "TELEMETRY_INITIATED",
-                        "pipeline_assigned_at": "1968-01-01T00:00:00Z"
+                        "pipeline_assigned_at": datetime(1968, 1, 1, tzinfo=timezone.utc).isoformat(),
+                        "celery_task_id": None,
+                    },
+                    "temp_last_processed_telemetry":datetime(1969, 1, 1, tzinfo=timezone.utc).isoformat(),
+                    "last_processed_telemetry":datetime(1970, 1, 1, tzinfo=timezone.utc).isoformat()    ,
+                    "workflow_state": {
+                    "current_stage": "IDLE",
+                    "flags": {
+                        "diagnosis_required": False,
+                        "scheduling_required": False,
+                        "engagement_required": False
                     }
+                },
+                "risk_state": {
+                    "high_risk_active": False,
+                    "unresolved_issues": []
+                }
                 }
             )
 
@@ -248,9 +263,23 @@ class MasterAgent:
                     "vehicle_id": vehicle_id,
                     "pipeline_associated": {
                         "pipeline_status": "TELEMETRY_INITIATED",
-                        "pipeline_assigned_at": "1968-01-01T00:00:00Z",
-                        "celery_task_id": None  # ← Clear task ID
+                        "pipeline_assigned_at": datetime(1968, 1, 1, tzinfo=timezone.utc).isoformat(),
+                        "celery_task_id": None,
+                    },
+                    "temp_last_processed_telemetry":datetime(1969, 1, 1, tzinfo=timezone.utc).isoformat(),
+                    "last_processed_telemetry":datetime(1970, 1, 1, tzinfo=timezone.utc).isoformat()    ,
+                    "workflow_state": {
+                    "current_stage": "IDLE",
+                    "flags": {
+                        "diagnosis_required": False,
+                        "scheduling_required": False,
+                        "engagement_required": False
                     }
+                },
+                "risk_state": {
+                    "high_risk_active": False,
+                    "unresolved_issues": []
+                }
                 }
             )
             

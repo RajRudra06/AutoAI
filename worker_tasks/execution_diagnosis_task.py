@@ -158,7 +158,7 @@ def run_inference_task(feature_order:list, feature_dict:dict, model, unresolved_
                 "vehicle_id": vehicle_id,
                 "anomaly_score": anomaly_score,
                 "risk_score": risk_score,
-                "risk_level": "LOW",
+                "risk_level": risk_level,
                 "features_snapshot": feature_dict,
                 "unresolved_issues": unresolved_issues,
                 "feature_version": "v1",
@@ -187,7 +187,7 @@ def post_complete_job_task(payload:dict, base_api_url:str)->bool:
 def fail_job_post_task(job_id:str, vehicle_id:str, base_api_url:str):
 
     fail_job_api=f"{base_api_url}/api/diagnosis/fail"
-    post_fail_job=post(fail_job_api,json={"job_id":job_id,"error":"error occurred while diagnosing the job"})
+    post_fail_job=post(fail_job_api,json={"job_id":job_id,"error":"error occurred while diagnosing the job","vehicle_id":vehicle_id})
     print(f"[DIAGNOSIS TASK][ERROR] {vehicle_id} - Job failed.")
 
 def start_job_post_task(job_id:str, base_api_url:str)->bool:

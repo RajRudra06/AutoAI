@@ -176,8 +176,23 @@ class DiagnosisAgent:
                     "vehicle_id": vehicle_id,
                     "pipeline_associated": {
                         "pipeline_status": "TELEMETRY_INITIATED",
-                        "pipeline_assigned_at": "1968-01-01T00:00:00Z",
+                        "pipeline_assigned_at": datetime(1968, 1, 1, tzinfo=timezone.utc).isoformat(),
+                        "celery_task_id": None,
                     },
+                    "temp_last_processed_telemetry":datetime(1969, 1, 1, tzinfo=timezone.utc).isoformat(),
+                    "last_processed_telemetry":datetime(1970, 1, 1, tzinfo=timezone.utc).isoformat()    ,
+                    "workflow_state": {
+                    "current_stage": "IDLE",
+                    "flags": {
+                        "diagnosis_required": False,
+                        "scheduling_required": False,
+                        "engagement_required": False
+                    }
+                },
+                "risk_state": {
+                    "high_risk_active": False,
+                    "unresolved_issues": []
+                }
                 },
             )
 
@@ -192,12 +207,12 @@ class DiagnosisAgent:
 
         return None
 
-    def skip_job(self, job_id: str) -> bool:
+    def skip_job(self, job_id: str, vehicle_id: str) -> bool:
         skip_job_url = f"{self.base_api_url}/api/diagnosis/skip"
 
         skip_job = post(
             skip_job_url,
-            json={"job_id": job_id, "reason": "Lifecycle gate active"},
+            json={"job_id": job_id, "reason": "Lifecycle gate active", "vehicle_id": vehicle_id},
         )
 
         return skip_job.status_code == 200
@@ -210,7 +225,7 @@ class DiagnosisAgent:
                 f"[DIAGNOSIS SHARD {self.shard_id}][ERROR] "
                 f"Could not fetch vehicle state for {vehicle_id}"
             )
-            return self.skip_job(job_id=job_id)
+            return self.skip_job(job_id=job_id,vehicle_id=vehicle_id)
 
         vehicle_state_params = self.extract_vehicle_params(
             vehicle=vehicle_state

@@ -96,6 +96,7 @@ def put_diagnosis_job(vehicle_id: str, features_snapshot: dict, trigger_reasons:
         )
 
         print(latest_feature_associated_telemetryID)
+        
         reply = post(
             f"{api_base_url}/api/vehicles/update",
             json={

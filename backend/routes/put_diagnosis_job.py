@@ -34,7 +34,8 @@ def queue_diagnosis(payload: dict, request: Request):
             "$set": {
                 "workflow_state.current_stage": "DIAGNOSIS_PENDING",
                 "workflow_state.flags.diagnosis_required": True,
-                "last_updated": datetime.now(timezone.utc)
+                "last_updated": datetime.now(timezone.utc),
+                 "pipeline_associated.celery_task_id": None
             }
         }
     )
