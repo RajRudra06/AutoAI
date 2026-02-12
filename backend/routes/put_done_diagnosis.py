@@ -21,7 +21,7 @@ def get_job_details(job_id: str):
     job = db.diagnosis_jobs.find_one({"_id": ObjectId(job_id), "RELEVENT": True})
 
     if not job:
-        raise HTTPException(404, "Job not found")
+        return "NOT_FOUND"
 
     job["_id"] = str(job["_id"])
 

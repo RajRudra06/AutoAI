@@ -13,7 +13,6 @@ from worker_tasks.celery_config import app
 
 load_dotenv()
 
-
 @app.task(
     bind=True,
     name='tasks.execute_diagnosis.execute_diagnosis_job',
@@ -69,7 +68,7 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int)
         pipeline_data.get("pipeline_status") == "ASSIGNED_BY_DIAGNOSIS_AGENT"
         and pipeline_data.get("celery_task_id") == my_task_id
         
-    ) and current_vehicle_data.get("workflow_state", {}).get("current_stage") == "IDLE" and pipeline_data.get("celery_task_id") is None ) or curr_job_status == "STALE_JOB":
+    ) and current_vehicle_data.get("workflow_state", {}).get("current_stage") == "IDLE" and pipeline_data.get("celery_task_id") is None ) or curr_job_status == "STALE_JOB" or curr_job_status == "":
         print(
             f"Task {my_task_id}: ABORTING. Task is stale or has been superseded. "
             f"Vehicle {vehicle_id} has been reset or assigned a new task."
@@ -163,7 +162,7 @@ def run_inference_task(feature_order:list, feature_dict:dict, model, unresolved_
                 "unresolved_issues": unresolved_issues,
                 "feature_version": "v1",
                 "window_size": window_size,
-                "model_version": model_version
+                "model_version": model_version 
             }
     
     print(

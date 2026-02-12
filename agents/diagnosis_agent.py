@@ -16,7 +16,6 @@ from worker_tasks.execution_diagnosis_task import execute_diagnosis_job
 
 load_dotenv()
 
-
 class DiagnosisAgent:
     def __init__(
         self,
@@ -384,8 +383,6 @@ class DiagnosisAgent:
                 }
                 },
             )
-
-            # make the status of the diagnosis job corresponding to this vehicle as stale
 
             update_job_to_stale_api=f"{self.base_api_url}/api/diagnosis/finalize/stale_diagnosis_jobs"
             mark_job_stale_resp=post(update_job_to_stale_api,json={"vehicle_id":vehicle_id})
