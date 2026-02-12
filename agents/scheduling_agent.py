@@ -8,7 +8,7 @@
 
 # class SchedulingAgent:
 #     def __init__(self,base_api_url:str,poll_interval:int):
-#         self.base_api_url=base_api_url
+#         self.base_api_url=base_api_url 
 #         self.poll_interval=poll_interval
     
 #     def fetch_vehicles_state(self)->dict:

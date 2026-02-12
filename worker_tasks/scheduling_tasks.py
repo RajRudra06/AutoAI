@@ -21,8 +21,6 @@ def execute_scheduling_job(self, vehicle_id: str, base_api_url: str):
     my_task_id = self.request.id
     print(f"[SCHEDULING TASK] Starting execution for vehicle {vehicle_id}, task_id={my_task_id}")
 
-    # Pre-execution verification step (similar to diagnosis_task)
-    # Fetch the vehicle's state from the database via the API
     print(f"Task {my_task_id}: Verifying state for vehicle {vehicle_id} before execution.")
     try:
         vehicle_state_resp = get(f"{base_api_url}/api/vehicles/state/{vehicle_id}")
@@ -30,13 +28,10 @@ def execute_scheduling_job(self, vehicle_id: str, base_api_url: str):
         current_vehicle_data = vehicle_state_resp.json()
     except Exception as e:
         print(f"Task {my_task_id}: ABORTING. Could not fetch state for vehicle {vehicle_id}. Error: {e}")
-        # In a real scenario, you might want to call a /fail endpoint for scheduling job here
-        return # Abort if we can't verify the state
+        return 
 
     pipeline_data = current_vehicle_data.get("pipeline_associated", {})
 
-    # THE CHECK: Is the vehicle still waiting for ME specifically?
-    # Ensure current_vehicle_data['pipeline_associated']['celery_task_id'] is aware of its own task_id
     if not (
         pipeline_data.get("pipeline_status") == "ASSIGNED_BY_SCHEDULING_AGENT"
         and pipeline_data.get("celery_task_id") == my_task_id
@@ -45,10 +40,8 @@ def execute_scheduling_job(self, vehicle_id: str, base_api_url: str):
             f"Task {my_task_id}: ABORTING. Task is stale or has been superseded. "
             f"Vehicle {vehicle_id} has been reset or assigned a new task."
         )
-        # You might want to call a /fail endpoint for scheduling job here if task is stale
-        return # Silently exit without doing any work
-
-    # --- END OF VERIFICATION STEP ---
+       
+        return 
 
     print(f"Task {my_task_id}: Pre-execution check passed. Attempting to schedule for {vehicle_id}.")
 
@@ -74,7 +67,6 @@ def execute_scheduling_job(self, vehicle_id: str, base_api_url: str):
 
     if not slot_to_book:
         print(f"[SCHEDULING TASK][ERROR] Could not get service slot for {vehicle_id}.")
-        # Implement a specific fail endpoint for scheduling tasks here if needed
         return f"Failed to get service slot for {vehicle_id}."
 
     booking_payload = {
@@ -87,7 +79,6 @@ def execute_scheduling_job(self, vehicle_id: str, base_api_url: str):
 
     if not post_final_booking_post_task(booking_payload, base_api_url):
         print(f"[SCHEDULING TASK][ERROR] Failed to post final booking for {vehicle_id}.")
-        # Implement a specific fail endpoint for scheduling tasks here if needed
         return f"Failed to post final booking for {vehicle_id}."
 
     if not update_vehicle_state_post_task(vehicle_id, base_api_url, current_stage="SCHEDULING_COMPLETE", scheduling_flag=False, engagement_flag=True):
@@ -129,11 +120,7 @@ def update_vehicle_state_post_task(vehicle_id: str, base_api_url: str, current_s
                 "engagement_required": engagement_flag
             }
         },
-        "pipeline_associated": { # Reset pipeline_associated after task completion
-            "pipeline_status": "SCHEDULING_COMPLETE", # Assuming this means scheduling is done
-            "pipeline_assigned_at": datetime.now(timezone.utc).isoformat(),
-            "celery_task_id": None
-        }
+        "pipeline_associated.celery_task_id": None
     })
     if update_state_resp.status_code == 200:
         return True

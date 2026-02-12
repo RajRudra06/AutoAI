@@ -13,7 +13,7 @@ from agents.utils.agent_api_client import post,get
 
 @app.task(
     bind=True,
-    name='task.diagnosis.run_diagnosis',
+    name='tasks.diagnosis.run_diagnosis',
     max_retries=3,
     default_retry_delay=60,
     autoretry_for=(Exception,),

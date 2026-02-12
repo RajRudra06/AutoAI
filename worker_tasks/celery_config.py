@@ -28,9 +28,9 @@ app.conf.task_queues = (
 )
 
 app.conf.task_routes = {
-     'task.diagnosis.*': {'queue': 'diagnosis_queue'},
+     'tasks.diagnosis.*': {'queue': 'diagnosis_queue'},
      'tasks.execute_diagnosis.*': {'queue': 'execution_diagnosis_task_queue'},
-     'tasks.scheduling.*': {'queue': 'scheduling_queue'},
+     'tasks.execute_scheduling.*': {'queue': 'scheduling_queue'},
      'engagement_tasks.*': {'queue': 'engagement_queue'},
      'service_completion_tasks.*': {'queue': 'service_completion_queue'},
     }
