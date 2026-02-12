@@ -187,7 +187,7 @@ from multiprocessing import Pool, cpu_count
 from concurrent.futures import ThreadPoolExecutor
 
 from agents.utils.agent_api_client import post, get
-from transition.scheduling_task import execute_scheduling_job # Import the new Celery task
+from worker_tasks.scheduling_tasks import execute_scheduling_job
 
 class SchedulingAgent:
     def __init__(self, base_api_url: str, poll_interval: int, shard_id: int, total_shards: int, max_threads=10):
@@ -237,6 +237,7 @@ class SchedulingAgent:
             "temp_last_processed_telemetry": vehicle.get("temp_last_processed_telemetry"),
             "last_processed_telemetry": vehicle.get("last_processed_telemetry"),
             "latest_feature_associated_telemetryID": vehicle.get("latest_feature_associated_telemetryID"),
+             "last_processed_telemetry": vehicle.get("last_processed_telemetry")
         }
 
     def cycle(self, vehicles_for_my_shard: list):
@@ -337,6 +338,9 @@ class SchedulingAgent:
         pipeline_status = vehicle_state_params["pipeline_associated"].get("pipeline_status")
         pipeline_assigned_at = vehicle_state_params["pipeline_associated"].get("pipeline_assigned_at")
         celery_task_id = vehicle_state_params["celery_task_id"]
+        last_processed_telemetry = vehicle_state_params["last_processed_telemetry"]
+        latest_feature_associated_telemetryID = vehicle_state_params["latest_feature_associated_telemetryID"]
+
 
         try:
             if isinstance(last_processed_telemetry, str):
@@ -369,7 +373,7 @@ class SchedulingAgent:
                 pipeline_status == "ASSIGNED_BY_SCHEDULING_AGENT"
                 and pipeline_assigned_at
                 and workflow_stage == "DIAGNOSIS_COMPLETE" # Or whichever stage is before scheduling
-                and not engagement_flag # Still required, but stale
+                and not engagement_flag 
                 and celery_task_id is not None
             ):
 

@@ -16,11 +16,17 @@ PYTHONPATH=. python ./agents/collector_agent.py
 Terminal 3 – Master agent (creates jobs)
 PYTHONPATH=. python agents/master_agent.py
 
+PYTHONPATH=. celery -A worker_tasks.celery_config worker -l info -Q diagnosis_queue
+
 Terminal 4 – Diagnosis agent (processes jobs)
 PYTHONPATH=. python agents/diagnosis_agent.py
 
+PYTHONPATH=. celery -A worker_tasks.celery_config worker -l info -Q execution_diagnosis_task_queue
+
 Terminal 5 -  Scheduling agent (schedules diagosed jobs)
 PYTHONPATH=. python agents/scheduling_agent.py
+
+PYTHONPATH=. celery -A worker_tasks.celery_config worker -l info -Q scheduling_queue
 
 Terminal 6 - Engagement agent (customer engage)
 PYTHONPATH=. python agents/engagement_agent.py
@@ -30,7 +36,6 @@ PYTHONPATH=. python agents/service_completion_agent.py
 
 Terminal 8 -  Celery Worker Diagnosis
 
-PYTHONPATH=. celery -A worker_tasks.celery_config worker -l info -Q diagnosis_queue
 
 If any one is missing → diagnosis agent waits forever.
 
