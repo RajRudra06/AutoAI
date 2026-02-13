@@ -322,7 +322,6 @@ class DiagnosisAgent:
                 f"[DIAGNOSIS SHARD {self.shard_id}][GATE] "
                 f"Vehicle blocked by lifecycle gate for job {job_id}"
             )
-            # return self.skip_job(job_id=job_id)
             return True
 
         return False
@@ -357,7 +356,6 @@ class DiagnosisAgent:
             )
 
         try:
-            # reset the vehicle state to initial values
             update_req = post(
                 vehicle_state_api,
                 json={

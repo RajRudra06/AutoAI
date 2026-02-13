@@ -11,7 +11,7 @@ from agents.utils.agent_api_client import post, get
 from worker_tasks.engagement_tasks import execute_engagement_job
 from dotenv import load_dotenv
 
-load_dotenv() # Ensure dotenv is loaded here as well
+load_dotenv() 
 
 class EngagementAgent:
     def __init__(self, base_api_url: str, poll_interval: int, shard_id: int, total_shards: int, max_threads=10):
@@ -22,7 +22,7 @@ class EngagementAgent:
         self.max_threads = max_threads
 
     def fetch_all_vehicles_globally(self) -> list:
-        # This is temporary; ideally, there would be a filtered API endpoint for vehicles needing engagement.
+        
         vehicle_state_url = f"{self.base_api_url}/api/vehicles/state"
         try:
             resp = get(vehicle_state_url)
@@ -44,25 +44,22 @@ class EngagementAgent:
             "vehicle_id": vehicle_id,
             "pipeline_associated": vehicle.get("pipeline_associated"),
             "celery_task_id": pipeline.get("celery_task_id"),
-            # Workflow
             "workflow_stage": workflow.get("current_stage"),
             "workflow_flags": {
                 "diagnosis_required": flags.get("diagnosis_required", False),
                 "scheduling_required": flags.get("scheduling_required", False),
                 "engagement_required": flags.get("engagement_required", False),
             },
-            # Risk
             "high_risk_active": risk_state.get("high_risk_active", False),
             "unresolved_issues": risk_state.get("unresolved_issues", []),
-            # Features (snapshots) - not directly used in EngagementAgent decision, but good for context
+    
             "latest_features": latest,
             "previous_features": previous,
-            # Needed for stale checks
             "last_updated": vehicle.get("last_updated"),
             "temp_last_processed_telemetry": vehicle.get("temp_last_processed_telemetry"),
             "last_processed_telemetry": vehicle.get("last_processed_telemetry"),
             "latest_feature_associated_telemetryID": vehicle.get("latest_feature_associated_telemetryID"),
-            "risk_state": risk_state # Pass risk_state to execution task
+            "risk_state": risk_state 
         }
 
     def cycle(self, vehicles_for_my_shard: list):
@@ -95,7 +92,7 @@ class EngagementAgent:
     def enqueue_engagement_task(self, vehicle: dict):
         vehicle_state_params = self.extract_vehicle_params(vehicle)
         vehicle_id = vehicle_state_params["vehicle_id"]
-        risk_state = vehicle_state_params["risk_state"] # Pass risk_state to execution task
+        risk_state = vehicle_state_params["risk_state"] 
 
         try:
             print(f"[ENGAGEMENT SHARD {self.shard_id}][ENQUEUE] Enqueuing engagement task for {vehicle_id}")
@@ -164,7 +161,6 @@ class EngagementAgent:
         pipeline_assigned_at_str = vehicle_state_params["pipeline_associated"].get("pipeline_assigned_at")
         celery_task_id = vehicle_state_params["celery_task_id"]
 
-        # Telemetry fields (not directly used in engagement gate conditions but good to extract)
         last_processed_telemetry_str = vehicle_state_params.get("last_processed_telemetry")
         latest_feature_associated_telemetryID_str = vehicle_state_params.get("latest_feature_associated_telemetryID")
 
@@ -180,7 +176,6 @@ class EngagementAgent:
             if isinstance(pipeline_assigned_at_str, str):
                 pipeline_assigned_at = datetime.fromisoformat(pipeline_assigned_at_str.replace('Z', '+00:00'))
 
-            # Ensure all relevant datetimes are timezone-aware for comparison
             if last_processed_telemetry and last_processed_telemetry.tzinfo is None:
                 last_processed_telemetry = last_processed_telemetry.replace(tzinfo=timezone.utc)
             if latest_feature_associated_telemetryID and latest_feature_associated_telemetryID.tzinfo is None:
@@ -190,10 +185,10 @@ class EngagementAgent:
 
         except (ValueError, TypeError) as e:
             print(f"[ERROR][SHARD {self.shard_id}] Could not parse a timestamp string in lifecycle_gate: {e}")
-            return True # Block if timestamps are malformed
+            return True 
 
         now = datetime.now(timezone.utc)
-        timeout = 60 # seconds
+        timeout = 60 
 
         if (
             workflow_stage
@@ -270,7 +265,6 @@ class EngagementAgent:
         except Exception as e:
             print(f"[ENGAGEMENT SHARD {self.shard_id}][RESET] Error resetting vehicle {vehicle_id}: {e}")
 
-# This new function is the work that each process in our Pool will do.
 def run_shard_cycle(work_packet: tuple):
     shard_id, total_shards, base_api_url, poll_interval, max_threads, vehicles_for_this_shard = work_packet
 
@@ -285,7 +279,6 @@ def run_shard_cycle(work_packet: tuple):
     if vehicles_for_this_shard:
         agent.cycle(vehicles_for_this_shard)
 
-# This is the new main orchestrator function.
 def orchestrator_main():
     base_api_url = os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")
     poll_interval = int(os.getenv("ENGAGEMENT_POLL_INTERVAL", "20"))
@@ -303,7 +296,7 @@ def orchestrator_main():
                 shard_id=0,
                 total_shards=1
             )
-            all_vehicles = temp_agent.fetch_all_vehicles_globally() # Fetch all, then filter/shard
+            all_vehicles = temp_agent.fetch_all_vehicles_globally() 
 
             if not all_vehicles:
                 print("[ENGAGEMENT ORCHESTRATOR] No vehicles found. Sleeping.")

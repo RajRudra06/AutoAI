@@ -167,7 +167,7 @@ def run_crewai_engagement_celery(vehicle_id, issue, booking):
     print(f"  [DEBUG] run_crewai: Step 4 - Crew created")
     print(f"  [DEBUG] run_crewai: Step 5 - Calling crew.kickoff()")
 
-    result = crew.kickoff()  # ← CRASH IS LIKELY HERE
+    result = crew.kickoff()  
 
     print(f"  [DEBUG] run_crewai: Step 6 - Kickoff completed")
 
@@ -208,7 +208,6 @@ def extract_7d_top_issues_celery(vehicle_id, features_snapshot):
 
 
 def mock_llm_engagement_response_celery(vehicle_id, prediction, booking):
-    # --- Normalize inputs ---
     risk_level = prediction.get("risk_level", "MODERATE")
     issues = prediction.get("issues", [])
 
@@ -218,7 +217,6 @@ def mock_llm_engagement_response_celery(vehicle_id, prediction, booking):
 
     center = booking.get("center_id", "our authorized service center")
 
-    # --- Severity framing ---
     if risk_level == "HIGH":
         opening = "This is an important update regarding your vehicle."
         urgency = "We recommend addressing this soon to avoid potential issues."
@@ -232,7 +230,6 @@ def mock_llm_engagement_response_celery(vehicle_id, prediction, booking):
         urgency = "Timely service is recommended."
         tone = "reassuring"
 
-    # --- Issue summarization (generic) ---
     if issues:
         summarized = []
         for i in issues[:3]:
@@ -253,7 +250,6 @@ def mock_llm_engagement_response_celery(vehicle_id, prediction, booking):
     else:
         issue_text = "Our diagnostics identified routine maintenance indicators."
 
-    # --- Final message ---
     message = (
         f"{opening} "
         f"{issue_text} "
@@ -263,7 +259,6 @@ def mock_llm_engagement_response_celery(vehicle_id, prediction, booking):
         f"Please confirm or request rescheduling if needed."
     )
 
-    # --- Console trace ---
     print("" + "═" * 90)
     print("🤖 Agent: Customer Engagement Specialist (MOCK LLM)")
     print(f"📋 Vehicle ID: {vehicle_id}")
@@ -337,8 +332,6 @@ def execute_engagement_job(self, vehicle_id: str, base_api_url: str, risk_state:
         return
     print("  ✔ Booking received")
 
-    # Generating engagement message
-   # Generating engagement message
     print("  ▶ Generating engagement message...")
     message_text = ""
     try:
@@ -382,17 +375,15 @@ def execute_engagement_job(self, vehicle_id: str, base_api_url: str, risk_state:
     print(f"  [DEBUG] Step 8: Proceeding to send email")
     try:
         send_email(
-            to_email="customer@example.com", # Hardcoded email, might need to be dynamic
+            to_email="customer@example.com", 
             subject="Important Update About Your Vehicle",
             body=message_text
         )
         print("  ✔ Email sent")
     except Exception as e:
         print(f"  ❌ Email failed: {e}")
-        # Fail the engagement job
         return
 
-    # Logging engagement
     print("  ▶ Logging engagement...")
     post(
         ENGAGEMENT_LOG_URL,

@@ -9,10 +9,15 @@ from celery.result import AsyncResult
 from multiprocessing import Pool, cpu_count
 from concurrent.futures import ThreadPoolExecutor
 
-from agents.utils.agent_api_client import post, get
-from worker_tasks.scheduling_tasks import execute_scheduling_job
+import requests
 
-class SchedulingAgent:
+from agents.utils.agent_api_client import post, get
+from transition.service_completion_task import execute_service_completion_job 
+from dotenv import load_dotenv
+
+load_dotenv() 
+
+class ServiceCompletionAgent:
     def __init__(self, base_api_url: str, poll_interval: int, shard_id: int, total_shards: int, max_threads=10):
         self.base_api_url = base_api_url
         self.poll_interval = poll_interval
@@ -21,13 +26,13 @@ class SchedulingAgent:
         self.max_threads = max_threads
 
     def fetch_all_vehicles_globally(self) -> list:
-        
+   
         vehicle_state_url = f"{self.base_api_url}/api/vehicles/state"
         try:
             resp = get(vehicle_state_url)
             return resp.json().get("vehicles", [])
         except Exception as e:
-            print(f"[SCHEDULING ORCHESTRATOR][ERROR] Failed to fetch all vehicle states: {e}")
+            print(f"[SERVICE COMPLETION ORCHESTRATOR][ERROR] Failed to fetch all vehicle states: {e}")
             return []
 
     def extract_vehicle_params(self, vehicle: dict) -> dict:
@@ -43,91 +48,91 @@ class SchedulingAgent:
             "vehicle_id": vehicle_id,
             "pipeline_associated": vehicle.get("pipeline_associated"),
             "celery_task_id": pipeline.get("celery_task_id"),
-            # Workflow
             "workflow_stage": workflow.get("current_stage"),
             "workflow_flags": {
                 "diagnosis_required": flags.get("diagnosis_required", False),
                 "scheduling_required": flags.get("scheduling_required", False),
                 "engagement_required": flags.get("engagement_required", False),
             },
-            # Risk
             "high_risk_active": risk_state.get("high_risk_active", False),
             "unresolved_issues": risk_state.get("unresolved_issues", []),
-            # Features (snapshots)
+
             "latest_features": latest,
             "previous_features": previous,
             "last_updated": vehicle.get("last_updated"),
             "temp_last_processed_telemetry": vehicle.get("temp_last_processed_telemetry"),
             "last_processed_telemetry": vehicle.get("last_processed_telemetry"),
             "latest_feature_associated_telemetryID": vehicle.get("latest_feature_associated_telemetryID"),
-             "last_processed_telemetry": vehicle.get("last_processed_telemetry")
+            "risk_state": risk_state 
         }
 
+
     def cycle(self, vehicles_for_my_shard: list):
-        print(f"[SCHEDULING SHARD {self.shard_id}][CYCLE] Starting cycle with {len(vehicles_for_my_shard)} vehicles.")
+        print(f"[SERVICE COMPLETION SHARD {self.shard_id}][CYCLE] Starting cycle with {len(vehicles_for_my_shard)} vehicles.")
         with ThreadPoolExecutor(max_workers=self.max_threads) as executor:
             executor.map(self.process_single_vehicle, vehicles_for_my_shard)
-        print(f"[SCHEDULING SHARD {self.shard_id}][CYCLE] Cycle complete")
+        print(f"[SERVICE COMPLETION SHARD {self.shard_id}][CYCLE] Cycle complete")
 
     def process_single_vehicle(self, vehicle: dict):
         try:
             vehicle_id = vehicle["vehicle_id"]
-            print(f"[SCHEDULING SHARD {self.shard_id}][CYCLE] Processing vehicle {vehicle_id}")
+            print(f"[SERVICE COMPLETION SHARD {self.shard_id}][CYCLE] Processing vehicle {vehicle_id}")
 
             vehicle_lifecycle_gate_check = self.lifecycle_gate_check(vehicle=vehicle)
 
             if vehicle_lifecycle_gate_check:
-                print(f"[SCHEDULING SHARD {self.shard_id}]blocked by [LIFECYCLE-GATE] Vehicle {vehicle_id} skipped by lifecycle gate.")
+                print(f"[SERVICE COMPLETION SHARD {self.shard_id}]blocked by [LIFECYCLE-GATE] Vehicle {vehicle_id} skipped by lifecycle gate.")
                 return
 
-            print(f"[SCHEDULING SHARD {self.shard_id}][DISPATCHER] Delegating scheduling for {vehicle_id} to Celery.")
-            self.enqueue_scheduling_task(vehicle=vehicle)
+            print(f"[SERVICE COMPLETION SHARD {self.shard_id}][DISPATCHER] Delegating service completion for {vehicle_id} to Celery.")
+            self.enqueue_service_completion_task(vehicle=vehicle)
 
         except Exception as e:
-
+            print(f"---!!! UNHANDLED EXCEPTION IN THREAD !!!---")
             print(f"--- For Vehicle: {vehicle.get('vehicle_id')} on Shard {self.shard_id} ---")
             print(f"--- Error: {e} ---")
             traceback.print_exc()
             print(f"-------------------------------------------")
 
-    def enqueue_scheduling_task(self, vehicle: dict):
+    def enqueue_service_completion_task(self, vehicle: dict):
         vehicle_state_params = self.extract_vehicle_params(vehicle)
         vehicle_id = vehicle_state_params["vehicle_id"]
-        # celery_task_id = vehicle_state_params["celery_task_id"] # Get existing celery_task_id if any, not needed here
+        temp_last_processed_telemetry = vehicle_state_params["temp_last_processed_telemetry"]
 
         try:
-            print(f"[SCHEDULING SHARD {self.shard_id}][ENQUEUE] Enqueuing scheduling task for {vehicle_id}")
+            print(f"[SERVICE COMPLETION SHARD {self.shard_id}][ENQUEUE] Enqueuing service completion task for {vehicle_id}")
 
-            res = execute_scheduling_job.delay(
+            res = execute_service_completion_job.delay(
                 vehicle_id=vehicle_id,
-                base_api_url=self.base_api_url
+                base_api_url=self.base_api_url,
+                temp_last_processed_telemetry=temp_last_processed_telemetry
             )
 
-            print(f"[SCHEDULING SHARD {self.shard_id}][ENQUEUE] Task enqueued, task_id=***********************************{res.id}")
+            print(f"[SERVICE COMPLETION SHARD {self.shard_id}][ENQUEUE] Task enqueued, task_id=***********************************{res.id}")
 
-            update_vehicle_state = post(
+            update_vehicle_state_status = post(
                 f"{self.base_api_url}/api/vehicles/update",
                 json={
                     "vehicle_id": vehicle_id,
                     "pipeline_associated": {
-                        "pipeline_status": "ASSIGNED_BY_SCHEDULING_AGENT", # New status for scheduling
-                        "pipeline_assigned_at": datetime.now(timezone.utc).isoformat(),
+                        "pipeline_status": "ASSIGNED_BY_SERVICE_COMPLETION_AGENT", 
+                        "pipeline_assigned_at": datetime.now(datetime.timezone.utc).isoformat(),
                         "celery_task_id": res.id
                     }
                 }
             )
 
-            if update_vehicle_state.status_code != 200:
-                print(f"[SCHEDULING SHARD {self.shard_id}][ERROR] Failed to update vehicle state for vehicle {vehicle_id}")
+            if update_vehicle_state_status.status_code != 200:
+                print(f"[SERVICE COMPLETION SHARD {self.shard_id}][ERROR] Failed to update vehicle state status for vehicle {vehicle_id}")
                 return
 
-            print(f"[SCHEDULING SHARD {self.shard_id}][ENQUEUE] Task queued for {vehicle_id}, task_id={res.id}")
+            print(f"[SERVICE COMPLETION SHARD {self.shard_id}][ENQUEUE] Task queued for {vehicle_id}, task_id={res.id}")
 
         except Exception as e:
-            print(f"[SCHEDULING SHARD {self.shard_id}][ERROR] Task queueing failed, rolling back vehicle state: {e}")
+            print(f"[SERVICE COMPLETION SHARD {self.shard_id}][ERROR] Task queueing failed, rolling back vehicle state: {e}")
             post(
                 f"{self.base_api_url}/api/vehicles/update",
-               json={
+                 json={
                     "vehicle_id": vehicle_id,
                     "pipeline_associated": {
                         "pipeline_status": "TELEMETRY_INITIATED",
@@ -151,58 +156,82 @@ class SchedulingAgent:
                 }
             )
 
+    def get_booking_status(self, vehicle_id: str) -> requests.Response:
+        booking_status_api = f"{self.base_api_url}/api/schedule/{vehicle_id}"
+        booking_status_resp = get(booking_status_api)
+        return booking_status_resp 
+    
     def lifecycle_gate_check(self, vehicle: dict) -> bool:
         vehicle_state_params = self.extract_vehicle_params(vehicle)
 
         vehicle_id = vehicle_state_params["vehicle_id"]
         workflow_stage = vehicle_state_params["workflow_stage"]
-        scheduling_flag = vehicle_state_params["workflow_flags"]["scheduling_required"]
-        engagement_flag=vehicle_state_params["workflow_flags"]["engagement_required"]
         pipeline_status = vehicle_state_params["pipeline_associated"].get("pipeline_status")
-        pipeline_assigned_at = vehicle_state_params["pipeline_associated"].get("pipeline_assigned_at")
+        pipeline_assigned_at_str = vehicle_state_params["pipeline_associated"].get("pipeline_assigned_at")
         celery_task_id = vehicle_state_params["celery_task_id"]
-        last_processed_telemetry = vehicle_state_params["last_processed_telemetry"]
-        latest_feature_associated_telemetryID = vehicle_state_params["latest_feature_associated_telemetryID"]
-        high_risk_active = vehicle_state_params["high_risk_active"]
 
+        last_processed_telemetry_str = vehicle_state_params.get("last_processed_telemetry")
+        latest_feature_associated_telemetryID_str = vehicle_state_params.get("latest_feature_associated_telemetryID")
+
+        last_processed_telemetry = None
+        latest_feature_associated_telemetryID = None
+        pipeline_assigned_at = None
 
         try:
-            if isinstance(last_processed_telemetry, str):
-                last_processed_telemetry = datetime.fromisoformat(last_processed_telemetry.replace('Z', '+00:00'))
-            if isinstance(latest_feature_associated_telemetryID, str):
-                latest_feature_associated_telemetryID = datetime.fromisoformat(latest_feature_associated_telemetryID.replace('Z', '+00:00'))
-            if isinstance(pipeline_assigned_at, str):
-                pipeline_assigned_at = datetime.fromisoformat(pipeline_assigned_at.replace('Z', '+00:00'))
+            if isinstance(last_processed_telemetry_str, str):
+                last_processed_telemetry = datetime.fromisoformat(last_processed_telemetry_str.replace('Z', '+00:00'))
+            if isinstance(latest_feature_associated_telemetryID_str, str):
+                latest_feature_associated_telemetryID = datetime.fromisoformat(latest_feature_associated_telemetryID_str.replace('Z', '+00:00'))
+            if isinstance(pipeline_assigned_at_str, str):
+                pipeline_assigned_at = datetime.fromisoformat(pipeline_assigned_at_str.replace('Z', '+00:00'))
+
+            if last_processed_telemetry and last_processed_telemetry.tzinfo is None:
+                last_processed_telemetry = last_processed_telemetry.replace(tzinfo=timezone.utc)
+            if latest_feature_associated_telemetryID and latest_feature_associated_telemetryID.tzinfo is None:
+                latest_feature_associated_telemetryID = latest_feature_associated_telemetryID.replace(tzinfo=timezone.utc)
+            if pipeline_assigned_at and pipeline_assigned_at.tzinfo is None:
+                pipeline_assigned_at = pipeline_assigned_at.replace(tzinfo=timezone.utc)
+
         except (ValueError, TypeError) as e:
             print(f"[ERROR][SHARD {self.shard_id}] Could not parse a timestamp string in lifecycle_gate: {e}")
-            return True
+            return True 
 
-        now = datetime.now(timezone.utc) 
+        pipeline_assigned_at = None
+        if isinstance(pipeline_assigned_at_str, str):
+            try:
+                pipeline_assigned_at = datetime.fromisoformat(pipeline_assigned_at_str.replace("Z", "+00:00"))
+            except ValueError:
+                pass 
+
+        now = datetime.now(datetime.timezone.utc)
         timeout = 60 
 
-        if (
-            workflow_stage in {"SCHEDULING_COMPLETE", "ENGAGEMENT_COMPLETE"}
-            or last_processed_telemetry>= latest_feature_associated_telemetryID
-            or (pipeline_assigned_at and pipeline_status != "ASSIGNED_BY_DIAGNOSIS_AGENT")
-           
-        ):
+        booking_status_resp = self.get_booking_status(vehicle_id=vehicle_id)
+        booking_completed = False
+        if booking_status_resp.status_code == 200:
+            booking_data = booking_status_resp.json().get("data")
+            if isinstance(booking_data, dict) and booking_data.get("status") == "COMPLETED":
+                booking_completed = True
 
+        if (
+            workflow_stage == "IDLE"
+            or workflow_stage != "ENGAGEMENT_COMPLETE" 
+            or booking_completed 
+            or (last_processed_telemetry>= latest_feature_associated_telemetryID)
+            or (pipeline_assigned_at and pipeline_status == "ASSIGNED_BY_SERVICE_COMPLETION_AGENT") 
+        ):
             if (
-                pipeline_status == "ASSIGNED_BY_SCHEDULING_AGENT"
+                pipeline_status == "ASSIGNED_BY_SERVICE_COMPLETION_AGENT"
                 and pipeline_assigned_at
-                and workflow_stage == "DIAGNOSIS_COMPLETE" 
-                and not engagement_flag 
+                and workflow_stage == "ENGAGEMENT_COMPLETE" 
                 and celery_task_id is not None
             ):
 
                 if (now - pipeline_assigned_at).total_seconds() > timeout:
                     self.reset_stale_vehicle(vehicle=vehicle)
+                    print(f"[SERVICE COMPLETION SHARD {self.shard_id}][GATE] Stale vehicle detected and reset for {vehicle_id}")
 
-                    print(f"[SCHEDULING SHARD {self.shard_id}][GATE] Stale vehicle detected and reset for {vehicle_id}")
-
-
-            print(f"[SCHEDULING SHARD {self.shard_id}][GATE] Vehicle {vehicle_id} blocked by lifecycle gate.")
-
+            print(f"[SERVICE COMPLETION SHARD {self.shard_id}][GATE] Vehicle {vehicle_id} blocked by lifecycle gate.")
             return True 
 
         return False
@@ -216,13 +245,13 @@ class SchedulingAgent:
 
         if celery_task_id:
             try:
-                print(f"[SCHEDULING SHARD {self.shard_id}][RESET] Revoking task {celery_task_id} for vehicle {vehicle_id}")
+                print(f"[SERVICE COMPLETION SHARD {self.shard_id}][RESET] Revoking task {celery_task_id} for vehicle {vehicle_id}")
                 AsyncResult(celery_task_id).revoke(terminate=True)
-                print(f"[SCHEDULING SHARD {self.shard_id}][RESET] Task {celery_task_id} revoked successfully")
+                print(f"[SERVICE COMPLETION SHARD {self.shard_id}][RESET] Task {celery_task_id} revoked successfully")
             except Exception as e:
-                print(f"[SCHEDULING SHARD {self.shard_id}][RESET] Failed to revoke task {celery_task_id}: {e}")
+                print(f"[SERVICE COMPLETION SHARD {self.shard_id}][RESET] Failed to revoke task {celery_task_id}: {e}")
         else:
-            print(f"[SCHEDULING SHARD {self.shard_id}][RESET] No task_id found for vehicle {vehicle_id}, skipping revoke")
+            print(f"[SERVICE COMPLETION SHARD {self.shard_id}][RESET] No task_id found for vehicle {vehicle_id}, skipping revoke")
 
         try:
             update_req = post(
@@ -252,18 +281,17 @@ class SchedulingAgent:
             )
 
             if update_req.status_code == 200:
-                print(f"[SCHEDULING SHARD {self.shard_id}][RESET] Vehicle {vehicle_id} reset successfully")
+                print(f"[SERVICE COMPLETION SHARD {self.shard_id}][RESET] Vehicle {vehicle_id} reset successfully")
             else:
-                print(f"[SCHEDULING SHARD {self.shard_id}][RESET] Failed to reset vehicle {vehicle_id}")
+                print(f"[SERVICE COMPLETION SHARD {self.shard_id}][RESET] Failed to reset vehicle {vehicle_id}")
 
         except Exception as e:
-            print(f"[SCHEDULING SHARD {self.shard_id}][RESET] Error resetting vehicle {vehicle_id}: {e}")
+            print(f"[SERVICE COMPLETION SHARD {self.shard_id}][RESET] Error resetting vehicle {vehicle_id}: {e}")
 
-# This new function is the work that each process in our Pool will do.
 def run_shard_cycle(work_packet: tuple):
     shard_id, total_shards, base_api_url, poll_interval, max_threads, vehicles_for_this_shard = work_packet
 
-    agent = SchedulingAgent(
+    agent = ServiceCompletionAgent(
         base_api_url=base_api_url,
         poll_interval=poll_interval,
         shard_id=shard_id,
@@ -274,28 +302,27 @@ def run_shard_cycle(work_packet: tuple):
     if vehicles_for_this_shard:
         agent.cycle(vehicles_for_this_shard)
 
-# This is the new main orchestrator function.
 def orchestrator_main():
     base_api_url = os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")
-    poll_interval = int(os.getenv("SCHEDULING_POLL_INTERVAL", "20"))
-    total_shards = int(os.getenv("SCHEDULING_TOTAL_SHARDS", cpu_count()))
-    max_threads = int(os.getenv("SCHEDULING_MAX_THREADS", "10"))
+    poll_interval = int(os.getenv("SERVICE_COMPLETION_POLL_INTERVAL", "20"))
+    total_shards = int(os.getenv("SERVICE_COMPLETION_TOTAL_SHARDS", cpu_count()))
+    max_threads = int(os.getenv("SERVICE_COMPLETION_MAX_THREADS", "10"))
 
-    print(f"[SCHEDULING ORCHESTRATOR] Initializing Process Pool with {total_shards} shards...")
+    print(f"[SERVICE COMPLETION ORCHESTRATOR] Initializing Process Pool with {total_shards} shards...")
     with Pool(processes=total_shards) as pool:
         while True:
-            print("[SCHEDULING ORCHESTRATOR] Starting new cycle...")
+            print("[SERVICE COMPLETION ORCHESTRATOR] Starting new cycle...")
 
-            temp_agent = SchedulingAgent(
+            temp_agent = ServiceCompletionAgent(
                 base_api_url=base_api_url,
                 poll_interval=poll_interval,
                 shard_id=0,
                 total_shards=1
             )
-            all_vehicles = temp_agent.fetch_all_vehicles_globally() # Fetch all, then filter/shard
+            all_vehicles = temp_agent.fetch_all_vehicles_globally() 
 
             if not all_vehicles:
-                print("[SCHEDULING ORCHESTRATOR] No vehicles found. Sleeping.")
+                print("[SERVICE COMPLETION ORCHESTRATOR] No vehicles found. Sleeping.")
                 time.sleep(poll_interval)
                 continue
 
@@ -311,14 +338,11 @@ def orchestrator_main():
 
             pool.map(run_shard_cycle, work_packets)
 
-            print(f"[SCHEDULING ORCHESTRATOR] Cycle complete. Sleeping for {poll_interval} seconds.")
+            print(f"[SERVICE COMPLETION ORCHESTRATOR] Cycle complete. Sleeping for {poll_interval} seconds.")
             time.sleep(poll_interval)
 
 if __name__ == "__main__":
     try:
         orchestrator_main()
     except KeyboardInterrupt:
-        print("[SCHEDULING ORCHESTRATOR] Shutdown signal received. Exiting.")
-
-
-
+        print("[SERVICE COMPLETION ORCHESTRATOR] Shutdown signal received. Exiting.")

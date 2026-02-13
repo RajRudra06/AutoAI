@@ -10,7 +10,7 @@ def setup_logger(name: str, filename: str) -> logging.Logger:
     logger.setLevel(logging.INFO)
 
     if logger.handlers:
-        return logger  # prevent duplicate handlers
+        return logger  
 
     file_handler = RotatingFileHandler(
         os.path.join(LOG_DIR, filename),

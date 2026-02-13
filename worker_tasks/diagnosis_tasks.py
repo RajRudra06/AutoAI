@@ -32,25 +32,24 @@ def run_diagnosis(
     master_shard_id: int
 ):
     
-    my_task_id = self.request.id  # Get the unique ID of THIS task execution
+    my_task_id = self.request.id  
 
-    # --- NEW: PRE-EXECUTION VERIFICATION STEP ---
     print(f"Task {my_task_id}: Verifying state for vehicle {vehicle_id} before execution.")
 
     try:
-        # Fetch the most recent vehicle state from the database via the API
+
         vehicle_state_resp = get(f"{api_base_url}/api/vehicles/state/{vehicle_id}")
-        vehicle_state_resp.raise_for_status()  # Raise an exception for non-200 responses
+        vehicle_state_resp.raise_for_status()  
+        
         current_vehicle_data = vehicle_state_resp.json()
     except Exception as e:
         print(f"Task {my_task_id}: ABORTING. Could not fetch state for vehicle {vehicle_id}. Error: {e}")
-        return  # Abort if we can't verify the state
+        return  
 
     pipeline_data = current_vehicle_data.get("pipeline_associated", {})
 
     print(f"------------------------------------------------------{vehicle_id}----------{pipeline_data.get("pipeline_status")}--------------------------------------------------------------------------------------------------------------------------------")
     
-    # THE CHECK: Is the vehicle still waiting for ME specifically?
     if not (
         pipeline_data.get("pipeline_status") == "ASSIGNED_BY_MASTER_AGENT"
         and pipeline_data.get("celery_task_id") == my_task_id
@@ -59,13 +58,10 @@ def run_diagnosis(
             f"Task {my_task_id}: ABORTING. Task is stale or has been superseded. "
             f"Vehicle {vehicle_id} has been reset or assigned a new task."
         )
-        return  # Silently exit without doing any work
-
-    # --- END OF VERIFICATION STEP ---
+        return  
 
     print(f"Task {my_task_id}: Pre-execution check passed. Starting diagnosis.")
     
-    # If the check passes, proceed with the original logic
     return put_diagnosis_job(
         vehicle_id=vehicle_id,
         features_snapshot=features_snapshot,

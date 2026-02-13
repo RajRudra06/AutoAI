@@ -38,12 +38,9 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int)
     print(f"Task {my_task_id}: Verifying state for vehicle {vehicle_id} before execution.")
     try:
     
-        # get latest vehicle state
         vehicle_state_resp = get(f"{base_api_url}/api/vehicles/state/{vehicle_id}")
         vehicle_state_resp.raise_for_status()  
         current_vehicle_data = vehicle_state_resp.json()
-
-        # get latest status of the current diagnosis job
 
         diagnosis_job_state_api=f"{base_api_url}/api/diagnosis/job/{job_id}"
         diagnosis_job_state_resp=get(diagnosis_job_state_api)
@@ -51,14 +48,12 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int)
 
     except Exception as e:
             print(f"Task {my_task_id}: ABORTING. Could not fetch state for vehicle {vehicle_id}. Error: {e}")
-            return  # Abort if we can't verify the state
+            return  
     
     pipeline_data = current_vehicle_data.get("pipeline_associated", {})
 
-    # If API returns just a string
     if isinstance(curr_job_data, str):
         curr_job_status = curr_job_data
-    # If API returns a dict
     elif isinstance(curr_job_data, dict):
         curr_job_status = curr_job_data.get("status", "")
     else:
@@ -82,8 +77,6 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int)
             f"Vehicle {vehicle_id} has been reset or assigned a new task."
         )
 
-        # making a db call to update the diagnosis job status to stale and log the occurrence for monitoring and debugging purposes
-
         update_stale_diagnosis_job=finalise_stale_jobs(self=self,vehicle_id=vehicle_id, base_api_url=base_api_url)
 
         if update_stale_diagnosis_job:
@@ -92,19 +85,15 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int)
         return f"Task {my_task_id}: Failed to mark stale jobs for vehicle {vehicle_id}. Manual intervention may be required."
      
 
-    # --- END OF VERIFICATION STEP ---
-
     print(f"Task {my_task_id}: Pre-execution check passed. Starting diagnosis by laoding model and running inference.")
 
     
     feature_order, model,DEFAULT_MODEL_VERSION = load_isolation_forest_model_task()
 
-    # 1. Start the job
     if not start_job_post_task(job_id, base_api_url):
         fail_job_post_task(job_id, vehicle_id, base_api_url)
         return f"Failed to start job {job_id}"
 
-    # 2. Run the ML inference
     payload = run_inference_task(
         feature_order=feature_order,
         feature_dict=features_dict,
@@ -116,7 +105,6 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int)
         window_size=window_size,
     )
 
-    # 3. Post the completion or failure
     if payload and payload.get("risk_level") == "HIGH":
         if not post_complete_job_task(payload, base_api_url):
             fail_job_post_task(job_id, vehicle_id, base_api_url)
@@ -134,10 +122,8 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int)
     
     return f"Completed job {job_id} for vehicle {vehicle_id}"
 
-# Helper functions for the Celery task
 def load_isolation_forest_model_task():
 
-    # Load ML model once
     MODEL_PATH = "diag_agent_model/iForest/models/isolation_forest_v1.pkl"
     DEFAULT_MODEL_VERSION = os.getenv("DIAGNOSIS_MODEL_VERSION", "isolation_forest_v1")
     

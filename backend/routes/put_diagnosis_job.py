@@ -16,7 +16,6 @@ def queue_diagnosis(payload: dict, request: Request):
     if not existing:
         raise HTTPException(404, "Vehicle not found")
 
-    # Create diagnosis job
     db.diagnosis_jobs.insert_one({
         "vehicle_id": vehicle_id,
         "features_snapshot": features,
@@ -27,7 +26,6 @@ def queue_diagnosis(payload: dict, request: Request):
         "RELEVENT":True
     })
 
-    # Update vehicle workflow
     db.vehicle_state.update_one(
         {"vehicle_id": vehicle_id},
         {

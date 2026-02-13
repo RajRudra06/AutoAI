@@ -82,19 +82,17 @@ def execute_scheduling_job(self, vehicle_id: str, base_api_url: str):
 
     if not update_vehicle_state_post_task(vehicle_id, base_api_url, current_stage="SCHEDULING_COMPLETE", scheduling_flag=False, engagement_flag=True):
         print(f"[SCHEDULING TASK][ERROR] Failed to update vehicle state for {vehicle_id} after booking.")
-        # Implement a specific fail endpoint for scheduling tasks here if needed
         return f"Failed to update vehicle state for {vehicle_id} after booking."
 
     print(f"[SCHEDULING TASK] Scheduling complete -> Engagement required for {vehicle_id}")
 
     return f"Completed scheduling for vehicle {vehicle_id}"
 
-# Helper functions for the Celery task
 def get_service_slot_post_task(base_api_url: str):
     service_slot_api = f"{base_api_url}/api/schedule/get_slot"
     service_slot_resp = get(service_slot_api)
     if service_slot_resp.status_code == 200:
-        slot_to_book = service_slot_resp.text.strip('"') # Assuming raw text response is slot
+        slot_to_book = service_slot_resp.text.strip('"') 
         if slot_to_book:
             return slot_to_book
     print(f"[SCHEDULING TASK][ERROR] Failed to get service slot. Status: {service_slot_resp.status_code}")

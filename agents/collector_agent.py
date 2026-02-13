@@ -19,7 +19,7 @@ TELEMETRY_API_URL = f"{BASE_API_URL}/api/telematics/data"
 def to_json_safe(obj):
     if isinstance(obj, dict):
         return {k: to_json_safe(v) for k, v in obj.items()}
-    if hasattr(obj, "item"):  # numpy scalar → python scalar
+    if hasattr(obj, "item"): 
         return obj.item()
     return obj
 
@@ -44,7 +44,7 @@ class CollectorAgent:
                 payload = {
                     "vehicle_id": vid,
                     "timestamp": df.iloc[-1]["timestamp"].isoformat(),
-                    "features": to_json_safe(features)  # 🔴 critical line
+                    "features": to_json_safe(features)  
                 }
 
                 try:

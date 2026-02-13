@@ -9,10 +9,9 @@ from dotenv import load_dotenv
 from agents.utils.agent_api_client import get, post
 from helpers.logic.health_gate import needs_diagnosis
 from datetime import datetime, timezone
-from multiprocessing import Pool, cpu_count  # Changed Process to Pool
+from multiprocessing import Pool, cpu_count  
 from concurrent.futures import ThreadPoolExecutor
 
-# Import Celery task
 from worker_tasks.diagnosis_tasks import run_diagnosis
 
 load_dotenv()
@@ -24,7 +23,6 @@ class MasterAgent:
         self.shard_id = shard_id
         self.total_shards = total_shards
         self.max_threads = max_threads
-        # Print statements will now be in the worker function for clarity
         
     def diagnosis_check(self, vehicle):
         vehicle_state_params = self.extract_vehicle_params(vehicle)
@@ -251,11 +249,10 @@ class MasterAgent:
                 print(f"[MASTER SHARD {self.shard_id}][RESET] Task----------------------------------------------------------------------------- {celery_task_id} revoked successfully")
             except Exception as e:
                 print(f"[MASTER SHARD {self.shard_id}][RESET] Failed to revoke task {celery_task_id}: {e}")
-                # Continue anyway - still reset the vehicle
+                
         else:
             print(f"[MASTER SHARD {self.shard_id}][RESET] No task_id found for vehicle {vehicle_id}, skipping revoke")
         
-        # STEP 2: Reset vehicle state in DB
         try:
             update_req = post(
                 vehicle_state_api,
@@ -291,7 +288,6 @@ class MasterAgent:
         except Exception as e:
             print(f"[MASTER SHARD {self.shard_id}][RESET] Error resetting vehicle {vehicle_id}: {e}")
 
-# This new function is the single point of data fetching for the whole system
 def fetch_all_vehicles_globally(api_url: str) -> list:
     vehicle_state_url = f"{api_url}/api/vehicles/state"
     print(f"[ORCHESTRATOR][FETCH] Fetching all vehicle states from {vehicle_state_url}")
@@ -302,7 +298,6 @@ def fetch_all_vehicles_globally(api_url: str) -> list:
         print(f"[ORCHESTRATOR][ERROR] Failed to fetch all vehicle states: {e}")
         return []
 
-# This new function is the work that each process in our Pool will do.
 def run_shard_cycle(work_packet: tuple):
    
     shard_id, total_shards, api_url, max_threads, vehicles_for_this_shard = work_packet
@@ -317,7 +312,6 @@ def run_shard_cycle(work_packet: tuple):
     if vehicles_for_this_shard:
         agent.cycle(vehicles_for_this_shard)
 
-# This is the new main orchestrator function.
 def orchestrator_main():
     base_api_url_val = os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")
     total_shards = int(os.getenv("TOTAL_SHARDS", cpu_count()))

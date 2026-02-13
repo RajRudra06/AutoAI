@@ -12,7 +12,6 @@ def get_all_vehicle_states(request: Request):
         db.vehicle_state.find({}, {"_id": 0})
     )
     
-    # Ensure all datetime fields are timezone-aware and serialized
     for vehicle in vehicles:
         datetime_fields = [
             'last_updated',
@@ -27,7 +26,6 @@ def get_all_vehicle_states(request: Request):
                     vehicle[field] = vehicle[field].replace(tzinfo=timezone.utc)
                 vehicle[field] = vehicle[field].isoformat()
         
-        # Handle nested pipeline_associated
         if 'pipeline_associated' in vehicle and vehicle['pipeline_associated']:
             pa = vehicle['pipeline_associated'].get('pipeline_assigned_at')
             if pa and isinstance(pa, datetime):
@@ -66,12 +64,10 @@ def update_vehicle_state(payload: dict):
 
     update_doc = {}
 
-    # ✅ EXISTING BEHAVIOR (unchanged)
     if workflow_state is not None:
         update_doc["workflow_state"] = workflow_state
         update_doc["risk_state"] = risk_state
 
-    # ✅ NEW BEHAVIOR (added)
     if temp_last_processed_telemetry is not None:
         update_doc["temp_last_processed_telemetry"] = (
             datetime.fromisoformat(temp_last_processed_telemetry)
@@ -100,12 +96,11 @@ def update_vehicle_state(payload: dict):
             )
         if "celery_task_id" in pipeline_associated:
             update_doc["pipeline_associated.celery_task_id"]=pipeline_associated["celery_task_id"]
-            
+
     dot_celery_id = payload.get("pipeline_associated.celery_task_id")
     if dot_celery_id is not None or "pipeline_associated.celery_task_id" in payload:
         update_doc["pipeline_associated.celery_task_id"] = dot_celery_id
             
-    # ✅ Prevent no-op updates
     if update_doc:
         db.vehicle_state.update_one(
             {"vehicle_id": vehicle_id},
