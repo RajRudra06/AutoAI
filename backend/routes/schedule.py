@@ -92,6 +92,9 @@ def update_vehicle_state(payload: dict):
     if "risk_state" in payload:
         update_doc["risk_state"] = payload["risk_state"]
 
+    if "pipeline_associated.celery_task_id" in payload:
+        update_doc["pipeline_associated.celery_task_id"] = payload["pipeline_associated.celery_task_id"]
+
     db.vehicle_state.update_one(
         {"vehicle_id": vehicle_id},
         {"$set": update_doc}

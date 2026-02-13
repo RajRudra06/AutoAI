@@ -4,19 +4,20 @@ import os
 from dotenv import load_dotenv
 
 from agents.utils.agent_api_client import post, get
-from worker_tasks.celery_config import app # Assuming 'app' is the Celery app instance
+from worker_tasks.celery_config import app 
 
 load_dotenv()
 
 @app.task(
     bind=True,
-    name='tasks.execute_scheduling.execute_scheduling_job', # New task name
+    name='tasks.execute_scheduling.execute_scheduling_job', 
     max_retries=3,
     default_retry_delay=60,
     autoretry_for=(Exception,),
     retry_backoff=True,
     retry_jitter=True,
 )
+
 def execute_scheduling_job(self, vehicle_id: str, base_api_url: str):
     my_task_id = self.request.id
     print(f"[SCHEDULING TASK] Starting execution for vehicle {vehicle_id}, task_id={my_task_id}")

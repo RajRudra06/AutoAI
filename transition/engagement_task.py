@@ -1,5 +1,3 @@
-# enagagement_agent
-
 import time
 import requests
 from datetime import datetime, timezone
@@ -8,22 +6,23 @@ from dotenv import load_dotenv
 
 from helpers.logic.email_service import send_email
 
+# CrewAI imports - ensure these are available in the Celery worker environment
 from crewai import Agent, Task, Crew
-from crewai.llm import LLM
+from crewai.llm import LLM # Assuming LLM is from crewai.llm directly
 
 from agents.utils.agent_api_client import get, post
+from worker_tasks.celery_config import app # Assuming 'app' is the Celery app instance
 
 load_dotenv()
 
+# --- Global Constants and Configurations (Moved from original agent) ---
 BASE_API_URL = os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")
 
-GET_VEHICLES_STATE_URL = f"{BASE_API_URL}/api/vehicles/state"
+# API Endpoints
 GET_VEHICLE_PREDICTION = f"{BASE_API_URL}/api/predictions"
 GET_VEHICLE_SCHEDULE = f"{BASE_API_URL}/api/schedule"
 ENGAGEMENT_LOG_URL = f"{BASE_API_URL}/api/engagement/log"
 UPDATE_VEHICLE_STATE = f"{BASE_API_URL}/api/vehicles/update"
-
-POLL_INTERVAL = 3
 
 SEVEN_DAY_RULES = {
     # Engine temperature
@@ -109,9 +108,7 @@ SEVEN_DAY_RULES = {
     }
 }
 
-# ─────────────────────────────────────────────
-# CREW AI AGENT (KEPT)
-# ─────────────────────────────────────────────
+# CREW AI AGENT (KEPT) - Initialized globally so it's loaded once per worker process
 groq_llm = LLM(
     model="groq/llama-3.1-8b-instant",
     api_key=os.getenv("GROQ_API_KEY")
@@ -132,7 +129,7 @@ engagement_llm_agent = Agent(
     verbose=False
 )
 
-def build_engagement_task(vehicle_id, issue, booking):
+def build_engagement_task_celery(vehicle_id, issue, booking):
     description = f"""
     Vehicle ID: {vehicle_id}
 
@@ -159,8 +156,8 @@ def build_engagement_task(vehicle_id, issue, booking):
         agent=engagement_llm_agent
     )
 
-def run_crewai_engagement(vehicle_id, issue, booking):
-    task = build_engagement_task(vehicle_id, issue, booking)
+def run_crewai_engagement_celery(vehicle_id, issue, booking):
+    task = build_engagement_task_celery(vehicle_id, issue, booking)
 
     crew = Crew(
         agents=[engagement_llm_agent],
@@ -170,10 +167,10 @@ def run_crewai_engagement(vehicle_id, issue, booking):
 
     return crew.kickoff()
 
-def compute_severity(value, threshold):
+def compute_severity_celery(value, threshold):
     return abs(value - threshold) / threshold
 
-def extract_7d_top_issues(vehicle_id, features_snapshot):
+def extract_7d_top_issues_celery(vehicle_id, features_snapshot):
     issues = []
 
     for feature, rule in SEVEN_DAY_RULES.items():
@@ -183,7 +180,7 @@ def extract_7d_top_issues(vehicle_id, features_snapshot):
         value = features_snapshot[feature]
         threshold = rule["threshold"]
 
-        severity = compute_severity(value, threshold)
+        severity = compute_severity_celery(value, threshold)
 
         issues.append({
             "feature": feature,
@@ -204,7 +201,7 @@ def extract_7d_top_issues(vehicle_id, features_snapshot):
     }
 
 
-def mock_llm_engagement_response(vehicle_id, prediction, booking):
+def mock_llm_engagement_response_celery(vehicle_id, prediction, booking):
     # --- Normalize inputs ---
     risk_level = prediction.get("risk_level", "MODERATE")
     issues = prediction.get("issues", [])
@@ -261,13 +258,13 @@ def mock_llm_engagement_response(vehicle_id, prediction, booking):
     )
 
     # --- Console trace ---
-    print("\n" + "═" * 90)
+    print("" + "═" * 90)
     print("🤖 Agent: Customer Engagement Specialist (MOCK LLM)")
     print(f"📋 Vehicle ID: {vehicle_id}")
     print(f"⚠️  Risk Level: {risk_level}")
-    print("🧠 Generating customer message...\n")
+    print("🧠 Generating customer message...")
     print(message)
-    print("═" * 90 + "\n")
+    print("═" * 90 + "")
 
     return {
         "content": message,
@@ -277,125 +274,129 @@ def mock_llm_engagement_response(vehicle_id, prediction, booking):
         "confidence": 0.97
     }
 
-def run_engagement_agent():
-    print("[ENGAGEMENT] Agent started.")
-    print(f"[ENGAGEMENT] Polling every {POLL_INTERVAL}s")
-    print(f"[ENGAGEMENT] Backend URL: {BASE_API_URL}\n")
 
-    while True:
-        print("[ENGAGEMENT] Fetching vehicle states...")
-        resp = get(GET_VEHICLES_STATE_URL)
+@app.task(
+    bind=True,
+    name='tasks.execute_engagement.execute_engagement_job', # New task name
+    max_retries=3,
+    default_retry_delay=60,
+    autoretry_for=(Exception,),
+    retry_backoff=True,
+    retry_jitter=True,
+)
+def execute_engagement_job(self, vehicle_id: str, base_api_url: str, risk_state: dict):
+    my_task_id = self.request.id
+    print(f"[ENGAGEMENT TASK] Starting execution for vehicle {vehicle_id}, task_id={my_task_id}")
 
-        if resp.status_code != 200:
-            print(f"[ERROR] Failed to fetch vehicles state: {resp.status_code}")
-            time.sleep(POLL_INTERVAL)
-            continue
+    # Pre-execution verification step
+    print(f"Task {my_task_id}: Verifying state for vehicle {vehicle_id} before execution.")
+    try:
+        vehicle_state_resp = get(f"{base_api_url}/api/vehicles/state/{vehicle_id}")
+        vehicle_state_resp.raise_for_status()
+        current_vehicle_data = vehicle_state_resp.json()
+    except Exception as e:
+        print(f"Task {my_task_id}: ABORTING. Could not fetch state for vehicle {vehicle_id}. Error: {e}")
+        # Need a way to mark engagement job as failed if verification fails
+        return # Abort if we can't verify the state
 
-        vehicles = resp.json().get("vehicles", [])
-        print(f"[ENGAGEMENT] Vehicles received: {len(vehicles)}")
+    pipeline_data = current_vehicle_data.get("pipeline_associated", {})
 
-        for v in vehicles:
-            vehicle_id = v["vehicle_id"]
-            flags = v["workflow_state"]["flags"]
-            current_stage = v["workflow_state"].get("current_stage")
-            risk_state = v["risk_state"]
+    # THE CHECK: Is the vehicle still waiting for ME specifically?
+    if not (
+        pipeline_data.get("pipeline_status") == "ASSIGNED_BY_ENGAGEMENT_AGENT" # New status
+        and pipeline_data.get("celery_task_id") == my_task_id
+    ):
+        print(
+            f"Task {my_task_id}: ABORTING. Task is stale or has been superseded. "
+            f"Vehicle {vehicle_id} has been reset or assigned a new task."
+        )
+        # You might want to call a /fail endpoint for engagement task here if stale
+        return # Silently exit without doing any work
 
-            print(f"\n[VEHICLE] Processing {vehicle_id}")
-            print(f"  ├─ Current stage: {current_stage}")
-            print(f"  ├─ Flags: {flags}")
-            print(f"  └─ Risk state: {risk_state}")
+    # --- END OF VERIFICATION STEP ---
 
-            if current_stage == "ENGAGEMENT_COMPLETE":
-                print("  ⏭ Skipping: engagement already completed")
-                continue
+    print(f"Task {my_task_id}: Pre-execution check passed. Generating engagement message for {vehicle_id}.")
 
-            if not flags.get("engagement_required"):
-                print("  ⏭ Skipping: engagement not required")
-                continue
+    # Fetching prediction
+    print("  ▶ Fetching prediction...")
+    pred_resp = get(f"{GET_VEHICLE_PREDICTION}/{vehicle_id}")
+    pred = pred_resp.json().get("data") if pred_resp.status_code == 200 else None
 
-            print("  ▶ Fetching prediction...")
-            pred_resp = get(f"{GET_VEHICLE_PREDICTION}/{vehicle_id}")
-            pred = pred_resp.json().get("data") if pred_resp.status_code == 200 else None
+    if not pred:
+        print("  ❌ Prediction missing, skipping engagement")
+        # Fail the engagement job
+        return
+    
+    issues = extract_7d_top_issues_celery(vehicle_id=vehicle_id, features_snapshot=pred["features_snapshot"])
+    print("  ✔ Prediction received")
 
-            issues=extract_7d_top_issues(vehicle_id=vehicle_id,features_snapshot=pred["features_snapshot"])
+    # Fetching booking
+    print("  ▶ Fetching booking...")
+    booking_resp = get(f"{GET_VEHICLE_SCHEDULE}/{vehicle_id}")
+    booking = booking_resp.json().get("data") if booking_resp.status_code == 200 else None
 
-            if not pred:
-                print("  ❌ Prediction missing, skipping vehicle")
-                continue
+    if not booking:
+        print("  ❌ Booking missing or expired, skipping engagement")
+        # Fail the engagement job
+        return
+    print("  ✔ Booking received")
 
-            print("  ✔ Prediction received")
+    # Generating engagement message
+    print("  ▶ Generating engagement message...")
+    message_text = ""
+    try:
+        # The original code had `raise ValueError("ABCD")` - removing it for actual CrewAI execution
+        crew_output = run_crewai_engagement_celery(vehicle_id, issues, booking)
+        result = crew_output.tasks_output[0]
+        message_text = result.raw or result.output # Accessing output
+        print("  ✔ Message generated (CrewAI)")
+    except Exception as e:
+        print(f"❌ CrewAI agent failed, trying mock llm for {vehicle_id}: {e}")
+        mock_response = mock_llm_engagement_response_celery(vehicle_id=vehicle_id, prediction=pred, booking=booking)
+        message_text = mock_response["content"]
+        print("  ✔ Message generated (Mock LLM)")
 
-            print("  ▶ Fetching booking...")
-            booking_resp = get(f"{GET_VEHICLE_SCHEDULE}/{vehicle_id}")
-            booking = booking_resp.json().get("data") if booking_resp.status_code == 200 else None
+    # Sending email
+    print("  ▶ Sending email...")
+    try:
+        send_email(
+            to_email="customer@example.com", # Hardcoded email, might need to be dynamic
+            subject="Important Update About Your Vehicle",
+            body=message_text
+        )
+        print("  ✔ Email sent")
+    except Exception as e:
+        print(f"  ❌ Email failed: {e}")
+        # Fail the engagement job
+        return
 
-            if not booking:
-                print("  ❌ Booking missing or expired, skipping vehicle")
-                continue
+    # Logging engagement
+    print("  ▶ Logging engagement...")
+    post(
+        ENGAGEMENT_LOG_URL,
+        json={
+            "vehicle_id": vehicle_id,
+            "message": message_text,
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+    )
+    print("  ✔ Engagement logged")
 
-            print("  ✔ Booking received")
-
-            print("  ▶ Generating engagement message...")
-            try:
-
-                raise ValueError("ABCD")
-                crew_output = run_crewai_engagement(vehicle_id, issues, booking)
-                result = crew_output.tasks_output[0]
-                message_text = result.raw or result.output
-
-            except Exception as e:
-                print(f"❌ CrewAI agent failed, try mock llm for {vehicle_id}: {e}")
-                mock_response=mock_llm_engagement_response(vehicle_id=vehicle_id,prediction=pred,booking=booking)
-                message_text=mock_response["content"]
-
-            print("  ✔ Message generated")
-
-            print("  ▶ Sending email...")
-            try:
-                send_email(
-                    to_email="customer@example.com",
-                    subject="Important Update About Your Vehicle",
-                    body=message_text
-                )
-                print("  ✔ Email sent")
-            except Exception as e:
-                print(f"  ❌ Email failed: {e}")
-                continue
-
-            print("  ▶ Logging engagement...")
-            post(
-                ENGAGEMENT_LOG_URL,
-                json={
-                    "vehicle_id": vehicle_id,
-                    "message": message_text,
-                    "created_at": datetime.now(timezone.utc).isoformat()
+    # Updating vehicle workflow state
+    print("  ▶ Updating vehicle workflow state...")
+    post(
+        UPDATE_VEHICLE_STATE,
+        json={
+            "vehicle_id": vehicle_id,
+            "workflow_state": {
+                "current_stage": "ENGAGEMENT_COMPLETE",
+                "flags": {
+                    "engagement_required": False
                 }
-            )
-            print("  ✔ Engagement logged")
+            },
+            "risk_state": risk_state # Pass original risk_state through
+        }
+    )
+    print(f"[ENGAGEMENT TASK] ✅ Completed for {vehicle_id}")
 
-            print("  ▶ Updating vehicle workflow state...")
-            post(
-                UPDATE_VEHICLE_STATE,
-                json={
-                    "vehicle_id": vehicle_id,
-                    "workflow_state": {
-                        "current_stage": "ENGAGEMENT_COMPLETE",
-                        "flags": {
-                            "engagement_required": False
-                        }
-                    },
-                    "risk_state": risk_state
-                }
-            )
-
-            print(f"[ENGAGEMENT] ✅ Completed for {vehicle_id}")
-            time.sleep(3)
-
-        print(f"\n[ENGAGEMENT] Sleeping for {POLL_INTERVAL}s...\n")
-        time.sleep(POLL_INTERVAL)
-
-
-# ─────────────────────────────────────────────
-if __name__ == "__main__":
-    run_engagement_agent()
-
+    return f"Completed engagement for vehicle {vehicle_id}"
