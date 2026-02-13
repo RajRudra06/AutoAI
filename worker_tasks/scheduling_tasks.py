@@ -46,20 +46,18 @@ def execute_scheduling_job(self, vehicle_id: str, base_api_url: str):
 
     print(f"Task {my_task_id}: Pre-execution check passed. Attempting to schedule for {vehicle_id}.")
 
-    # Original post_booking logic, adapted for Celery task
     get_booking_resp = get(f"{base_api_url}/api/schedule/{vehicle_id}")
 
     if get_booking_resp.status_code == 200 and get_booking_resp.headers.get("content-type", "").startswith("application/json"):
         data = get_booking_resp.json()
         booking = data.get("data")
-        if isinstance(booking, dict) and booking: # Check if booking dict is not empty
+        if isinstance(booking, dict) and booking:
+
             print(f"[SCHEDULING TASK] Booking already exists for {vehicle_id}, skipping new booking attempt.")
-            # If booking already exists, update vehicle state to scheduling complete
             if update_vehicle_state_post_task(vehicle_id, base_api_url, current_stage="SCHEDULING_COMPLETE", scheduling_flag=False, engagement_flag=True):
                 return f"Booking already exists for {vehicle_id}. Marked scheduling complete."
             else:
                 print(f"[SCHEDULING TASK][ERROR] Failed to update vehicle state for {vehicle_id} after existing booking found.")
-                # Implement a specific fail endpoint for scheduling tasks here if needed
                 return f"Failed to update vehicle state for {vehicle_id} after existing booking found."
 
     print(f"[SCHEDULING TASK] Creating tentative booking for {vehicle_id}")
@@ -73,7 +71,7 @@ def execute_scheduling_job(self, vehicle_id: str, base_api_url: str):
     booking_payload = {
         "vehicle_id": vehicle_id,
         "slot": slot_to_book,
-        "center_id": "SC-01", # Hardcoded, might need to be dynamic
+        "center_id": "SC-01",
         "status": "TENTATIVE",
         "created_at": datetime.now(timezone.utc).isoformat()
     }

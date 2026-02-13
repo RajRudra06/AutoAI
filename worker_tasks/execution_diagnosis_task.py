@@ -54,6 +54,16 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int)
             return  # Abort if we can't verify the state
     
     pipeline_data = current_vehicle_data.get("pipeline_associated", {})
+
+    # If API returns just a string
+    if isinstance(curr_job_data, str):
+        curr_job_status = curr_job_data
+    # If API returns a dict
+    elif isinstance(curr_job_data, dict):
+        curr_job_status = curr_job_data.get("status", "")
+    else:
+        curr_job_status = ""
+
     curr_job_status=curr_job_data.get("status","")
 
     print("----------------------------------------------------------------")
@@ -68,7 +78,7 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int)
         pipeline_data.get("pipeline_status") == "ASSIGNED_BY_DIAGNOSIS_AGENT"
         and pipeline_data.get("celery_task_id") == my_task_id
         
-    ) and current_vehicle_data.get("workflow_state", {}).get("current_stage") == "IDLE" and pipeline_data.get("celery_task_id") is None ) or curr_job_status == "STALE_JOB" or curr_job_status == "":
+    ) and current_vehicle_data.get("workflow_state", {}).get("current_stage") == "IDLE" and pipeline_data.get("celery_task_id") is None ) or curr_job_status == "STALE_JOB" :
         print(
             f"Task {my_task_id}: ABORTING. Task is stale or has been superseded. "
             f"Vehicle {vehicle_id} has been reset or assigned a new task."

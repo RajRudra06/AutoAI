@@ -31,6 +31,12 @@ PYTHONPATH=. celery -A worker_tasks.celery_config worker -l info -Q scheduling_q
 Terminal 6 - Engagement agent (customer engage)
 PYTHONPATH=. python agents/engagement_agent.py
 
+celery -A worker_tasks.celery_config worker \
+  --loglevel=info \
+  --pool=threads \
+  --concurrency=4 \
+  --queues=engagement_queue
+
 Terminal 7 - Service Completion (complete the lifecycle)
 PYTHONPATH=. python agents/service_completion_agent.py
 
