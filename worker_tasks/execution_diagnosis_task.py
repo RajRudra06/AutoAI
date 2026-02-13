@@ -64,8 +64,6 @@ def execute_diagnosis_job(self,job_data: dict, base_api_url:str,window_size:int)
     else:
         curr_job_status = ""
 
-    curr_job_status=curr_job_data.get("status","")
-
     print("----------------------------------------------------------------")
 
     print(f"Task {my_task_id}: Pipeline Data for vehicle {vehicle_id} is {pipeline_data}")
