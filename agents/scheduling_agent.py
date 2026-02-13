@@ -340,6 +340,7 @@ class SchedulingAgent:
         celery_task_id = vehicle_state_params["celery_task_id"]
         last_processed_telemetry = vehicle_state_params["last_processed_telemetry"]
         latest_feature_associated_telemetryID = vehicle_state_params["latest_feature_associated_telemetryID"]
+        high_risk_active = vehicle_state_params["high_risk_active"]
 
 
         try:
@@ -356,15 +357,9 @@ class SchedulingAgent:
         now = datetime.now(timezone.utc) 
         timeout = 60 
 
-    
         if (
             workflow_stage in {"SCHEDULING_COMPLETE", "ENGAGEMENT_COMPLETE"}
-            or (
-                last_processed_telemetry
-                and latest_feature_associated_telemetryID
-                and last_processed_telemetry
-                >= latest_feature_associated_telemetryID
-            )
+            or last_processed_telemetry>= latest_feature_associated_telemetryID
             or (pipeline_assigned_at and pipeline_status != "ASSIGNED_BY_DIAGNOSIS_AGENT")
            
         ):
