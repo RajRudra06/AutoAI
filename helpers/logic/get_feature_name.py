@@ -2,7 +2,6 @@ from typing import List
 
 def get_feature_names() -> List[str]:
     return [
-        # ===== CURRENT STATE =====
         'engine_temp_c',
         'oil_pressure_psi',
         'brake_pad_mm',
@@ -13,7 +12,6 @@ def get_feature_names() -> List[str]:
         'tire_pressure_std',
         'tire_pressure_min',
 
-        # ===== 7-DAY ROLLING STATS =====
         'engine_temp_mean_7d',
         'engine_temp_std_7d',
         'engine_temp_max_7d',
@@ -30,13 +28,11 @@ def get_feature_names() -> List[str]:
         'transmission_temp_mean_7d',
         'transmission_temp_max_7d',
 
-        # ===== DEGRADATION TRENDS =====
         'brake_wear_rate_30d',
         'oil_pressure_drop_rate_30d',
         'battery_voltage_drop_rate_30d',
         'vibration_increase_rate_30d',
 
-        # ===== OPERATIONAL CONTEXT =====
         'miles_since_last_service',
         'avg_daily_miles_30d',
         'total_harsh_braking_7d',
@@ -46,7 +42,6 @@ def get_feature_names() -> List[str]:
         'avg_rpm_7d',
         'max_rpm_7d',
 
-        # ===== DERIVED FEATURES =====
         'engine_stress_index',
         'cooling_efficiency',
         'brake_health_score',

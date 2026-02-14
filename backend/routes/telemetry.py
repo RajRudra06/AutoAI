@@ -6,7 +6,7 @@ router = APIRouter(prefix="/telematics", tags=["Telemetry"])
 
 @router.post("/data")
 def receive_telemetry(payload: dict):
-  
+
     vehicle_id = payload["vehicle_id"]
     features = payload["features"]
 
@@ -49,15 +49,20 @@ def receive_telemetry(payload: dict):
                 "last_updated": now,
             },
             "$setOnInsert": {
+                "version":1,
+                "pipeline_associated":{
+                    "pipeline_status":"TELEMETRY_INITIATED",
+                    "pipeline_assigned_at":datetime(1968, 1, 1, tzinfo=timezone.utc),
+                    "celery_task_id": None
+                },
                 "temp_last_processed_telemetry":datetime(1969, 1, 1, tzinfo=timezone.utc),
-                # Initialized once, never overwritten here
                 "last_processed_telemetry":datetime(1970, 1, 1, tzinfo=timezone.utc),
                 "workflow_state": {
                     "current_stage": "IDLE",
                     "flags": {
                         "diagnosis_required": False,
                         "scheduling_required": False,
-                        "engagement_required": False
+                        "engagement_required": False,
                     }
                 },
                 "risk_state": {

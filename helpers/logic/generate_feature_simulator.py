@@ -4,7 +4,6 @@ from typing import Dict, List
 
 
 def extract_features_from_vehicle(vehicle_df: pd.DataFrame) -> Dict:
-    # Ensure sorted by time
     vehicle_df = vehicle_df.sort_values('timestamp').reset_index(drop=True)
 
     if len(vehicle_df) < 10:
@@ -16,7 +15,6 @@ def extract_features_from_vehicle(vehicle_df: pd.DataFrame) -> Dict:
 
     features = {}
 
-    # ===== CURRENT STATE =====
     features['engine_temp_c'] = latest['engine_temp_c']
     features['oil_pressure_psi'] = latest['oil_pressure_psi']
     features['brake_pad_mm'] = latest['brake_pad_mm']
@@ -34,7 +32,6 @@ def extract_features_from_vehicle(vehicle_df: pd.DataFrame) -> Dict:
     features['tire_pressure_std'] = np.std(tire_pressures)
     features['tire_pressure_min'] = np.min(tire_pressures)
 
-    # ===== 7-DAY ROLLING STATS =====
     features['engine_temp_mean_7d'] = df_7d['engine_temp_c'].mean()
     features['engine_temp_std_7d'] = df_7d['engine_temp_c'].std()
     features['engine_temp_max_7d'] = df_7d['engine_temp_c'].max()
@@ -56,7 +53,6 @@ def extract_features_from_vehicle(vehicle_df: pd.DataFrame) -> Dict:
     features['transmission_temp_mean_7d'] = df_7d['transmission_temp_c'].mean()
     features['transmission_temp_max_7d'] = df_7d['transmission_temp_c'].max()
 
-    # ===== DEGRADATION TRENDS =====
     days_elapsed = max((df_all.iloc[-1]['timestamp'] - df_all.iloc[0]['timestamp']).days, 1)
 
     features['brake_wear_rate_30d'] = (
@@ -75,7 +71,6 @@ def extract_features_from_vehicle(vehicle_df: pd.DataFrame) -> Dict:
         df_all.iloc[-1]['vibration_level'] - df_all.iloc[0]['vibration_level']
     ) / days_elapsed
 
-    # ===== OPERATIONAL CONTEXT =====
     features['miles_since_last_service'] = latest['miles_since_last_service']
     features['avg_daily_miles_30d'] = df_all['daily_miles'].mean()
     features['total_harsh_braking_7d'] = df_7d['harsh_braking_events'].sum()
@@ -86,7 +81,6 @@ def extract_features_from_vehicle(vehicle_df: pd.DataFrame) -> Dict:
     features['avg_rpm_7d'] = df_7d['engine_rpm'].mean()
     features['max_rpm_7d'] = df_7d['engine_rpm'].max()
 
-    # ===== DERIVED =====
     features['engine_stress_index'] = features['engine_temp_c'] / max(features['oil_pressure_psi'], 1)
     features['cooling_efficiency'] = features['engine_temp_c'] - features['coolant_temp_mean_7d']
     features['brake_health_score'] = features['brake_pad_mm'] - (10 * features['brake_wear_rate_30d'])

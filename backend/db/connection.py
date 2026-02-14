@@ -1,6 +1,7 @@
-from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 
 load_dotenv()
 
@@ -10,18 +11,13 @@ if not MONGO_URL:
 
 print("Connecting to MongoDB...")
 
-try:
-    client = MongoClient(
-        MONGO_URL,
-        tls=True,
-        tlsAllowInvalidCertificates=True,
-        serverSelectionTimeoutMS=5000  # fail fast if cluster unreachable
-    )
+client = MongoClient(MONGO_URL, server_api=ServerApi('1'))
 
-    # Force a ping to verify connection immediately
+try:
+   
     client.admin.command("ping")
 
-    db = client["autoai"]  # database name decided by you
+    db = client["autoai"]  
 
     print("Connected successfully to cluster.")
     print("Database ready:", db.name)
@@ -29,4 +25,4 @@ try:
 except Exception as e:
     print("MongoDB connection failed.")
     print("Error:", e)
-    raise  # re-raise so app/agent fails fast
+    raise  

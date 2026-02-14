@@ -61,12 +61,10 @@ def generate_random_service_slot(days_ahead: int = 8) -> str:
   
     now = datetime.now(timezone.utc)
 
-    # Random day within range
     day_offset = random.randint(1, days_ahead)
     service_date = now + timedelta(days=day_offset)
 
-    # Random working hour
-    hour = random.randint(9, 17)  # last slot starts at 5 PM
+    hour = random.randint(9, 17)  
     minute = random.choice([0, 30])
 
     slot = service_date.replace(
@@ -92,9 +90,42 @@ def update_vehicle_state(payload: dict):
     if "risk_state" in payload:
         update_doc["risk_state"] = payload["risk_state"]
 
+    if "pipeline_associated.celery_task_id" in payload:
+        update_doc["pipeline_associated.celery_task_id"] = payload["pipeline_associated.celery_task_id"]
+
     db.vehicle_state.update_one(
         {"vehicle_id": vehicle_id},
         {"$set": update_doc}
     )
 
     return {"success": True}
+
+@router.post("/complete_booking_schedule")
+def complete_booking_schedule(payload: dict):
+    vehicle_id = payload["vehicle_id"]
+    now = datetime.now(timezone.utc)
+
+    booking = db.bookings.find_one(
+        {
+            "vehicle_id": vehicle_id,
+            "status": "TENTATIVE"
+        }
+    )
+
+    if not booking:
+        return {"success": False, "message": "No tentative booking found for vehicle"}
+
+    result = db.bookings.update_one(
+        {
+            "_id": booking["_id"],
+            "status": "TENTATIVE",
+        },
+        {
+            "$set": {
+                "status": "COMPLETE",
+                "completed_at": now
+            }
+        }
+    )
+
+   
