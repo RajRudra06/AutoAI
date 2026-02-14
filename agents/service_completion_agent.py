@@ -99,6 +99,7 @@ class ServiceCompletionAgent:
         vehicle_state_params = self.extract_vehicle_params(vehicle)
         vehicle_id = vehicle_state_params["vehicle_id"]
         temp_last_processed_telemetry = vehicle_state_params["temp_last_processed_telemetry"]
+        risk_state = vehicle_state_params["risk_state"]
 
         try:
             print(f"[SERVICE COMPLETION SHARD {self.shard_id}][ENQUEUE] Enqueuing service completion task for {vehicle_id}")
@@ -106,7 +107,9 @@ class ServiceCompletionAgent:
             res = execute_service_completion_job.delay(
                 vehicle_id=vehicle_id,
                 base_api_url=self.base_api_url,
-                temp_last_processed_telemetry=temp_last_processed_telemetry
+                temp_last_processed_telemetry=temp_last_processed_telemetry,
+                risk_state = risk_state
+                
             )
 
             print(f"[SERVICE COMPLETION SHARD {self.shard_id}][ENQUEUE] Task enqueued, task_id=***********************************{res.id}")
@@ -117,7 +120,7 @@ class ServiceCompletionAgent:
                     "vehicle_id": vehicle_id,
                     "pipeline_associated": {
                         "pipeline_status": "ASSIGNED_BY_SERVICE_COMPLETION_AGENT", 
-                        "pipeline_assigned_at": datetime.now(datetime.timezone.utc).isoformat(),
+                        "pipeline_assigned_at": datetime.now(timezone.utc).isoformat(),
                         "celery_task_id": res.id
                     }
                 }
@@ -204,7 +207,7 @@ class ServiceCompletionAgent:
             except ValueError:
                 pass 
 
-        now = datetime.now(datetime.timezone.utc)
+        now = datetime.now(timezone.utc)
         timeout = 60 
 
         booking_status_resp = self.get_booking_status(vehicle_id=vehicle_id)
@@ -233,6 +236,9 @@ class ServiceCompletionAgent:
                     print(f"[SERVICE COMPLETION SHARD {self.shard_id}][GATE] Stale vehicle detected and reset for {vehicle_id}")
 
             print(f"[SERVICE COMPLETION SHARD {self.shard_id}][GATE] Vehicle {vehicle_id} blocked by lifecycle gate.")
+
+            print (f"[SERVICE COMPLETION SHARD {self.shard_id}][GATE] Workflow Stage: {workflow_stage}, Pipeline Status: {pipeline_status}, Booking Completed: {booking_completed}, Last Processed Telemetry: {last_processed_telemetry}, Latest Feature Associated TelemetryID: {latest_feature_associated_telemetryID}, Pipeline Assigned At: {pipeline_assigned_at}")
+            
             return True 
 
         return False

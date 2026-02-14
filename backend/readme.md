@@ -40,6 +40,8 @@ celery -A worker_tasks.celery_config worker \
 Terminal 7 - Service Completion (complete the lifecycle)
 PYTHONPATH=. python agents/service_completion_agent.py
 
+PYTHONPATH=. celery -A worker_tasks.celery_config worker -l info -Q service_completion_queue
+
 Terminal 8 -  Celery Worker Diagnosis
 
 
