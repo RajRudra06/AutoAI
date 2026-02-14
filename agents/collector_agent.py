@@ -1,4 +1,4 @@
-# agents/collector_agent.py
+# collector_agent.py
 
 import time
 import pandas as pd

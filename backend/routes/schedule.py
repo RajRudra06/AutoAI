@@ -99,3 +99,33 @@ def update_vehicle_state(payload: dict):
     )
 
     return {"success": True}
+
+@router.post("/complete_booking_schedule")
+def complete_booking_schedule(payload: dict):
+    vehicle_id = payload["vehicle_id"]
+    now = datetime.now(timezone.utc)
+
+    booking = db.bookings.find_one(
+        {
+            "vehicle_id": vehicle_id,
+            "status": "TENTATIVE"
+        }
+    )
+
+    if not booking:
+        return {"success": False, "message": "No tentative booking found for vehicle"}
+
+    result = db.bookings.update_one(
+        {
+            "_id": booking["_id"],
+            "status": "TENTATIVE",
+        },
+        {
+            "$set": {
+                "status": "COMPLETE",
+                "completed_at": now
+            }
+        }
+    )
+
+   

@@ -14,7 +14,7 @@ app = Celery(
         'worker_tasks.execution_diagnosis_task',
         'worker_tasks.scheduling_tasks',
         'worker_tasks.engagement_tasks',
-        # 'worker_tasks.service_completion_tasks'
+        'worker_tasks.service_completion_tasks'
     ]
 )
 
@@ -32,7 +32,7 @@ app.conf.task_routes = {
      'tasks.execute_diagnosis.*': {'queue': 'execution_diagnosis_task_queue'},
      'tasks.execute_scheduling.*': {'queue': 'scheduling_queue'},
      'tasks.execute_engagement.*': {'queue': 'engagement_queue'},
-     'service_completion_tasks.*': {'queue': 'service_completion_queue'},
+     'tasks.execute_service_completion.*': {'queue': 'service_completion_queue'},
     }
 
 app.conf.update(

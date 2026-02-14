@@ -6,7 +6,7 @@ router = APIRouter(prefix="/vehicles", tags=["Vehicle State"])
 
 @router.get("/state")
 def get_all_vehicle_states(request: Request):
-    agent_id = request.state.agent_id  # future use
+    agent_id = request.state.agent_id  
 
     vehicles = list(
         db.vehicle_state.find({}, {"_id": 0})
@@ -96,6 +96,9 @@ def update_vehicle_state(payload: dict):
             )
         if "celery_task_id" in pipeline_associated:
             update_doc["pipeline_associated.celery_task_id"]=pipeline_associated["celery_task_id"]
+            
+    if risk_state is not None:
+        update_doc["risk_state"] = risk_state
 
     dot_celery_id = payload.get("pipeline_associated.celery_task_id")
     if dot_celery_id is not None or "pipeline_associated.celery_task_id" in payload:

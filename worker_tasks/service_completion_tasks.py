@@ -24,6 +24,7 @@ VEHICLES_UPDATE_URL = f"{BASE_API_URL}/api/vehicles/update"
     retry_backoff=True,
     retry_jitter=True,
 )
+
 def execute_service_completion_job(self, vehicle_id: str, base_api_url: str, temp_last_processed_telemetry: datetime, risk_state: dict):
     my_task_id = self.request.id
     print(f"[SERVICE COMPLETION TASK] Starting execution for vehicle {vehicle_id}, task_id={my_task_id}")
@@ -53,11 +54,13 @@ def execute_service_completion_job(self, vehicle_id: str, base_api_url: str, tem
     print(f"Task {my_task_id}: Pre-execution check passed. Completing service for {vehicle_id}.")
 
     print(f"[SERVICE COMPLETION TASK] Updating vehicle schedule for {vehicle_id}")
-    if not update_vehicle_schedule_celery(vehicle_id, base_api_url):
-        print(f"[SERVICE COMPLETION TASK][ERROR] Failed to update vehicle schedule for {vehicle_id}")
+
+    if not complete_vehicle_schedule_celery(vehicle_id, base_api_url):
+        print(f"[SERVICE COMPLETION TASK][ERROR] Failed to complete vehicle schedule for {vehicle_id}")
         return
 
     print(f"[SERVICE COMPLETION TASK] Updating vehicle state for {vehicle_id}")
+
     if not update_vehicle_state_celery(vehicle_id, base_api_url, temp_last_processed_telemetry, risk_state):
         print(f"[SERVICE COMPLETION TASK][ERROR] Failed to update vehicle state for {vehicle_id}")
         return
@@ -86,28 +89,37 @@ def post_feedback_log_celery(vehicle_id: str, base_api_url: str) -> bool:
 def update_vehicle_state_celery(vehicle_id: str, base_api_url: str, temp_last_processed_telemetry: datetime, risk_state: dict) -> bool:
     update_vehicle_state_api = f"{base_api_url}/api/vehicles/update"
     update_vehicle_state_resp = post(update_vehicle_state_api, json={
-        "vehicle_id": vehicle_id,
-        "last_processed_telemetry": temp_last_processed_telemetry.isoformat() if isinstance(temp_last_processed_telemetry, datetime) else temp_last_processed_telemetry, 
-        "workflow_state": {
-            "current_stage": "IDLE",
-            "flags": {
-                "diagnosis_required": False,
-                "scheduling_required": False,
-                "engagement_required": False
-            }
-        },
-        "risk_state": {
-            "high_risk_active": False,
-            "unresolved_issues": []
-        }
-    })
+                    "vehicle_id": vehicle_id,
+                    "pipeline_associated": {
+                        "pipeline_status": "TELEMETRY_INITIATED",
+                        "pipeline_assigned_at": datetime(1968, 1, 1, tzinfo=timezone.utc).isoformat(),
+                        "celery_task_id": None,
+                    },
+                    "temp_last_processed_telemetry":datetime(1969, 1, 1, tzinfo=timezone.utc).isoformat(),
+                    "last_processed_telemetry":datetime(1970, 1, 1, tzinfo=timezone.utc).isoformat()    ,
+                    "workflow_state": {
+                    "current_stage": "IDLE",
+                    "flags": {
+                        "diagnosis_required": False,
+                        "scheduling_required": False,
+                        "engagement_required": False
+                    }
+                },
+                "risk_state": {
+                    "high_risk_active": False,
+                    "unresolved_issues": []
+                }
+                }
+    )
+    
     if update_vehicle_state_resp.status_code == 200:
         return True
     print(f"[SERVICE COMPLETION TASK][ERROR] Failed to update vehicle state. Status: {update_vehicle_state_resp.status_code}")
     return False
 
-def update_vehicle_schedule_celery(vehicle_id: str, base_api_url: str) -> bool:
-    update_schedule_api = f"{base_api_url}/api/schedule/update"
+def complete_vehicle_schedule_celery(vehicle_id: str, base_api_url: str) -> bool:
+
+    update_schedule_api = f"{base_api_url}/api/schedule/complete_booking_schedule"
     update_vehicle_schedule_resp = post(update_schedule_api, json={
         "vehicle_id": vehicle_id,
         "status": "COMPLETED",

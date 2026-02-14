@@ -1,4 +1,4 @@
-# Master Agent Implementation 
+# master_agent.py
 
 from celery.result import AsyncResult 
 import time
