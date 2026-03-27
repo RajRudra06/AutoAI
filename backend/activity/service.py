@@ -60,7 +60,7 @@ def _ensure_indexes() -> None:
 def store_activity_event(payload: dict[str, Any]) -> dict[str, Any]:
     _ensure_indexes()
     event = build_activity_event(payload)
-    db.activity_events.insert_one(event)
+    db.activity_events.insert_one(dict(event))
 
     event_for_stream = dict(event)
     event_for_stream["timestamp"] = event_for_stream["timestamp"].isoformat()
@@ -69,7 +69,7 @@ def store_activity_event(payload: dict[str, Any]) -> dict[str, Any]:
         loop = asyncio.get_running_loop()
         loop.create_task(event_bus.publish(event_for_stream))
     except RuntimeError:
-        # Called outside an active loop (e.g., sync contexts). Skip live push.
-        pass
+        # Called outside an active loop (e.g., sync contexts). Publish with a short-lived loop.
+        asyncio.run(event_bus.publish(event_for_stream))
 
     return event

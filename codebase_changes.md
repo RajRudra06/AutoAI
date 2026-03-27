@@ -58,6 +58,56 @@ Change logging format:
 		- /Users/rudrarajpurohit/Desktop/EY/AutoAI/.venv/bin/python -m compileall backend/activity backend/routes/activity.py backend/main.py
 	- Result: all modified/new files compiled successfully.
 
+### 2026-03-27 - Runtime stabilization + one-command boot
+- Date: 2026-03-27
+- Phase: A (Foundation) runtime hardening checkpoint
+- Area: Environment/runtime boot reliability
+- Files changed:
+	- agents/diagnosis_agent.py
+	- worker_tasks/engagement_tasks.py
+	- run_everything.py
+	- run_all.sh
+- What changed:
+	- Fixed a syntax corruption in diagnosis agent rollback payload (`isoformat` typo).
+	- Made engagement task resilient when CrewAI LLM init fails (graceful fallback to mock flow instead of import-time crash).
+	- Added unified launcher `run_everything.py` that:
+		- loads env from backend/.env safely,
+		- sets TLS cert path for Atlas connectivity,
+		- starts backend + agents + all Celery workers in required order,
+		- applies clean-start preflight process cleanup,
+		- assigns unique Celery worker node names,
+		- performs health wait and coordinated shutdown.
+	- Added shell one-liner entrypoint `run_all.sh`.
+- Why changed:
+	- Existing documented commands were failing due interpreter/path/env drift and process collision; launcher makes runtime deterministic for demo use.
+- Risk/impact:
+	- Additive utility scripts; no functional lifecycle logic redesign.
+	- Engagement path now degrades gracefully instead of hard-crashing when provider config is unavailable.
+- Validation done:
+	- `./AutoAI_ENV/bin/python -m compileall run_everything.py worker_tasks/engagement_tasks.py agents/diagnosis_agent.py`
+	- `./run_all.sh` smoke run confirmed backend health and active multi-agent/celery traffic logs.
+
+### 2026-03-27 - Phase A e2e test hardening fixes
+- Date: 2026-03-27
+- Phase: A (Foundation) e2e validation
+- Area: Activity API correctness + websocket realtime delivery
+- Files changed:
+	- backend/activity/service.py
+	- phase_a_e2e_test.sh
+	- phase_runbook.md
+- What changed:
+	- Fixed `POST /api/activity/log` internal server error by preventing `ObjectId` mutation leakage into response payload.
+	- Enabled websocket publish from sync contexts by adding `asyncio.run(...)` fallback when no running loop exists.
+	- Added reusable Phase A endpoint test script and runbook validation commands.
+- Why changed:
+	- Phase A endpoints persisted data but failed one response serialization case and missed realtime broadcast in sync call paths.
+- Risk/impact:
+	- Minimal and localized to activity service behavior.
+	- Improved reliability for frontend realtime feed.
+- Validation done:
+	- `./phase_a_e2e_test.sh` passed all 5 HTTP checks.
+	- websocket e2e check passed (`POST status: 200` and expected event received on `/api/activity/ws`).
+
 ---
 
 ## Phase B - Backend Coverage
