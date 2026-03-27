@@ -1,0 +1,302 @@
+{
+  "relationships": [
+    {
+      "type": "decorates",
+      "source": "app.get(\"/health\")",
+      "target": "health",
+      "file": "backend/main.py",
+      "line": 18,
+      "language": "Python"
+    },
+    {
+      "type": "extends",
+      "source": "AgentAuthMiddleware",
+      "target": "BaseHTTPMiddleware",
+      "file": "backend/middleware/auth.py",
+      "line": 9,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/log\")",
+      "target": "log_engagement",
+      "file": "backend/routes/engagement.py",
+      "line": 8,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/\")",
+      "target": "submit_feedback",
+      "file": "backend/routes/feedback.py",
+      "line": 7,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.get(\"/{vehicle_id}\")",
+      "target": "get_feedback",
+      "file": "backend/routes/feedback.py",
+      "line": 12,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/log\")",
+      "target": "log_feedback",
+      "file": "backend/routes/feedback.py",
+      "line": 17,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/\")",
+      "target": "trigger_prediction",
+      "file": "backend/routes/predict.py",
+      "line": 6,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.get(\"/{vehicle_id}\")",
+      "target": "get_latest_prediction",
+      "file": "backend/routes/predict.py",
+      "line": 12,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/queue\")",
+      "target": "queue_diagnosis",
+      "file": "backend/routes/put_diagnosis.py",
+      "line": 7,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/queue\")",
+      "target": "queue_diagnosis",
+      "file": "backend/routes/put_diagnosis_job.py",
+      "line": 7,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.get(\"/jobs\")",
+      "target": "get_pending_jobs",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "line": 8,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.get(\"/job/{job_id}\")",
+      "target": "get_job_details",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "line": 19,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/start\")",
+      "target": "start_diagnosis",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "line": 30,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/skip\")",
+      "target": "skip_diagnosis",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "line": 49,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/fail\")",
+      "target": "fail_diagnosis",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "line": 92,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/failed_job_no_risk\")",
+      "target": "failed_job_no_risk",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "line": 134,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/complete_job_no_risk\")",
+      "target": "complete_job_no_risk",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "line": 176,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/complete\")",
+      "target": "complete_diagnosis",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "line": 229,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/finalize/stale_diagnosis_jobs\")",
+      "target": "finalize_stale_diagnosis_jobs",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "line": 278,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/book\")",
+      "target": "book_slot",
+      "file": "backend/routes/schedule.py",
+      "line": 9,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.get(\"/{vehicle_id}\")",
+      "target": "get_booking",
+      "file": "backend/routes/schedule.py",
+      "line": 16,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.get(\"/get_slot\")",
+      "target": "generate_random_service_slot",
+      "file": "backend/routes/schedule.py",
+      "line": 59,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/update\")",
+      "target": "update_vehicle_state",
+      "file": "backend/routes/schedule.py",
+      "line": 80,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/complete_booking_schedule\")",
+      "target": "complete_booking_schedule",
+      "file": "backend/routes/schedule.py",
+      "line": 103,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/complete\")",
+      "target": "complete_service",
+      "file": "backend/routes/service.py",
+      "line": 7,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/data\")",
+      "target": "receive_telemetry",
+      "file": "backend/routes/telemetry.py",
+      "line": 7,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/log\")",
+      "target": "log_ueba_event",
+      "file": "backend/routes/ueba.py",
+      "line": 7,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.get(\"/logs\")",
+      "target": "get_logs",
+      "file": "backend/routes/ueba.py",
+      "line": 17,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.get(\"/state\")",
+      "target": "get_all_vehicle_states",
+      "file": "backend/routes/vehicle_state.py",
+      "line": 7,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.get(\"/state/{vehicle_id}\")",
+      "target": "get_vehicle_state",
+      "file": "backend/routes/vehicle_state.py",
+      "line": 38,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "router.post(\"/update\")",
+      "target": "update_vehicle_state",
+      "file": "backend/routes/vehicle_state.py",
+      "line": 55,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "app.task(\n    bind=True,\n    name='tasks.diagnosis.run_diagnosis',\n    max_retries=3,\n    default_retry_delay=60,\n    autoretry_for=(Exception,),\n    retry_backoff=True,\n    retry_jitter=True,\n)",
+      "target": "run_diagnosis",
+      "file": "worker_tasks/diagnosis_tasks.py",
+      "line": 14,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "app.task(\n    bind=True,\n    name='tasks.execute_engagement.execute_engagement_job', \n    max_retries=3,\n    default_retry_delay=60,\n    autoretry_for=(Exception,),\n    retry_backoff=True,\n    retry_jitter=True,\n)",
+      "target": "execute_engagement_job",
+      "file": "worker_tasks/engagement_tasks.py",
+      "line": 278,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "app.task(\n    bind=True,\n    name='tasks.execute_diagnosis.execute_diagnosis_job',\n    max_retries=3,\n    default_retry_delay=60,\n    autoretry_for=(Exception,),\n    retry_backoff=True,\n    retry_jitter=True,\n)",
+      "target": "execute_diagnosis_job",
+      "file": "worker_tasks/execution_diagnosis_task.py",
+      "line": 16,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "app.task(\n    bind=True,\n    name='tasks.execute_scheduling.execute_scheduling_job', \n    max_retries=3,\n    default_retry_delay=60,\n    autoretry_for=(Exception,),\n    retry_backoff=True,\n    retry_jitter=True,\n)",
+      "target": "execute_scheduling_job",
+      "file": "worker_tasks/scheduling_tasks.py",
+      "line": 11,
+      "language": "Python"
+    },
+    {
+      "type": "decorates",
+      "source": "app.task(\n    bind=True,\n    name='tasks.execute_service_completion.execute_service_completion_job', \n    max_retries=3,\n    default_retry_delay=60,\n    autoretry_for=(Exception,),\n    retry_backoff=True,\n    retry_jitter=True,\n)",
+      "target": "execute_service_completion_job",
+      "file": "worker_tasks/service_completion_tasks.py",
+      "line": 18,
+      "language": "Python"
+    }
+  ],
+  "totalCount": 36,
+  "byType": {
+    "decorates": 35,
+    "extends": 1
+  },
+  "inheritanceChains": {
+    "AgentAuthMiddleware": [
+      "BaseHTTPMiddleware"
+    ]
+  }
+}

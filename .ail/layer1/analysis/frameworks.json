@@ -1,0 +1,30 @@
+{
+  "frameworks": [
+    {
+      "name": "Celery",
+      "type": "task-queue",
+      "language": "Python",
+      "source": "import in diagnosis_agent.py"
+    },
+    {
+      "name": "Pymongo",
+      "type": "database",
+      "language": "Python",
+      "source": "import in connection.py"
+    },
+    {
+      "name": "Fastapi",
+      "type": "web",
+      "language": "Python",
+      "source": "import in main.py"
+    },
+    {
+      "name": "Starlette",
+      "type": "web",
+      "language": "Python",
+      "source": "import in auth.py"
+    }
+  ],
+  "totalFound": 4,
+  "manifestsFound": []
+}

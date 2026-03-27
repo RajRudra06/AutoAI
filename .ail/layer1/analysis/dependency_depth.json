@@ -1,0 +1,9 @@
+{
+  "maxDepth": 0,
+  "avgDepth": 0,
+  "riskLevel": "low",
+  "riskReason": "Dependency chain depth of 0 is shallow and manageable",
+  "depthBreakdown": {},
+  "deepestChains": [],
+  "transitiveRatio": 0
+}

@@ -1,0 +1,18 @@
+{
+  "model": "Web Service",
+  "confidence": "high",
+  "reasoning": "Web framework detected: fastapi",
+  "signals": [
+    "web backend: fastapi",
+    "task queue: celery",
+    "database layer: pymongo",
+    "web entry point: backend/main.py",
+    "worker entry point: worker_tasks/celery_config.py",
+    ".ipynb notebooks found"
+  ],
+  "tags": [
+    "Web Service",
+    "Worker",
+    "Notebook / Research"
+  ]
+}

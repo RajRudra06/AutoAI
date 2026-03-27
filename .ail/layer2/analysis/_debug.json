@@ -1,0 +1,41 @@
+{
+  "wts_keys": [],
+  "wts_parser_type": "function",
+  "wts_language_type": "undefined",
+  "wts_default_type": "undefined",
+  "wasm_path_exists": true,
+  "wasm_path": "/Users/rudrarajpurohit/Desktop/AIL/dist/grammars/tree-sitter.wasm",
+  "source_files_count": 52,
+  "source_file_extensions": [
+    "",
+    ".md",
+    ".py",
+    ".png",
+    ".pkl",
+    ".json",
+    ".ipynb"
+  ],
+  "source_files_sample": [
+    ".DS_Store",
+    "GEMINI.md",
+    "agents/collector_agent.py",
+    "agents/diagnosis_agent.py",
+    "agents/engagement_agent.py",
+    "agents/master_agent.py",
+    "agents/scheduling_agent.py",
+    "agents/service_completion_agent.py",
+    "agents/ueba_agent.py",
+    "agents/utils/agent_api_client.py"
+  ],
+  "parser_class_type": "function",
+  "parser_init_type": "function",
+  "init_success": true,
+  "language_class_type": "function",
+  "load_errors": {},
+  "matched_languages": {
+    "Python": 41
+  },
+  "languagesLoaded": [
+    "Python"
+  ]
+}

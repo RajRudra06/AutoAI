@@ -1,0 +1,72 @@
+{
+  "totalFiles": 41,
+  "totalLines": 4412,
+  "totalSizeBytes": 165629,
+  "totalSizeKB": 161.75,
+  "avgLinesPerFile": 108,
+  "largestFiles": [
+    {
+      "relativePath": "agents/diagnosis_agent.py",
+      "lines": 501,
+      "sizeBytes": 18476,
+      "extension": ".py"
+    },
+    {
+      "relativePath": "worker_tasks/engagement_tasks.py",
+      "lines": 419,
+      "sizeBytes": 13063,
+      "extension": ".py"
+    },
+    {
+      "relativePath": "agents/service_completion_agent.py",
+      "lines": 355,
+      "sizeBytes": 16679,
+      "extension": ".py"
+    },
+    {
+      "relativePath": "agents/master_agent.py",
+      "lines": 352,
+      "sizeBytes": 16711,
+      "extension": ".py"
+    },
+    {
+      "relativePath": "agents/engagement_agent.py",
+      "lines": 327,
+      "sizeBytes": 14924,
+      "extension": ".py"
+    },
+    {
+      "relativePath": "agents/scheduling_agent.py",
+      "lines": 316,
+      "sizeBytes": 14186,
+      "extension": ".py"
+    },
+    {
+      "relativePath": "backend/routes/put_done_diagnosis.py",
+      "lines": 295,
+      "sizeBytes": 9581,
+      "extension": ".py"
+    },
+    {
+      "relativePath": "worker_tasks/execution_diagnosis_task.py",
+      "lines": 241,
+      "sizeBytes": 9395,
+      "extension": ".py"
+    },
+    {
+      "relativePath": "worker_tasks/service_completion_tasks.py",
+      "lines": 132,
+      "sizeBytes": 5614,
+      "extension": ".py"
+    },
+    {
+      "relativePath": "backend/routes/schedule.py",
+      "lines": 131,
+      "sizeBytes": 3421,
+      "extension": ".py"
+    }
+  ],
+  "languageLineBreak": {
+    "Python": 4412
+  }
+}

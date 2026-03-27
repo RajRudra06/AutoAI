@@ -1,0 +1,320 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-03-24T04:22:34.564Z",
+  "workspacePath": "/Users/rudrarajpurohit/Desktop/EY/AutoAI",
+  "primaryLanguage": "Python",
+  "extensionCounts": {
+    ".py": 41,
+    "(no extension)": 5,
+    ".md": 2,
+    ".png": 1,
+    ".pkl": 1,
+    ".json": 1,
+    ".ipynb": 1
+  },
+  "executionModel": {
+    "model": "Web Service",
+    "confidence": "high",
+    "reasoning": "Web framework detected: fastapi",
+    "signals": [
+      "web backend: fastapi",
+      "task queue: celery",
+      "database layer: pymongo",
+      "web entry point: backend/main.py",
+      "worker entry point: worker_tasks/celery_config.py",
+      ".ipynb notebooks found"
+    ],
+    "tags": [
+      "Web Service",
+      "Worker",
+      "Notebook / Research"
+    ]
+  },
+  "languages": {
+    "primary": "Python",
+    "languages": [
+      {
+        "name": "Python",
+        "fileCount": 41,
+        "percentage": 100,
+        "extensions": [
+          ".py"
+        ]
+      }
+    ],
+    "totalSourceFiles": 41
+  },
+  "frameworks": {
+    "frameworks": [
+      {
+        "name": "Celery",
+        "type": "task-queue",
+        "language": "Python",
+        "source": "import in diagnosis_agent.py"
+      },
+      {
+        "name": "Pymongo",
+        "type": "database",
+        "language": "Python",
+        "source": "import in connection.py"
+      },
+      {
+        "name": "Fastapi",
+        "type": "web",
+        "language": "Python",
+        "source": "import in main.py"
+      },
+      {
+        "name": "Starlette",
+        "type": "web",
+        "language": "Python",
+        "source": "import in auth.py"
+      }
+    ],
+    "totalFound": 4,
+    "manifestsFound": []
+  },
+  "entryPoints": {
+    "entryPoints": [
+      {
+        "file": "agents/collector_agent.py",
+        "type": "primary",
+        "confidence": "high",
+        "language": "Python",
+        "detectedBy": "pattern: \"if __name__ == \"__main__\"\""
+      },
+      {
+        "file": "agents/diagnosis_agent.py",
+        "type": "primary",
+        "confidence": "high",
+        "language": "Python",
+        "detectedBy": "pattern: \"if __name__ == \"__main__\"\""
+      },
+      {
+        "file": "agents/engagement_agent.py",
+        "type": "primary",
+        "confidence": "high",
+        "language": "Python",
+        "detectedBy": "pattern: \"if __name__ == \"__main__\"\""
+      },
+      {
+        "file": "agents/master_agent.py",
+        "type": "primary",
+        "confidence": "high",
+        "language": "Python",
+        "detectedBy": "pattern: \"if __name__ == \"__main__\"\""
+      },
+      {
+        "file": "agents/scheduling_agent.py",
+        "type": "primary",
+        "confidence": "high",
+        "language": "Python",
+        "detectedBy": "pattern: \"if __name__ == \"__main__\"\""
+      },
+      {
+        "file": "agents/service_completion_agent.py",
+        "type": "primary",
+        "confidence": "high",
+        "language": "Python",
+        "detectedBy": "pattern: \"if __name__ == \"__main__\"\""
+      },
+      {
+        "file": "agents/ueba_agent.py",
+        "type": "primary",
+        "confidence": "high",
+        "language": "Python",
+        "detectedBy": "pattern: \"if __name__ == \"__main__\"\""
+      },
+      {
+        "file": "backend/main.py",
+        "type": "web_app",
+        "confidence": "high",
+        "language": "Python",
+        "detectedBy": "pattern: \"app = FastAPI(\""
+      },
+      {
+        "file": "worker_tasks/celery_config.py",
+        "type": "worker",
+        "confidence": "high",
+        "language": "Python",
+        "detectedBy": "pattern: \"app = Celery(\""
+      },
+      {
+        "file": "backend/routes/feedback.py",
+        "type": "web_app",
+        "confidence": "medium",
+        "language": "Python",
+        "detectedBy": "pattern: \"@router.get(\""
+      },
+      {
+        "file": "backend/routes/predict.py",
+        "type": "web_app",
+        "confidence": "medium",
+        "language": "Python",
+        "detectedBy": "pattern: \"@router.get(\""
+      },
+      {
+        "file": "backend/routes/put_done_diagnosis.py",
+        "type": "web_app",
+        "confidence": "medium",
+        "language": "Python",
+        "detectedBy": "pattern: \"@router.get(\""
+      },
+      {
+        "file": "backend/routes/schedule.py",
+        "type": "web_app",
+        "confidence": "medium",
+        "language": "Python",
+        "detectedBy": "pattern: \"@router.get(\""
+      },
+      {
+        "file": "backend/routes/ueba.py",
+        "type": "web_app",
+        "confidence": "medium",
+        "language": "Python",
+        "detectedBy": "pattern: \"@router.get(\""
+      },
+      {
+        "file": "backend/routes/vehicle_state.py",
+        "type": "web_app",
+        "confidence": "medium",
+        "language": "Python",
+        "detectedBy": "pattern: \"@router.get(\""
+      },
+      {
+        "file": "run_sys.py",
+        "type": "primary",
+        "confidence": "medium",
+        "language": "Python",
+        "detectedBy": "filename convention: run_sys.py"
+      },
+      {
+        "file": "worker_tasks/diagnosis_tasks.py",
+        "type": "worker",
+        "confidence": "medium",
+        "language": "Python",
+        "detectedBy": "pattern: \"@app.task\""
+      },
+      {
+        "file": "worker_tasks/engagement_tasks.py",
+        "type": "worker",
+        "confidence": "medium",
+        "language": "Python",
+        "detectedBy": "pattern: \"@app.task\""
+      },
+      {
+        "file": "worker_tasks/execution_diagnosis_task.py",
+        "type": "worker",
+        "confidence": "medium",
+        "language": "Python",
+        "detectedBy": "pattern: \"@app.task\""
+      },
+      {
+        "file": "worker_tasks/scheduling_tasks.py",
+        "type": "worker",
+        "confidence": "medium",
+        "language": "Python",
+        "detectedBy": "pattern: \"@app.task\""
+      },
+      {
+        "file": "worker_tasks/service_completion_tasks.py",
+        "type": "worker",
+        "confidence": "medium",
+        "language": "Python",
+        "detectedBy": "pattern: \"@app.task\""
+      }
+    ],
+    "totalFound": 21,
+    "primaryEntry": "agents/collector_agent.py"
+  },
+  "metrics": {
+    "totalFiles": 41,
+    "totalLines": 4412,
+    "totalSizeBytes": 165629,
+    "totalSizeKB": 161.75,
+    "avgLinesPerFile": 108,
+    "largestFiles": [
+      {
+        "relativePath": "agents/diagnosis_agent.py",
+        "lines": 501,
+        "sizeBytes": 18476,
+        "extension": ".py"
+      },
+      {
+        "relativePath": "worker_tasks/engagement_tasks.py",
+        "lines": 419,
+        "sizeBytes": 13063,
+        "extension": ".py"
+      },
+      {
+        "relativePath": "agents/service_completion_agent.py",
+        "lines": 355,
+        "sizeBytes": 16679,
+        "extension": ".py"
+      },
+      {
+        "relativePath": "agents/master_agent.py",
+        "lines": 352,
+        "sizeBytes": 16711,
+        "extension": ".py"
+      },
+      {
+        "relativePath": "agents/engagement_agent.py",
+        "lines": 327,
+        "sizeBytes": 14924,
+        "extension": ".py"
+      },
+      {
+        "relativePath": "agents/scheduling_agent.py",
+        "lines": 316,
+        "sizeBytes": 14186,
+        "extension": ".py"
+      },
+      {
+        "relativePath": "backend/routes/put_done_diagnosis.py",
+        "lines": 295,
+        "sizeBytes": 9581,
+        "extension": ".py"
+      },
+      {
+        "relativePath": "worker_tasks/execution_diagnosis_task.py",
+        "lines": 241,
+        "sizeBytes": 9395,
+        "extension": ".py"
+      },
+      {
+        "relativePath": "worker_tasks/service_completion_tasks.py",
+        "lines": 132,
+        "sizeBytes": 5614,
+        "extension": ".py"
+      },
+      {
+        "relativePath": "backend/routes/schedule.py",
+        "lines": 131,
+        "sizeBytes": 3421,
+        "extension": ".py"
+      }
+    ],
+    "languageLineBreak": {
+      "Python": 4412
+    }
+  },
+  "dependencies": {
+    "direct": [],
+    "transitive": [],
+    "totalDirect": 0,
+    "totalTransitive": 0,
+    "totalAll": 0,
+    "manifestsFound": [],
+    "lockFilesFound": []
+  },
+  "dependencyDepth": {
+    "maxDepth": 0,
+    "avgDepth": 0,
+    "riskLevel": "low",
+    "riskReason": "Dependency chain depth of 0 is shallow and manageable",
+    "depthBreakdown": {},
+    "deepestChains": [],
+    "transitiveRatio": 0
+  }
+}

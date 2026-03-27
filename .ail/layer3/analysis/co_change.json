@@ -1,0 +1,1855 @@
+{
+  "pairs": [
+    {
+      "fileA": "transition/scheduling_agent.py",
+      "fileB": "transition/scheduling_task.py",
+      "coChanges": 3,
+      "totalChangesA": 3,
+      "totalChangesB": 3,
+      "couplingStrength": 1
+    },
+    {
+      "fileA": "backend/__pycache__/__init__.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/service.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 2,
+      "couplingStrength": 1
+    },
+    {
+      "fileA": "backend/__pycache__/__init__.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/ueba.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 2,
+      "couplingStrength": 1
+    },
+    {
+      "fileA": "backend/routes/__pycache__/service.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/ueba.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 2,
+      "couplingStrength": 1
+    },
+    {
+      "fileA": "backend/routes/__pycache__/ueba.cpython-313.pyc",
+      "fileB": "backend/routes/ueba.py",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 2,
+      "couplingStrength": 1
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis.cpython-313.pyc",
+      "fileB": "backend/routes/__pycache__/put_done_diagnosis.cpython-313.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 2,
+      "couplingStrength": 1
+    },
+    {
+      "fileA": "agents/utils/__pycache__/agent_api_client.cpython-313.pyc",
+      "fileB": "agents/utils/agent_api_client.py",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 2,
+      "couplingStrength": 1
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-313.pyc",
+      "fileB": "backend/main.py",
+      "coChanges": 7,
+      "totalChangesA": 8,
+      "totalChangesB": 8,
+      "couplingStrength": 0.875
+    },
+    {
+      "fileA": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 4,
+      "couplingStrength": 0.75
+    },
+    {
+      "fileA": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 4,
+      "couplingStrength": 0.75
+    },
+    {
+      "fileA": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 4,
+      "couplingStrength": 0.75
+    },
+    {
+      "fileA": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 3,
+      "couplingStrength": 0.75
+    },
+    {
+      "fileA": "backend/routes/put_diagnosis.py",
+      "fileB": "backend/routes/put_diagnosis_job.py",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 4,
+      "couplingStrength": 0.75
+    },
+    {
+      "fileA": "backend/routes/__pycache__/predict.cpython-313.pyc",
+      "fileB": "backend/routes/predict.py",
+      "coChanges": 3,
+      "totalChangesA": 3,
+      "totalChangesB": 4,
+      "couplingStrength": 0.75
+    },
+    {
+      "fileA": "backend/middleware/__pycache__/auth.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 3,
+      "couplingStrength": 0.6666666666666666
+    },
+    {
+      "fileA": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/engagement_tasks.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 3,
+      "couplingStrength": 0.6666666666666666
+    },
+    {
+      "fileA": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/service_completion_tasks.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 2,
+      "couplingStrength": 0.6666666666666666
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+      "coChanges": 8,
+      "totalChangesA": 12,
+      "totalChangesB": 11,
+      "couplingStrength": 0.6666666666666666
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/engagement_tasks.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/service_completion_tasks.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 2,
+      "couplingStrength": 0.6666666666666666
+    },
+    {
+      "fileA": "agents/utils/__pycache__/agent_api_client.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 3,
+      "couplingStrength": 0.6666666666666666
+    },
+    {
+      "fileA": "transition/engagement_agent.py",
+      "fileB": "transition/engagement_task.py",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 3,
+      "couplingStrength": 0.6666666666666666
+    },
+    {
+      "fileA": "backend/routes/__pycache__/feedback.cpython-313.pyc",
+      "fileB": "backend/routes/feedback.py",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 3,
+      "couplingStrength": 0.6666666666666666
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+      "fileB": "worker_tasks/execution_diagnosis_task.py",
+      "coChanges": 9,
+      "totalChangesA": 14,
+      "totalChangesB": 13,
+      "couplingStrength": 0.6428571428571429
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+      "fileB": "worker_tasks/execution_diagnosis_task.py",
+      "coChanges": 8,
+      "totalChangesA": 11,
+      "totalChangesB": 13,
+      "couplingStrength": 0.6153846153846154
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/engagement_tasks.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 3,
+      "totalChangesB": 5,
+      "couplingStrength": 0.6
+    },
+    {
+      "fileA": "transition/diagnosis_task.py",
+      "fileB": "transition/master_agent.py",
+      "coChanges": 3,
+      "totalChangesA": 5,
+      "totalChangesB": 4,
+      "couplingStrength": 0.6
+    },
+    {
+      "fileA": "backend/db/__pycache__/connection.cpython-313.pyc",
+      "fileB": "backend/routes/__pycache__/telemetry.cpython-313.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 5,
+      "couplingStrength": 0.6
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+      "fileB": "worker_tasks/diagnosis_tasks.py",
+      "coChanges": 7,
+      "totalChangesA": 12,
+      "totalChangesB": 10,
+      "couplingStrength": 0.5833333333333334
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+      "coChanges": 8,
+      "totalChangesA": 14,
+      "totalChangesB": 11,
+      "couplingStrength": 0.5714285714285714
+    },
+    {
+      "fileA": "backend/routes/put_done_diagnosis.py",
+      "fileB": "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+      "coChanges": 6,
+      "totalChangesA": 8,
+      "totalChangesB": 11,
+      "couplingStrength": 0.5454545454545454
+    },
+    {
+      "fileA": "backend/routes/put_done_diagnosis.py",
+      "fileB": "worker_tasks/execution_diagnosis_task.py",
+      "coChanges": 7,
+      "totalChangesA": 8,
+      "totalChangesB": 13,
+      "couplingStrength": 0.5384615384615384
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 6,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 6,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 6,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/db/__pycache__/connection.cpython-312.pyc",
+      "fileB": "backend/middleware/__pycache__/auth.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 3,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/db/__pycache__/connection.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/db/__pycache__/connection.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/db/__pycache__/connection.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/db/__pycache__/connection.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/db/__pycache__/connection.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 3,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/middleware/__pycache__/auth.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/middleware/__pycache__/auth.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/middleware/__pycache__/auth.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/middleware/__pycache__/auth.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 3,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 3,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 3,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+      "coChanges": 5,
+      "totalChangesA": 8,
+      "totalChangesB": 10,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+      "coChanges": 7,
+      "totalChangesA": 14,
+      "totalChangesB": 12,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+      "coChanges": 10,
+      "totalChangesA": 20,
+      "totalChangesB": 16,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/engagement_tasks.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 3,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/service_completion_tasks.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 2,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/celery_config.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+      "coChanges": 4,
+      "totalChangesA": 8,
+      "totalChangesB": 5,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "agents/utils/__pycache__/agent_api_client.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+      "fileB": "backend/routes/put_done_diagnosis.py",
+      "coChanges": 7,
+      "totalChangesA": 14,
+      "totalChangesB": 8,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "tasks_celery/diagnosis_task.py",
+      "fileB": "transition/master_agent.py",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/__pycache__/__init__.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/__pycache__/__init__.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/__pycache__/__init__.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 6,
+      "totalChangesB": 6,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/service.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 2,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/ueba.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 2,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/service.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 2,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/ueba.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 2,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/service.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 2,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/ueba.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 2,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/health_gate.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 6,
+      "totalChangesB": 3,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/health_gate.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 3,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/feedback.cpython-313.pyc",
+      "fileB": "backend/routes/__pycache__/schedule.cpython-313.pyc",
+      "coChanges": 3,
+      "totalChangesA": 3,
+      "totalChangesB": 6,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-313.pyc",
+      "fileB": "backend/routes/__pycache__/schedule.cpython-313.pyc",
+      "coChanges": 4,
+      "totalChangesA": 8,
+      "totalChangesB": 6,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-313.pyc",
+      "fileB": "backend/routes/__pycache__/vehicle_state.cpython-313.pyc",
+      "coChanges": 4,
+      "totalChangesA": 8,
+      "totalChangesB": 6,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/schedule.cpython-313.pyc",
+      "fileB": "backend/routes/__pycache__/vehicle_state.cpython-313.pyc",
+      "coChanges": 3,
+      "totalChangesA": 6,
+      "totalChangesB": 6,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/__pycache__/__init__.cpython-313.pyc",
+      "fileB": "backend/db/__pycache__/connection.cpython-313.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 4,
+      "couplingStrength": 0.5
+    },
+    {
+      "fileA": "backend/routes/__pycache__/schedule.cpython-312.pyc",
+      "fileB": "backend/routes/schedule.py",
+      "coChanges": 4,
+      "totalChangesA": 9,
+      "totalChangesB": 9,
+      "couplingStrength": 0.4444444444444444
+    },
+    {
+      "fileA": "backend/routes/__pycache__/schedule.cpython-313.pyc",
+      "fileB": "backend/routes/schedule.py",
+      "coChanges": 4,
+      "totalChangesA": 6,
+      "totalChangesB": 9,
+      "couplingStrength": 0.4444444444444444
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+      "coChanges": 6,
+      "totalChangesA": 8,
+      "totalChangesB": 14,
+      "couplingStrength": 0.42857142857142855
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+      "coChanges": 6,
+      "totalChangesA": 10,
+      "totalChangesB": 14,
+      "couplingStrength": 0.42857142857142855
+    },
+    {
+      "fileA": "worker_tasks/celery_config.py",
+      "fileB": "worker_tasks/scheduling_tasks.py",
+      "coChanges": 3,
+      "totalChangesA": 7,
+      "totalChangesB": 5,
+      "couplingStrength": 0.42857142857142855
+    },
+    {
+      "fileA": "backend/routes/__pycache__/telemetry.cpython-313.pyc",
+      "fileB": "backend/simulator.py",
+      "coChanges": 3,
+      "totalChangesA": 5,
+      "totalChangesB": 7,
+      "couplingStrength": 0.42857142857142855
+    },
+    {
+      "fileA": "backend/db/__pycache__/connection.cpython-313.pyc",
+      "fileB": "backend/simulator.py",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 7,
+      "couplingStrength": 0.42857142857142855
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+      "coChanges": 5,
+      "totalChangesA": 10,
+      "totalChangesB": 12,
+      "couplingStrength": 0.4166666666666667
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/celery_config.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+      "coChanges": 5,
+      "totalChangesA": 8,
+      "totalChangesB": 12,
+      "couplingStrength": 0.4166666666666667
+    },
+    {
+      "fileA": "backend/routes/put_done_diagnosis.py",
+      "fileB": "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+      "coChanges": 5,
+      "totalChangesA": 8,
+      "totalChangesB": 12,
+      "couplingStrength": 0.4166666666666667
+    },
+    {
+      "fileA": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 5,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 5,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/service_completion_tasks.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 5,
+      "totalChangesB": 2,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "transition/engagement_agent.py",
+      "fileB": "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 5,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "transition/engagement_agent.py",
+      "fileB": "worker_tasks/scheduling_tasks.py",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 5,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "transition/engagement_task.py",
+      "fileB": "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 5,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "transition/engagement_task.py",
+      "fileB": "worker_tasks/scheduling_tasks.py",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 5,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+      "fileB": "worker_tasks/scheduling_tasks.py",
+      "coChanges": 2,
+      "totalChangesA": 5,
+      "totalChangesB": 5,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "transition/scheduling_agent.py",
+      "fileB": "worker_tasks/scheduling_tasks.py",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 5,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "transition/scheduling_task.py",
+      "fileB": "worker_tasks/scheduling_tasks.py",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 5,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "transition/diagnosis_agent.py",
+      "fileB": "transition/diagnosis_task.py",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 5,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "backend/routes/__pycache__/telemetry.cpython-313.pyc",
+      "fileB": "helpers/logic/__pycache__/health_gate.cpython-313.pyc",
+      "coChanges": 2,
+      "totalChangesA": 5,
+      "totalChangesB": 3,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": ".DS_Store",
+      "fileB": "diag_agent_model/.DS_Store",
+      "coChanges": 2,
+      "totalChangesA": 5,
+      "totalChangesB": 2,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "backend/__pycache__/__init__.cpython-313.pyc",
+      "fileB": "backend/db/connection.py",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 5,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "backend/__pycache__/__init__.cpython-313.pyc",
+      "fileB": "backend/routes/__pycache__/telemetry.cpython-313.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 5,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "backend/db/__pycache__/connection.cpython-313.pyc",
+      "fileB": "backend/db/connection.py",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 5,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "backend/db/connection.py",
+      "fileB": "backend/routes/__pycache__/telemetry.cpython-313.pyc",
+      "coChanges": 2,
+      "totalChangesA": 5,
+      "totalChangesB": 5,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "backend/db/connection.py",
+      "fileB": "backend/telemetry.py",
+      "coChanges": 2,
+      "totalChangesA": 5,
+      "totalChangesB": 2,
+      "couplingStrength": 0.4
+    },
+    {
+      "fileA": "backend/readme.md",
+      "fileB": "worker_tasks/__pycache__/celery_config.cpython-312.pyc",
+      "coChanges": 5,
+      "totalChangesA": 13,
+      "totalChangesB": 8,
+      "couplingStrength": 0.38461538461538464
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+      "fileB": "worker_tasks/execution_diagnosis_task.py",
+      "coChanges": 5,
+      "totalChangesA": 12,
+      "totalChangesB": 13,
+      "couplingStrength": 0.38461538461538464
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 6,
+      "totalChangesB": 8,
+      "couplingStrength": 0.375
+    },
+    {
+      "fileA": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 8,
+      "couplingStrength": 0.375
+    },
+    {
+      "fileA": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 8,
+      "couplingStrength": 0.375
+    },
+    {
+      "fileA": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 8,
+      "couplingStrength": 0.375
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+      "coChanges": 6,
+      "totalChangesA": 14,
+      "totalChangesB": 16,
+      "couplingStrength": 0.375
+    },
+    {
+      "fileA": "backend/routes/__pycache__/schedule.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+      "coChanges": 6,
+      "totalChangesA": 9,
+      "totalChangesB": 16,
+      "couplingStrength": 0.375
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/celery_config.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/engagement_tasks.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 8,
+      "totalChangesB": 3,
+      "couplingStrength": 0.375
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/celery_config.cpython-312.pyc",
+      "fileB": "worker_tasks/celery_config.py",
+      "coChanges": 3,
+      "totalChangesA": 8,
+      "totalChangesB": 7,
+      "couplingStrength": 0.375
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "fileB": "backend/routes/put_done_diagnosis.py",
+      "coChanges": 3,
+      "totalChangesA": 8,
+      "totalChangesB": 8,
+      "couplingStrength": 0.375
+    },
+    {
+      "fileA": "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 6,
+      "totalChangesB": 8,
+      "couplingStrength": 0.375
+    },
+    {
+      "fileA": "backend/main.py",
+      "fileB": "backend/routes/__pycache__/schedule.cpython-313.pyc",
+      "coChanges": 3,
+      "totalChangesA": 8,
+      "totalChangesB": 6,
+      "couplingStrength": 0.375
+    },
+    {
+      "fileA": "backend/main.py",
+      "fileB": "backend/routes/__pycache__/vehicle_state.cpython-313.pyc",
+      "coChanges": 3,
+      "totalChangesA": 8,
+      "totalChangesB": 6,
+      "couplingStrength": 0.375
+    },
+    {
+      "fileA": "agents/engagement_agent.py",
+      "fileB": "agents/scheduling_agent.py",
+      "coChanges": 7,
+      "totalChangesA": 18,
+      "totalChangesB": 19,
+      "couplingStrength": 0.3684210526315789
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+      "coChanges": 4,
+      "totalChangesA": 8,
+      "totalChangesB": 11,
+      "couplingStrength": 0.36363636363636365
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+      "coChanges": 4,
+      "totalChangesA": 10,
+      "totalChangesB": 11,
+      "couplingStrength": 0.36363636363636365
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/celery_config.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+      "coChanges": 4,
+      "totalChangesA": 8,
+      "totalChangesB": 11,
+      "couplingStrength": 0.36363636363636365
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+      "coChanges": 7,
+      "totalChangesA": 14,
+      "totalChangesB": 20,
+      "couplingStrength": 0.35
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "backend/db/__pycache__/connection.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 4,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "backend/middleware/__pycache__/auth.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 3,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/schedule.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 6,
+      "totalChangesB": 9,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 4,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 3,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/schedule.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 9,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/schedule.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 9,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/schedule.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 9,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/schedule.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 8,
+      "totalChangesB": 9,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+      "coChanges": 4,
+      "totalChangesA": 8,
+      "totalChangesB": 12,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/routes/__pycache__/schedule.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 9,
+      "totalChangesB": 5,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "agents/diagnosis_agent.py",
+      "fileB": "worker_tasks/execution_diagnosis_task.py",
+      "coChanges": 8,
+      "totalChangesA": 24,
+      "totalChangesB": 13,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/__pycache__/__init__.cpython-312.pyc",
+      "fileB": "backend/__pycache__/main.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 6,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/__pycache__/__init__.cpython-312.pyc",
+      "fileB": "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 6,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/service.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 2,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/ueba.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 2,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 4,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 4,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 4,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/service.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 2,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/ueba.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 2,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 4,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/health_gate.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 3,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "agents/utils/__pycache__/agent_api_client.cpython-312.pyc",
+      "fileB": "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 6,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/routes/__pycache__/schedule.cpython-313.pyc",
+      "fileB": "helpers/logic/__pycache__/slot_generator.cpython-313.pyc",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 2,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/routes/__pycache__/schedule.cpython-313.pyc",
+      "fileB": "backend/routes/feedback.py",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 3,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/routes/__pycache__/vehicle_state.cpython-313.pyc",
+      "fileB": "backend/routes/vehicle_state.py",
+      "coChanges": 5,
+      "totalChangesA": 6,
+      "totalChangesB": 15,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/routes/__pycache__/predict.cpython-313.pyc",
+      "fileB": "backend/routes/__pycache__/schedule.cpython-313.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 6,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/routes/__pycache__/predict.cpython-313.pyc",
+      "fileB": "backend/routes/__pycache__/vehicle_state.cpython-313.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 6,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/routes/__pycache__/schedule.cpython-313.pyc",
+      "fileB": "backend/routes/predict.py",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 4,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/routes/__pycache__/vehicle_state.cpython-313.pyc",
+      "fileB": "backend/routes/predict.py",
+      "coChanges": 2,
+      "totalChangesA": 6,
+      "totalChangesB": 4,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis.cpython-313.pyc",
+      "fileB": "backend/routes/__pycache__/vehicle_state.cpython-313.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 6,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_done_diagnosis.cpython-313.pyc",
+      "fileB": "backend/routes/__pycache__/vehicle_state.cpython-313.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 6,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "agents/vehicle_state.py",
+      "fileB": "backend/routes/__pycache__/vehicle_state.cpython-313.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 6,
+      "couplingStrength": 0.3333333333333333
+    },
+    {
+      "fileA": "agents/scheduling_agent.py",
+      "fileB": "backend/routes/schedule.py",
+      "coChanges": 6,
+      "totalChangesA": 19,
+      "totalChangesB": 9,
+      "couplingStrength": 0.3157894736842105
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+      "coChanges": 5,
+      "totalChangesA": 6,
+      "totalChangesB": 16,
+      "couplingStrength": 0.3125
+    },
+    {
+      "fileA": "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+      "fileB": "backend/routes/vehicle_state.py",
+      "coChanges": 5,
+      "totalChangesA": 16,
+      "totalChangesB": 15,
+      "couplingStrength": 0.3125
+    },
+    {
+      "fileA": "agents/master_agent.py",
+      "fileB": "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+      "coChanges": 13,
+      "totalChangesA": 42,
+      "totalChangesB": 20,
+      "couplingStrength": 0.30952380952380953
+    },
+    {
+      "fileA": "agents/diagnosis_agent.py",
+      "fileB": "agents/master_agent.py",
+      "coChanges": 13,
+      "totalChangesA": 24,
+      "totalChangesB": 42,
+      "couplingStrength": 0.30952380952380953
+    },
+    {
+      "fileA": "backend/readme.md",
+      "fileB": "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+      "coChanges": 4,
+      "totalChangesA": 13,
+      "totalChangesB": 5,
+      "couplingStrength": 0.3076923076923077
+    },
+    {
+      "fileA": "worker_tasks/diagnosis_tasks.py",
+      "fileB": "worker_tasks/execution_diagnosis_task.py",
+      "coChanges": 4,
+      "totalChangesA": 10,
+      "totalChangesB": 13,
+      "couplingStrength": 0.3076923076923077
+    },
+    {
+      "fileA": "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+      "fileB": "backend/routes/telemetry.py",
+      "coChanges": 6,
+      "totalChangesA": 20,
+      "totalChangesB": 15,
+      "couplingStrength": 0.3
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 6,
+      "totalChangesB": 10,
+      "couplingStrength": 0.3
+    },
+    {
+      "fileA": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 10,
+      "couplingStrength": 0.3
+    },
+    {
+      "fileA": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 10,
+      "couplingStrength": 0.3
+    },
+    {
+      "fileA": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 10,
+      "couplingStrength": 0.3
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/schedule.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 10,
+      "totalChangesB": 9,
+      "couplingStrength": 0.3
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 10,
+      "totalChangesB": 4,
+      "couplingStrength": 0.3
+    },
+    {
+      "fileA": "worker_tasks/celery_config.py",
+      "fileB": "worker_tasks/diagnosis_tasks.py",
+      "coChanges": 3,
+      "totalChangesA": 7,
+      "totalChangesB": 10,
+      "couplingStrength": 0.3
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "fileB": "worker_tasks/diagnosis_tasks.py",
+      "coChanges": 3,
+      "totalChangesA": 8,
+      "totalChangesB": 10,
+      "couplingStrength": 0.3
+    },
+    {
+      "fileA": "backend/routes/put_done_diagnosis.py",
+      "fileB": "worker_tasks/diagnosis_tasks.py",
+      "coChanges": 3,
+      "totalChangesA": 8,
+      "totalChangesB": 10,
+      "couplingStrength": 0.3
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+      "fileB": "backend/routes/put_done_diagnosis.py",
+      "coChanges": 3,
+      "totalChangesA": 10,
+      "totalChangesB": 8,
+      "couplingStrength": 0.3
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+      "fileB": "worker_tasks/diagnosis_tasks.py",
+      "coChanges": 3,
+      "totalChangesA": 10,
+      "totalChangesB": 10,
+      "couplingStrength": 0.3
+    },
+    {
+      "fileA": "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 6,
+      "totalChangesB": 10,
+      "couplingStrength": 0.3
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+      "coChanges": 4,
+      "totalChangesA": 6,
+      "totalChangesB": 14,
+      "couplingStrength": 0.2857142857142857
+    },
+    {
+      "fileA": "backend/readme.md",
+      "fileB": "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+      "coChanges": 4,
+      "totalChangesA": 13,
+      "totalChangesB": 14,
+      "couplingStrength": 0.2857142857142857
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/schedule.cpython-312.pyc",
+      "coChanges": 4,
+      "totalChangesA": 14,
+      "totalChangesB": 9,
+      "couplingStrength": 0.2857142857142857
+    },
+    {
+      "fileA": "transition/__pycache__/engagement_task.cpython-312.pyc",
+      "fileB": "worker_tasks/celery_config.py",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 7,
+      "couplingStrength": 0.2857142857142857
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+      "fileB": "worker_tasks/diagnosis_tasks.py",
+      "coChanges": 4,
+      "totalChangesA": 14,
+      "totalChangesB": 10,
+      "couplingStrength": 0.2857142857142857
+    },
+    {
+      "fileA": "agents/collector_agent.py",
+      "fileB": "backend/raw_data_generator.py",
+      "coChanges": 2,
+      "totalChangesA": 7,
+      "totalChangesB": 2,
+      "couplingStrength": 0.2857142857142857
+    },
+    {
+      "fileA": "agents/collector_agent.py",
+      "fileB": "backend/__pycache__/raw_data_generator.cpython-313.pyc",
+      "coChanges": 2,
+      "totalChangesA": 7,
+      "totalChangesB": 3,
+      "couplingStrength": 0.2857142857142857
+    },
+    {
+      "fileA": "backend/simulator.py",
+      "fileB": "helpers/logic/__pycache__/health_gate.cpython-313.pyc",
+      "coChanges": 2,
+      "totalChangesA": 7,
+      "totalChangesB": 3,
+      "couplingStrength": 0.2857142857142857
+    },
+    {
+      "fileA": "backend/simulator.py",
+      "fileB": "helpers/logic/health_gate.py",
+      "coChanges": 2,
+      "totalChangesA": 7,
+      "totalChangesB": 5,
+      "couplingStrength": 0.2857142857142857
+    },
+    {
+      "fileA": ".DS_Store",
+      "fileB": "backend/simulator.py",
+      "coChanges": 2,
+      "totalChangesA": 5,
+      "totalChangesB": 7,
+      "couplingStrength": 0.2857142857142857
+    },
+    {
+      "fileA": "backend/__pycache__/__init__.cpython-313.pyc",
+      "fileB": "backend/simulator.py",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 7,
+      "couplingStrength": 0.2857142857142857
+    },
+    {
+      "fileA": "backend/db/connection.py",
+      "fileB": "backend/simulator.py",
+      "coChanges": 2,
+      "totalChangesA": 5,
+      "totalChangesB": 7,
+      "couplingStrength": 0.2857142857142857
+    },
+    {
+      "fileA": "agents/engagement_agent.py",
+      "fileB": "agents/service_completion_agent.py",
+      "coChanges": 5,
+      "totalChangesA": 18,
+      "totalChangesB": 12,
+      "couplingStrength": 0.2777777777777778
+    },
+    {
+      "fileA": "agents/engagement_agent.py",
+      "fileB": "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+      "coChanges": 5,
+      "totalChangesA": 18,
+      "totalChangesB": 16,
+      "couplingStrength": 0.2777777777777778
+    },
+    {
+      "fileA": "agents/engagement_agent.py",
+      "fileB": "backend/routes/vehicle_state.py",
+      "coChanges": 5,
+      "totalChangesA": 18,
+      "totalChangesB": 15,
+      "couplingStrength": 0.2777777777777778
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 11,
+      "totalChangesB": 5,
+      "couplingStrength": 0.2727272727272727
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+      "fileB": "worker_tasks/diagnosis_tasks.py",
+      "coChanges": 3,
+      "totalChangesA": 11,
+      "totalChangesB": 10,
+      "couplingStrength": 0.2727272727272727
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+      "coChanges": 5,
+      "totalChangesA": 6,
+      "totalChangesB": 20,
+      "couplingStrength": 0.25
+    },
+    {
+      "fileA": "backend/db/__pycache__/connection.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 4,
+      "totalChangesB": 8,
+      "couplingStrength": 0.25
+    },
+    {
+      "fileA": "backend/middleware/__pycache__/auth.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 8,
+      "couplingStrength": 0.25
+    },
+    {
+      "fileA": "backend/readme.md",
+      "fileB": "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+      "coChanges": 4,
+      "totalChangesA": 13,
+      "totalChangesB": 16,
+      "couplingStrength": 0.25
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 8,
+      "totalChangesB": 4,
+      "couplingStrength": 0.25
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 8,
+      "totalChangesB": 3,
+      "couplingStrength": 0.25
+    }
+  ],
+  "totalPairsAnalyzed": 1711,
+  "stronglyCoupled": [
+    {
+      "fileA": "transition/scheduling_agent.py",
+      "fileB": "transition/scheduling_task.py",
+      "coChanges": 3,
+      "totalChangesA": 3,
+      "totalChangesB": 3,
+      "couplingStrength": 1
+    },
+    {
+      "fileA": "backend/__pycache__/__init__.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/service.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 2,
+      "couplingStrength": 1
+    },
+    {
+      "fileA": "backend/__pycache__/__init__.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/ueba.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 2,
+      "couplingStrength": 1
+    },
+    {
+      "fileA": "backend/routes/__pycache__/service.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/ueba.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 2,
+      "couplingStrength": 1
+    },
+    {
+      "fileA": "backend/routes/__pycache__/ueba.cpython-313.pyc",
+      "fileB": "backend/routes/ueba.py",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 2,
+      "couplingStrength": 1
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_diagnosis.cpython-313.pyc",
+      "fileB": "backend/routes/__pycache__/put_done_diagnosis.cpython-313.pyc",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 2,
+      "couplingStrength": 1
+    },
+    {
+      "fileA": "agents/utils/__pycache__/agent_api_client.cpython-313.pyc",
+      "fileB": "agents/utils/agent_api_client.py",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 2,
+      "couplingStrength": 1
+    },
+    {
+      "fileA": "backend/__pycache__/main.cpython-313.pyc",
+      "fileB": "backend/main.py",
+      "coChanges": 7,
+      "totalChangesA": 8,
+      "totalChangesB": 8,
+      "couplingStrength": 0.875
+    },
+    {
+      "fileA": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 4,
+      "couplingStrength": 0.75
+    },
+    {
+      "fileA": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 4,
+      "couplingStrength": 0.75
+    },
+    {
+      "fileA": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "fileB": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 4,
+      "couplingStrength": 0.75
+    },
+    {
+      "fileA": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 3,
+      "couplingStrength": 0.75
+    },
+    {
+      "fileA": "backend/routes/put_diagnosis.py",
+      "fileB": "backend/routes/put_diagnosis_job.py",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 4,
+      "couplingStrength": 0.75
+    },
+    {
+      "fileA": "backend/routes/__pycache__/predict.cpython-313.pyc",
+      "fileB": "backend/routes/predict.py",
+      "coChanges": 3,
+      "totalChangesA": 3,
+      "totalChangesB": 4,
+      "couplingStrength": 0.75
+    },
+    {
+      "fileA": "backend/middleware/__pycache__/auth.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 3,
+      "couplingStrength": 0.6666666666666666
+    },
+    {
+      "fileA": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/engagement_tasks.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 3,
+      "couplingStrength": 0.6666666666666666
+    },
+    {
+      "fileA": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/service_completion_tasks.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 2,
+      "couplingStrength": 0.6666666666666666
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+      "coChanges": 8,
+      "totalChangesA": 12,
+      "totalChangesB": 11,
+      "couplingStrength": 0.6666666666666666
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/engagement_tasks.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/service_completion_tasks.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 2,
+      "couplingStrength": 0.6666666666666666
+    },
+    {
+      "fileA": "agents/utils/__pycache__/agent_api_client.cpython-312.pyc",
+      "fileB": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 3,
+      "couplingStrength": 0.6666666666666666
+    },
+    {
+      "fileA": "transition/engagement_agent.py",
+      "fileB": "transition/engagement_task.py",
+      "coChanges": 2,
+      "totalChangesA": 2,
+      "totalChangesB": 3,
+      "couplingStrength": 0.6666666666666666
+    },
+    {
+      "fileA": "backend/routes/__pycache__/feedback.cpython-313.pyc",
+      "fileB": "backend/routes/feedback.py",
+      "coChanges": 2,
+      "totalChangesA": 3,
+      "totalChangesB": 3,
+      "couplingStrength": 0.6666666666666666
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+      "fileB": "worker_tasks/execution_diagnosis_task.py",
+      "coChanges": 9,
+      "totalChangesA": 14,
+      "totalChangesB": 13,
+      "couplingStrength": 0.6428571428571429
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+      "fileB": "worker_tasks/execution_diagnosis_task.py",
+      "coChanges": 8,
+      "totalChangesA": 11,
+      "totalChangesB": 13,
+      "couplingStrength": 0.6153846153846154
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/engagement_tasks.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+      "coChanges": 3,
+      "totalChangesA": 3,
+      "totalChangesB": 5,
+      "couplingStrength": 0.6
+    },
+    {
+      "fileA": "transition/diagnosis_task.py",
+      "fileB": "transition/master_agent.py",
+      "coChanges": 3,
+      "totalChangesA": 5,
+      "totalChangesB": 4,
+      "couplingStrength": 0.6
+    },
+    {
+      "fileA": "backend/db/__pycache__/connection.cpython-313.pyc",
+      "fileB": "backend/routes/__pycache__/telemetry.cpython-313.pyc",
+      "coChanges": 3,
+      "totalChangesA": 4,
+      "totalChangesB": 5,
+      "couplingStrength": 0.6
+    },
+    {
+      "fileA": "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+      "fileB": "worker_tasks/diagnosis_tasks.py",
+      "coChanges": 7,
+      "totalChangesA": 12,
+      "totalChangesB": 10,
+      "couplingStrength": 0.5833333333333334
+    },
+    {
+      "fileA": "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+      "fileB": "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+      "coChanges": 8,
+      "totalChangesA": 14,
+      "totalChangesB": 11,
+      "couplingStrength": 0.5714285714285714
+    },
+    {
+      "fileA": "backend/routes/put_done_diagnosis.py",
+      "fileB": "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+      "coChanges": 6,
+      "totalChangesA": 8,
+      "totalChangesB": 11,
+      "couplingStrength": 0.5454545454545454
+    },
+    {
+      "fileA": "backend/routes/put_done_diagnosis.py",
+      "fileB": "worker_tasks/execution_diagnosis_task.py",
+      "coChanges": 7,
+      "totalChangesA": 8,
+      "totalChangesB": 13,
+      "couplingStrength": 0.5384615384615384
+    }
+  ]
+}

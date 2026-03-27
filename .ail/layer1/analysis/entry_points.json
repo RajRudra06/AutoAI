@@ -1,0 +1,153 @@
+{
+  "entryPoints": [
+    {
+      "file": "agents/collector_agent.py",
+      "type": "primary",
+      "confidence": "high",
+      "language": "Python",
+      "detectedBy": "pattern: \"if __name__ == \"__main__\"\""
+    },
+    {
+      "file": "agents/diagnosis_agent.py",
+      "type": "primary",
+      "confidence": "high",
+      "language": "Python",
+      "detectedBy": "pattern: \"if __name__ == \"__main__\"\""
+    },
+    {
+      "file": "agents/engagement_agent.py",
+      "type": "primary",
+      "confidence": "high",
+      "language": "Python",
+      "detectedBy": "pattern: \"if __name__ == \"__main__\"\""
+    },
+    {
+      "file": "agents/master_agent.py",
+      "type": "primary",
+      "confidence": "high",
+      "language": "Python",
+      "detectedBy": "pattern: \"if __name__ == \"__main__\"\""
+    },
+    {
+      "file": "agents/scheduling_agent.py",
+      "type": "primary",
+      "confidence": "high",
+      "language": "Python",
+      "detectedBy": "pattern: \"if __name__ == \"__main__\"\""
+    },
+    {
+      "file": "agents/service_completion_agent.py",
+      "type": "primary",
+      "confidence": "high",
+      "language": "Python",
+      "detectedBy": "pattern: \"if __name__ == \"__main__\"\""
+    },
+    {
+      "file": "agents/ueba_agent.py",
+      "type": "primary",
+      "confidence": "high",
+      "language": "Python",
+      "detectedBy": "pattern: \"if __name__ == \"__main__\"\""
+    },
+    {
+      "file": "backend/main.py",
+      "type": "web_app",
+      "confidence": "high",
+      "language": "Python",
+      "detectedBy": "pattern: \"app = FastAPI(\""
+    },
+    {
+      "file": "worker_tasks/celery_config.py",
+      "type": "worker",
+      "confidence": "high",
+      "language": "Python",
+      "detectedBy": "pattern: \"app = Celery(\""
+    },
+    {
+      "file": "backend/routes/feedback.py",
+      "type": "web_app",
+      "confidence": "medium",
+      "language": "Python",
+      "detectedBy": "pattern: \"@router.get(\""
+    },
+    {
+      "file": "backend/routes/predict.py",
+      "type": "web_app",
+      "confidence": "medium",
+      "language": "Python",
+      "detectedBy": "pattern: \"@router.get(\""
+    },
+    {
+      "file": "backend/routes/put_done_diagnosis.py",
+      "type": "web_app",
+      "confidence": "medium",
+      "language": "Python",
+      "detectedBy": "pattern: \"@router.get(\""
+    },
+    {
+      "file": "backend/routes/schedule.py",
+      "type": "web_app",
+      "confidence": "medium",
+      "language": "Python",
+      "detectedBy": "pattern: \"@router.get(\""
+    },
+    {
+      "file": "backend/routes/ueba.py",
+      "type": "web_app",
+      "confidence": "medium",
+      "language": "Python",
+      "detectedBy": "pattern: \"@router.get(\""
+    },
+    {
+      "file": "backend/routes/vehicle_state.py",
+      "type": "web_app",
+      "confidence": "medium",
+      "language": "Python",
+      "detectedBy": "pattern: \"@router.get(\""
+    },
+    {
+      "file": "run_sys.py",
+      "type": "primary",
+      "confidence": "medium",
+      "language": "Python",
+      "detectedBy": "filename convention: run_sys.py"
+    },
+    {
+      "file": "worker_tasks/diagnosis_tasks.py",
+      "type": "worker",
+      "confidence": "medium",
+      "language": "Python",
+      "detectedBy": "pattern: \"@app.task\""
+    },
+    {
+      "file": "worker_tasks/engagement_tasks.py",
+      "type": "worker",
+      "confidence": "medium",
+      "language": "Python",
+      "detectedBy": "pattern: \"@app.task\""
+    },
+    {
+      "file": "worker_tasks/execution_diagnosis_task.py",
+      "type": "worker",
+      "confidence": "medium",
+      "language": "Python",
+      "detectedBy": "pattern: \"@app.task\""
+    },
+    {
+      "file": "worker_tasks/scheduling_tasks.py",
+      "type": "worker",
+      "confidence": "medium",
+      "language": "Python",
+      "detectedBy": "pattern: \"@app.task\""
+    },
+    {
+      "file": "worker_tasks/service_completion_tasks.py",
+      "type": "worker",
+      "confidence": "medium",
+      "language": "Python",
+      "detectedBy": "pattern: \"@app.task\""
+    }
+  ],
+  "totalFound": 21,
+  "primaryEntry": "agents/collector_agent.py"
+}

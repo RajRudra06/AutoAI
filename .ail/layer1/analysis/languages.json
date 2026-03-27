@@ -1,0 +1,14 @@
+{
+  "primary": "Python",
+  "languages": [
+    {
+      "name": "Python",
+      "fileCount": 41,
+      "percentage": 100,
+      "extensions": [
+        ".py"
+      ]
+    }
+  ],
+  "totalSourceFiles": 41
+}

@@ -1,0 +1,274 @@
+{
+  "extensionCounts": {
+    ".py": 41,
+    "(no extension)": 5,
+    ".md": 2,
+    ".png": 1,
+    ".pkl": 1,
+    ".json": 1,
+    ".ipynb": 1
+  },
+  "totalFiles": 52,
+  "files": [
+    {
+      "relativePath": ".DS_Store",
+      "extension": "",
+      "sizeBytes": 14340
+    },
+    {
+      "relativePath": "GEMINI.md",
+      "extension": ".md",
+      "sizeBytes": 7189
+    },
+    {
+      "relativePath": "agents/collector_agent.py",
+      "extension": ".py",
+      "sizeBytes": 1731
+    },
+    {
+      "relativePath": "agents/diagnosis_agent.py",
+      "extension": ".py",
+      "sizeBytes": 18476
+    },
+    {
+      "relativePath": "agents/engagement_agent.py",
+      "extension": ".py",
+      "sizeBytes": 14924
+    },
+    {
+      "relativePath": "agents/master_agent.py",
+      "extension": ".py",
+      "sizeBytes": 16711
+    },
+    {
+      "relativePath": "agents/scheduling_agent.py",
+      "extension": ".py",
+      "sizeBytes": 14186
+    },
+    {
+      "relativePath": "agents/service_completion_agent.py",
+      "extension": ".py",
+      "sizeBytes": 16679
+    },
+    {
+      "relativePath": "agents/ueba_agent.py",
+      "extension": ".py",
+      "sizeBytes": 2256
+    },
+    {
+      "relativePath": "agents/utils/agent_api_client.py",
+      "extension": ".py",
+      "sizeBytes": 400
+    },
+    {
+      "relativePath": "backend/.env",
+      "extension": "",
+      "sizeBytes": 518
+    },
+    {
+      "relativePath": "backend/.gitignore",
+      "extension": "",
+      "sizeBytes": 30
+    },
+    {
+      "relativePath": "backend/__init__.py",
+      "extension": ".py",
+      "sizeBytes": 0
+    },
+    {
+      "relativePath": "backend/db/__init__.py",
+      "extension": ".py",
+      "sizeBytes": 0
+    },
+    {
+      "relativePath": "backend/db/connection.py",
+      "extension": ".py",
+      "sizeBytes": 618
+    },
+    {
+      "relativePath": "backend/main.py",
+      "extension": ".py",
+      "sizeBytes": 1521
+    },
+    {
+      "relativePath": "backend/middleware/auth.py",
+      "extension": ".py",
+      "sizeBytes": 1030
+    },
+    {
+      "relativePath": "backend/raw_data_generator.py",
+      "extension": ".py",
+      "sizeBytes": 2961
+    },
+    {
+      "relativePath": "backend/readme.md",
+      "extension": ".md",
+      "sizeBytes": 2920
+    },
+    {
+      "relativePath": "backend/routes/__init__.py",
+      "extension": ".py",
+      "sizeBytes": 0
+    },
+    {
+      "relativePath": "backend/routes/engagement.py",
+      "extension": ".py",
+      "sizeBytes": 288
+    },
+    {
+      "relativePath": "backend/routes/feedback.py",
+      "extension": ".py",
+      "sizeBytes": 928
+    },
+    {
+      "relativePath": "backend/routes/predict.py",
+      "extension": ".py",
+      "sizeBytes": 535
+    },
+    {
+      "relativePath": "backend/routes/put_diagnosis.py",
+      "extension": ".py",
+      "sizeBytes": 1316
+    },
+    {
+      "relativePath": "backend/routes/put_diagnosis_job.py",
+      "extension": ".py",
+      "sizeBytes": 1317
+    },
+    {
+      "relativePath": "backend/routes/put_done_diagnosis.py",
+      "extension": ".py",
+      "sizeBytes": 9581
+    },
+    {
+      "relativePath": "backend/routes/schedule.py",
+      "extension": ".py",
+      "sizeBytes": 3421
+    },
+    {
+      "relativePath": "backend/routes/service.py",
+      "extension": ".py",
+      "sizeBytes": 1277
+    },
+    {
+      "relativePath": "backend/routes/telemetry.py",
+      "extension": ".py",
+      "sizeBytes": 2466
+    },
+    {
+      "relativePath": "backend/routes/ueba.py",
+      "extension": ".py",
+      "sizeBytes": 580
+    },
+    {
+      "relativePath": "backend/routes/vehicle_state.py",
+      "extension": ".py",
+      "sizeBytes": 4097
+    },
+    {
+      "relativePath": "diag_agent_model/.DS_Store",
+      "extension": "",
+      "sizeBytes": 6148
+    },
+    {
+      "relativePath": "diag_agent_model/iForest/.DS_Store",
+      "extension": "",
+      "sizeBytes": 6148
+    },
+    {
+      "relativePath": "diag_agent_model/iForest/logs/model_evaluation.png",
+      "extension": ".png",
+      "sizeBytes": 165685
+    },
+    {
+      "relativePath": "diag_agent_model/iForest/models/isolation_forest_v1.pkl",
+      "extension": ".pkl",
+      "sizeBytes": 986889
+    },
+    {
+      "relativePath": "diag_agent_model/iForest/models/model_metadata.json",
+      "extension": ".json",
+      "sizeBytes": 1149
+    },
+    {
+      "relativePath": "diag_agent_model/iForest.ipynb",
+      "extension": ".ipynb",
+      "sizeBytes": 54441
+    },
+    {
+      "relativePath": "helpers/logging_config.py",
+      "extension": ".py",
+      "sizeBytes": 680
+    },
+    {
+      "relativePath": "helpers/logic/email_service.py",
+      "extension": ".py",
+      "sizeBytes": 740
+    },
+    {
+      "relativePath": "helpers/logic/generate_feature_simulator.py",
+      "extension": ".py",
+      "sizeBytes": 4249
+    },
+    {
+      "relativePath": "helpers/logic/get_feature_name.py",
+      "extension": ".py",
+      "sizeBytes": 1437
+    },
+    {
+      "relativePath": "helpers/logic/health_gate.py",
+      "extension": ".py",
+      "sizeBytes": 947
+    },
+    {
+      "relativePath": "helpers/logic/risk_scoring.py",
+      "extension": ".py",
+      "sizeBytes": 148
+    },
+    {
+      "relativePath": "helpers/logic/slot_generator.py",
+      "extension": ".py",
+      "sizeBytes": 491
+    },
+    {
+      "relativePath": "run_sys.py",
+      "extension": ".py",
+      "sizeBytes": 641
+    },
+    {
+      "relativePath": "worker_tasks/__init__.py",
+      "extension": ".py",
+      "sizeBytes": 0
+    },
+    {
+      "relativePath": "worker_tasks/celery_config.py",
+      "extension": ".py",
+      "sizeBytes": 1568
+    },
+    {
+      "relativePath": "worker_tasks/diagnosis_tasks.py",
+      "extension": ".py",
+      "sizeBytes": 3931
+    },
+    {
+      "relativePath": "worker_tasks/engagement_tasks.py",
+      "extension": ".py",
+      "sizeBytes": 13063
+    },
+    {
+      "relativePath": "worker_tasks/execution_diagnosis_task.py",
+      "extension": ".py",
+      "sizeBytes": 9395
+    },
+    {
+      "relativePath": "worker_tasks/scheduling_tasks.py",
+      "extension": ".py",
+      "sizeBytes": 5426
+    },
+    {
+      "relativePath": "worker_tasks/service_completion_tasks.py",
+      "extension": ".py",
+      "sizeBytes": 5614
+    }
+  ]
+}

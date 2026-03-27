@@ -1,0 +1,1770 @@
+{
+  "entities": [
+    {
+      "name": "to_json_safe",
+      "type": "function",
+      "file": "agents/collector_agent.py",
+      "startLine": 19,
+      "endLine": 24,
+      "params": [
+        "obj"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "CollectorAgent",
+      "type": "class",
+      "file": "agents/collector_agent.py",
+      "startLine": 26,
+      "endLine": 56,
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "__init__",
+      "type": "method",
+      "file": "agents/collector_agent.py",
+      "startLine": 27,
+      "endLine": 28,
+      "params": [],
+      "exported": false,
+      "language": "Python",
+      "parentClass": "CollectorAgent"
+    },
+    {
+      "name": "run",
+      "type": "method",
+      "file": "agents/collector_agent.py",
+      "startLine": 30,
+      "endLine": 56,
+      "params": [],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "CollectorAgent"
+    },
+    {
+      "name": "DiagnosisAgent",
+      "type": "class",
+      "file": "agents/diagnosis_agent.py",
+      "startLine": 19,
+      "endLine": 403,
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "__init__",
+      "type": "method",
+      "file": "agents/diagnosis_agent.py",
+      "startLine": 20,
+      "endLine": 34,
+      "params": [
+        "base_api_url: str",
+        "poll_interval: int",
+        "window_size: int",
+        "shard_id: int",
+        "total_shards: int",
+        "max_threads=10"
+      ],
+      "exported": false,
+      "language": "Python",
+      "parentClass": "DiagnosisAgent"
+    },
+    {
+      "name": "get_all_diagnosis_jobs",
+      "type": "method",
+      "file": "agents/diagnosis_agent.py",
+      "startLine": 36,
+      "endLine": 40,
+      "params": [],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "DiagnosisAgent"
+    },
+    {
+      "name": "extract_vehicle_params",
+      "type": "method",
+      "file": "agents/diagnosis_agent.py",
+      "startLine": 42,
+      "endLine": 73,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "DiagnosisAgent"
+    },
+    {
+      "name": "cycle",
+      "type": "method",
+      "file": "agents/diagnosis_agent.py",
+      "startLine": 75,
+      "endLine": 82,
+      "params": [
+        "jobs_for_my_shard: list"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "DiagnosisAgent"
+    },
+    {
+      "name": "process_single_job",
+      "type": "method",
+      "file": "agents/diagnosis_agent.py",
+      "startLine": 84,
+      "endLine": 120,
+      "params": [
+        "job: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "DiagnosisAgent"
+    },
+    {
+      "name": "enqueue_execution_diagnosis_task",
+      "type": "method",
+      "file": "agents/diagnosis_agent.py",
+      "startLine": 122,
+      "endLine": 196,
+      "params": [
+        "job: dict",
+        "vehicle_id: str"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "DiagnosisAgent"
+    },
+    {
+      "name": "get_vehicle_state",
+      "type": "method",
+      "file": "agents/diagnosis_agent.py",
+      "startLine": 198,
+      "endLine": 207,
+      "params": [
+        "vehicle_id: str"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "DiagnosisAgent"
+    },
+    {
+      "name": "skip_job",
+      "type": "method",
+      "file": "agents/diagnosis_agent.py",
+      "startLine": 209,
+      "endLine": 217,
+      "params": [
+        "job_id: str",
+        "vehicle_id: str"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "DiagnosisAgent"
+    },
+    {
+      "name": "lifecycle_gate_check",
+      "type": "method",
+      "file": "agents/diagnosis_agent.py",
+      "startLine": 219,
+      "endLine": 327,
+      "params": [
+        "job_id: str",
+        "vehicle_id: str"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "DiagnosisAgent"
+    },
+    {
+      "name": "reset_stale_vehicle",
+      "type": "method",
+      "file": "agents/diagnosis_agent.py",
+      "startLine": 329,
+      "endLine": 403,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "DiagnosisAgent"
+    },
+    {
+      "name": "run_shard_cycle",
+      "type": "function",
+      "file": "agents/diagnosis_agent.py",
+      "startLine": 406,
+      "endLine": 427,
+      "params": [
+        "work_packet: tuple"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "orchestrator_main",
+      "type": "function",
+      "file": "agents/diagnosis_agent.py",
+      "startLine": 430,
+      "endLine": 492,
+      "params": [],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "EngagementAgent",
+      "type": "class",
+      "file": "agents/engagement_agent.py",
+      "startLine": 18,
+      "endLine": 268,
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "__init__",
+      "type": "method",
+      "file": "agents/engagement_agent.py",
+      "startLine": 19,
+      "endLine": 24,
+      "params": [
+        "base_api_url: str",
+        "poll_interval: int",
+        "shard_id: int",
+        "total_shards: int",
+        "max_threads=10"
+      ],
+      "exported": false,
+      "language": "Python",
+      "parentClass": "EngagementAgent"
+    },
+    {
+      "name": "fetch_all_vehicles_globally",
+      "type": "method",
+      "file": "agents/engagement_agent.py",
+      "startLine": 26,
+      "endLine": 34,
+      "params": [],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "EngagementAgent"
+    },
+    {
+      "name": "extract_vehicle_params",
+      "type": "method",
+      "file": "agents/engagement_agent.py",
+      "startLine": 36,
+      "endLine": 65,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "EngagementAgent"
+    },
+    {
+      "name": "cycle",
+      "type": "method",
+      "file": "agents/engagement_agent.py",
+      "startLine": 67,
+      "endLine": 71,
+      "params": [
+        "vehicles_for_my_shard: list"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "EngagementAgent"
+    },
+    {
+      "name": "process_single_vehicle",
+      "type": "method",
+      "file": "agents/engagement_agent.py",
+      "startLine": 73,
+      "endLine": 92,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "EngagementAgent"
+    },
+    {
+      "name": "enqueue_engagement_task",
+      "type": "method",
+      "file": "agents/engagement_agent.py",
+      "startLine": 94,
+      "endLine": 154,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "EngagementAgent"
+    },
+    {
+      "name": "lifecycle_gate_check",
+      "type": "method",
+      "file": "agents/engagement_agent.py",
+      "startLine": 156,
+      "endLine": 216,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "EngagementAgent"
+    },
+    {
+      "name": "reset_stale_vehicle",
+      "type": "method",
+      "file": "agents/engagement_agent.py",
+      "startLine": 218,
+      "endLine": 268,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "EngagementAgent"
+    },
+    {
+      "name": "run_shard_cycle",
+      "type": "function",
+      "file": "agents/engagement_agent.py",
+      "startLine": 270,
+      "endLine": 282,
+      "params": [
+        "work_packet: tuple"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "orchestrator_main",
+      "type": "function",
+      "file": "agents/engagement_agent.py",
+      "startLine": 284,
+      "endLine": 321,
+      "params": [],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "MasterAgent",
+      "type": "class",
+      "file": "agents/master_agent.py",
+      "startLine": 19,
+      "endLine": 289,
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "__init__",
+      "type": "method",
+      "file": "agents/master_agent.py",
+      "startLine": 21,
+      "endLine": 25,
+      "params": [
+        "api_base_url_val",
+        "shard_id",
+        "total_shards",
+        "max_threads=10"
+      ],
+      "exported": false,
+      "language": "Python",
+      "parentClass": "MasterAgent"
+    },
+    {
+      "name": "diagnosis_check",
+      "type": "method",
+      "file": "agents/master_agent.py",
+      "startLine": 27,
+      "endLine": 49,
+      "params": [
+        "vehicle"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "MasterAgent"
+    },
+    {
+      "name": "cycle",
+      "type": "method",
+      "file": "agents/master_agent.py",
+      "startLine": 51,
+      "endLine": 55,
+      "params": [
+        "vehicles_for_my_shard: list"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "MasterAgent"
+    },
+    {
+      "name": "process_single_vehicle",
+      "type": "method",
+      "file": "agents/master_agent.py",
+      "startLine": 57,
+      "endLine": 75,
+      "params": [
+        "vehicle"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "MasterAgent"
+    },
+    {
+      "name": "enqueue_diagnosis_task",
+      "type": "method",
+      "file": "agents/master_agent.py",
+      "startLine": 77,
+      "endLine": 141,
+      "params": [
+        "vehicle: dict",
+        "reasons: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "MasterAgent"
+    },
+    {
+      "name": "extract_vehicle_params",
+      "type": "method",
+      "file": "agents/master_agent.py",
+      "startLine": 143,
+      "endLine": 170,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "MasterAgent"
+    },
+    {
+      "name": "process_vehicle",
+      "type": "method",
+      "file": "agents/master_agent.py",
+      "startLine": 172,
+      "endLine": 190,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "MasterAgent"
+    },
+    {
+      "name": "lifecycle_gate",
+      "type": "method",
+      "file": "agents/master_agent.py",
+      "startLine": 192,
+      "endLine": 236,
+      "params": [
+        "workflow_stage: str",
+        "high_risk_active: bool",
+        "last_processed_telemetry: datetime",
+        "latest_feature_associated_telemetryID: datetime",
+        "pipeline_associated: dict",
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "MasterAgent"
+    },
+    {
+      "name": "reset_stale_vehicle",
+      "type": "method",
+      "file": "agents/master_agent.py",
+      "startLine": 238,
+      "endLine": 289,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "MasterAgent"
+    },
+    {
+      "name": "fetch_all_vehicles_globally",
+      "type": "function",
+      "file": "agents/master_agent.py",
+      "startLine": 291,
+      "endLine": 299,
+      "params": [
+        "api_url: str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "run_shard_cycle",
+      "type": "function",
+      "file": "agents/master_agent.py",
+      "startLine": 301,
+      "endLine": 313,
+      "params": [
+        "work_packet: tuple"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "orchestrator_main",
+      "type": "function",
+      "file": "agents/master_agent.py",
+      "startLine": 315,
+      "endLine": 346,
+      "params": [],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "SchedulingAgent",
+      "type": "class",
+      "file": "agents/scheduling_agent.py",
+      "startLine": 15,
+      "endLine": 256,
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "__init__",
+      "type": "method",
+      "file": "agents/scheduling_agent.py",
+      "startLine": 16,
+      "endLine": 21,
+      "params": [
+        "base_api_url: str",
+        "poll_interval: int",
+        "shard_id: int",
+        "total_shards: int",
+        "max_threads=10"
+      ],
+      "exported": false,
+      "language": "Python",
+      "parentClass": "SchedulingAgent"
+    },
+    {
+      "name": "fetch_all_vehicles_globally",
+      "type": "method",
+      "file": "agents/scheduling_agent.py",
+      "startLine": 23,
+      "endLine": 31,
+      "params": [],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "SchedulingAgent"
+    },
+    {
+      "name": "extract_vehicle_params",
+      "type": "method",
+      "file": "agents/scheduling_agent.py",
+      "startLine": 33,
+      "endLine": 61,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "SchedulingAgent"
+    },
+    {
+      "name": "cycle",
+      "type": "method",
+      "file": "agents/scheduling_agent.py",
+      "startLine": 63,
+      "endLine": 67,
+      "params": [
+        "vehicles_for_my_shard: list"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "SchedulingAgent"
+    },
+    {
+      "name": "process_single_vehicle",
+      "type": "method",
+      "file": "agents/scheduling_agent.py",
+      "startLine": 69,
+      "endLine": 88,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "SchedulingAgent"
+    },
+    {
+      "name": "enqueue_scheduling_task",
+      "type": "method",
+      "file": "agents/scheduling_agent.py",
+      "startLine": 90,
+      "endLine": 148,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "SchedulingAgent"
+    },
+    {
+      "name": "lifecycle_gate_check",
+      "type": "method",
+      "file": "agents/scheduling_agent.py",
+      "startLine": 150,
+      "endLine": 204,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "SchedulingAgent"
+    },
+    {
+      "name": "reset_stale_vehicle",
+      "type": "method",
+      "file": "agents/scheduling_agent.py",
+      "startLine": 206,
+      "endLine": 256,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "SchedulingAgent"
+    },
+    {
+      "name": "run_shard_cycle",
+      "type": "function",
+      "file": "agents/scheduling_agent.py",
+      "startLine": 258,
+      "endLine": 270,
+      "params": [
+        "work_packet: tuple"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "orchestrator_main",
+      "type": "function",
+      "file": "agents/scheduling_agent.py",
+      "startLine": 272,
+      "endLine": 309,
+      "params": [],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "ServiceCompletionAgent",
+      "type": "class",
+      "file": "agents/service_completion_agent.py",
+      "startLine": 20,
+      "endLine": 296,
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "__init__",
+      "type": "method",
+      "file": "agents/service_completion_agent.py",
+      "startLine": 21,
+      "endLine": 26,
+      "params": [
+        "base_api_url: str",
+        "poll_interval: int",
+        "shard_id: int",
+        "total_shards: int",
+        "max_threads=10"
+      ],
+      "exported": false,
+      "language": "Python",
+      "parentClass": "ServiceCompletionAgent"
+    },
+    {
+      "name": "fetch_all_vehicles_globally",
+      "type": "method",
+      "file": "agents/service_completion_agent.py",
+      "startLine": 28,
+      "endLine": 36,
+      "params": [],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "ServiceCompletionAgent"
+    },
+    {
+      "name": "extract_vehicle_params",
+      "type": "method",
+      "file": "agents/service_completion_agent.py",
+      "startLine": 38,
+      "endLine": 67,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "ServiceCompletionAgent"
+    },
+    {
+      "name": "cycle",
+      "type": "method",
+      "file": "agents/service_completion_agent.py",
+      "startLine": 70,
+      "endLine": 75,
+      "params": [
+        "vehicles_for_my_shard: list"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "ServiceCompletionAgent"
+    },
+    {
+      "name": "process_single_vehicle",
+      "type": "method",
+      "file": "agents/service_completion_agent.py",
+      "startLine": 77,
+      "endLine": 96,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "ServiceCompletionAgent"
+    },
+    {
+      "name": "enqueue_service_completion_task",
+      "type": "method",
+      "file": "agents/service_completion_agent.py",
+      "startLine": 98,
+      "endLine": 161,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "ServiceCompletionAgent"
+    },
+    {
+      "name": "get_booking_status",
+      "type": "method",
+      "file": "agents/service_completion_agent.py",
+      "startLine": 163,
+      "endLine": 166,
+      "params": [
+        "vehicle_id: str"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "ServiceCompletionAgent"
+    },
+    {
+      "name": "lifecycle_gate_check",
+      "type": "method",
+      "file": "agents/service_completion_agent.py",
+      "startLine": 168,
+      "endLine": 244,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "ServiceCompletionAgent"
+    },
+    {
+      "name": "reset_stale_vehicle",
+      "type": "method",
+      "file": "agents/service_completion_agent.py",
+      "startLine": 246,
+      "endLine": 296,
+      "params": [
+        "vehicle: dict"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "ServiceCompletionAgent"
+    },
+    {
+      "name": "run_shard_cycle",
+      "type": "function",
+      "file": "agents/service_completion_agent.py",
+      "startLine": 298,
+      "endLine": 310,
+      "params": [
+        "work_packet: tuple"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "orchestrator_main",
+      "type": "function",
+      "file": "agents/service_completion_agent.py",
+      "startLine": 312,
+      "endLine": 349,
+      "params": [],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "run_ueba_agent",
+      "type": "function",
+      "file": "agents/ueba_agent.py",
+      "startLine": 18,
+      "endLine": 45,
+      "params": [],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "escalate",
+      "type": "function",
+      "file": "agents/ueba_agent.py",
+      "startLine": 48,
+      "endLine": 74,
+      "params": [
+        "vehicle_id",
+        "reason",
+        "details"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "post",
+      "type": "function",
+      "file": "agents/utils/agent_api_client.py",
+      "startLine": 11,
+      "endLine": 17,
+      "params": [
+        "url: str",
+        "json: dict",
+        "timeout: int = 5"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "get",
+      "type": "function",
+      "file": "agents/utils/agent_api_client.py",
+      "startLine": 19,
+      "endLine": 20,
+      "params": [
+        "url: str",
+        "timeout: int = 5"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "health",
+      "type": "function",
+      "file": "backend/main.py",
+      "startLine": 19,
+      "endLine": 20,
+      "params": [],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "AgentAuthMiddleware",
+      "type": "class",
+      "file": "backend/middleware/auth.py",
+      "startLine": 9,
+      "endLine": 31,
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "dispatch",
+      "type": "method",
+      "file": "backend/middleware/auth.py",
+      "startLine": 10,
+      "endLine": 31,
+      "params": [
+        "request: Request",
+        "call_next"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "AgentAuthMiddleware"
+    },
+    {
+      "name": "RawDataGenerator",
+      "type": "class",
+      "file": "backend/raw_data_generator.py",
+      "startLine": 9,
+      "endLine": 71,
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "__init__",
+      "type": "method",
+      "file": "backend/raw_data_generator.py",
+      "startLine": 10,
+      "endLine": 34,
+      "params": [],
+      "exported": false,
+      "language": "Python",
+      "parentClass": "RawDataGenerator"
+    },
+    {
+      "name": "evolve",
+      "type": "method",
+      "file": "backend/raw_data_generator.py",
+      "startLine": 36,
+      "endLine": 52,
+      "params": [
+        "v",
+        "failing=False"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "RawDataGenerator"
+    },
+    {
+      "name": "generate_window",
+      "type": "method",
+      "file": "backend/raw_data_generator.py",
+      "startLine": 54,
+      "endLine": 71,
+      "params": [
+        "n_readings=120"
+      ],
+      "exported": true,
+      "language": "Python",
+      "parentClass": "RawDataGenerator"
+    },
+    {
+      "name": "log_engagement",
+      "type": "function",
+      "file": "backend/routes/engagement.py",
+      "startLine": 9,
+      "endLine": 11,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "submit_feedback",
+      "type": "function",
+      "file": "backend/routes/feedback.py",
+      "startLine": 8,
+      "endLine": 10,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "get_feedback",
+      "type": "function",
+      "file": "backend/routes/feedback.py",
+      "startLine": 13,
+      "endLine": 15,
+      "params": [
+        "vehicle_id: str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "log_feedback",
+      "type": "function",
+      "file": "backend/routes/feedback.py",
+      "startLine": 18,
+      "endLine": 32,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "trigger_prediction",
+      "type": "function",
+      "file": "backend/routes/predict.py",
+      "startLine": 7,
+      "endLine": 10,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "get_latest_prediction",
+      "type": "function",
+      "file": "backend/routes/predict.py",
+      "startLine": 13,
+      "endLine": 19,
+      "params": [
+        "vehicle_id: str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "queue_diagnosis",
+      "type": "function",
+      "file": "backend/routes/put_diagnosis.py",
+      "startLine": 8,
+      "endLine": 41,
+      "params": [
+        "payload: dict",
+        "request: Request"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "queue_diagnosis",
+      "type": "function",
+      "file": "backend/routes/put_diagnosis_job.py",
+      "startLine": 8,
+      "endLine": 41,
+      "params": [
+        "payload: dict",
+        "request: Request"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "get_pending_jobs",
+      "type": "function",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "startLine": 9,
+      "endLine": 17,
+      "params": [
+        "limit: int = 5"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "get_job_details",
+      "type": "function",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "startLine": 20,
+      "endLine": 28,
+      "params": [
+        "job_id: str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "start_diagnosis",
+      "type": "function",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "startLine": 31,
+      "endLine": 47,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "skip_diagnosis",
+      "type": "function",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "startLine": 50,
+      "endLine": 90,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "fail_diagnosis",
+      "type": "function",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "startLine": 93,
+      "endLine": 132,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "failed_job_no_risk",
+      "type": "function",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "startLine": 135,
+      "endLine": 174,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "complete_job_no_risk",
+      "type": "function",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "startLine": 177,
+      "endLine": 227,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "complete_diagnosis",
+      "type": "function",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "startLine": 230,
+      "endLine": 275,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "finalize_stale_diagnosis_jobs",
+      "type": "function",
+      "file": "backend/routes/put_done_diagnosis.py",
+      "startLine": 279,
+      "endLine": 294,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "book_slot",
+      "type": "function",
+      "file": "backend/routes/schedule.py",
+      "startLine": 10,
+      "endLine": 13,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "get_booking",
+      "type": "function",
+      "file": "backend/routes/schedule.py",
+      "startLine": 17,
+      "endLine": 57,
+      "params": [
+        "vehicle_id: str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "generate_random_service_slot",
+      "type": "function",
+      "file": "backend/routes/schedule.py",
+      "startLine": 60,
+      "endLine": 77,
+      "params": [
+        "days_ahead: int = 8"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "update_vehicle_state",
+      "type": "function",
+      "file": "backend/routes/schedule.py",
+      "startLine": 81,
+      "endLine": 101,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "complete_booking_schedule",
+      "type": "function",
+      "file": "backend/routes/schedule.py",
+      "startLine": 104,
+      "endLine": 129,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "complete_service",
+      "type": "function",
+      "file": "backend/routes/service.py",
+      "startLine": 8,
+      "endLine": 41,
+      "params": [
+        "payload: dict",
+        "request: Request"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "receive_telemetry",
+      "type": "function",
+      "file": "backend/routes/telemetry.py",
+      "startLine": 8,
+      "endLine": 78,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "log_ueba_event",
+      "type": "function",
+      "file": "backend/routes/ueba.py",
+      "startLine": 8,
+      "endLine": 15,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "get_logs",
+      "type": "function",
+      "file": "backend/routes/ueba.py",
+      "startLine": 18,
+      "endLine": 20,
+      "params": [],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "get_all_vehicle_states",
+      "type": "function",
+      "file": "backend/routes/vehicle_state.py",
+      "startLine": 8,
+      "endLine": 36,
+      "params": [
+        "request: Request"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "get_vehicle_state",
+      "type": "function",
+      "file": "backend/routes/vehicle_state.py",
+      "startLine": 39,
+      "endLine": 53,
+      "params": [
+        "vehicle_id: str",
+        "request: Request"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "update_vehicle_state",
+      "type": "function",
+      "file": "backend/routes/vehicle_state.py",
+      "startLine": 56,
+      "endLine": 113,
+      "params": [
+        "payload: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "setup_logger",
+      "type": "function",
+      "file": "helpers/logging_config.py",
+      "startLine": 8,
+      "endLine": 29,
+      "params": [
+        "name: str",
+        "filename: str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "send_email",
+      "type": "function",
+      "file": "helpers/logic/email_service.py",
+      "startLine": 14,
+      "endLine": 28,
+      "params": [
+        "to_email: str",
+        "subject: str",
+        "body: str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "extract_features_from_vehicle",
+      "type": "function",
+      "file": "helpers/logic/generate_feature_simulator.py",
+      "startLine": 6,
+      "endLine": 96,
+      "params": [
+        "vehicle_df: pd.DataFrame"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "get_feature_names",
+      "type": "function",
+      "file": "helpers/logic/get_feature_name.py",
+      "startLine": 3,
+      "endLine": 52,
+      "params": [],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "needs_diagnosis",
+      "type": "function",
+      "file": "helpers/logic/health_gate.py",
+      "startLine": 10,
+      "endLine": 35,
+      "params": [
+        "telemetry: Dict",
+        "previous_telemetry: Dict | None = None"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "transform_scores_to_risk",
+      "type": "function",
+      "file": "helpers/logic/risk_scoring.py",
+      "startLine": 3,
+      "endLine": 6,
+      "params": [
+        "scores",
+        "scale=5.0"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "generate_random_service_slot",
+      "type": "function",
+      "file": "helpers/logic/slot_generator.py",
+      "startLine": 4,
+      "endLine": 21,
+      "params": [
+        "days_ahead: int = 8"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "run_diagnosis",
+      "type": "function",
+      "file": "worker_tasks/diagnosis_tasks.py",
+      "startLine": 24,
+      "endLine": 73,
+      "params": [
+        "vehicle_id: str",
+        "features_snapshot: dict",
+        "trigger_reasons: list",
+        "api_base_url: str",
+        "latest_feature_associated_telemetryID",
+        "thread_id: int",
+        "master_shard_id: int"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "put_diagnosis_job",
+      "type": "function",
+      "file": "worker_tasks/diagnosis_tasks.py",
+      "startLine": 75,
+      "endLine": 114,
+      "params": [
+        "vehicle_id: str",
+        "features_snapshot: dict",
+        "trigger_reasons: dict",
+        "api_base_url: str",
+        "latest_feature_associated_telemetryID",
+        "master_shard_id:int",
+        "thread_id:int"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "build_engagement_task_celery",
+      "type": "function",
+      "file": "worker_tasks/engagement_tasks.py",
+      "startLine": 127,
+      "endLine": 152,
+      "params": [
+        "vehicle_id",
+        "issue",
+        "booking"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "run_crewai_engagement_celery",
+      "type": "function",
+      "file": "worker_tasks/engagement_tasks.py",
+      "startLine": 154,
+      "endLine": 174,
+      "params": [
+        "vehicle_id",
+        "issue",
+        "booking"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "compute_severity_celery",
+      "type": "function",
+      "file": "worker_tasks/engagement_tasks.py",
+      "startLine": 176,
+      "endLine": 177,
+      "params": [
+        "value",
+        "threshold"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "extract_7d_top_issues_celery",
+      "type": "function",
+      "file": "worker_tasks/engagement_tasks.py",
+      "startLine": 179,
+      "endLine": 207,
+      "params": [
+        "vehicle_id",
+        "features_snapshot"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "mock_llm_engagement_response_celery",
+      "type": "function",
+      "file": "worker_tasks/engagement_tasks.py",
+      "startLine": 210,
+      "endLine": 276,
+      "params": [
+        "vehicle_id",
+        "prediction",
+        "booking"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "execute_engagement_job",
+      "type": "function",
+      "file": "worker_tasks/engagement_tasks.py",
+      "startLine": 287,
+      "endLine": 419,
+      "params": [
+        "vehicle_id: str",
+        "base_api_url: str",
+        "risk_state: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "execute_diagnosis_job",
+      "type": "function",
+      "file": "worker_tasks/execution_diagnosis_task.py",
+      "startLine": 26,
+      "endLine": 123,
+      "params": [
+        "job_data: dict",
+        "base_api_url:str",
+        "window_size:int"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "load_isolation_forest_model_task",
+      "type": "function",
+      "file": "worker_tasks/execution_diagnosis_task.py",
+      "startLine": 125,
+      "endLine": 134,
+      "params": [],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "run_inference_task",
+      "type": "function",
+      "file": "worker_tasks/execution_diagnosis_task.py",
+      "startLine": 136,
+      "endLine": 167,
+      "params": [
+        "feature_order:list",
+        "feature_dict:dict",
+        "model",
+        "unresolved_issues:list",
+        "vehicle_id:str",
+        "job_id:str",
+        "window_size:int",
+        "model_version:str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "post_complete_job_task",
+      "type": "function",
+      "file": "worker_tasks/execution_diagnosis_task.py",
+      "startLine": 169,
+      "endLine": 178,
+      "params": [
+        "payload:dict",
+        "base_api_url:str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "fail_job_post_task",
+      "type": "function",
+      "file": "worker_tasks/execution_diagnosis_task.py",
+      "startLine": 180,
+      "endLine": 184,
+      "params": [
+        "job_id:str",
+        "vehicle_id:str",
+        "base_api_url:str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "start_job_post_task",
+      "type": "function",
+      "file": "worker_tasks/execution_diagnosis_task.py",
+      "startLine": 186,
+      "endLine": 197,
+      "params": [
+        "job_id:str",
+        "base_api_url:str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "complete_job_no_risk",
+      "type": "function",
+      "file": "worker_tasks/execution_diagnosis_task.py",
+      "startLine": 199,
+      "endLine": 213,
+      "params": [
+        "job_id:str",
+        "vehicle_id:str",
+        "base_api_url:str",
+        "payload:dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "fail_job_no_risk",
+      "type": "function",
+      "file": "worker_tasks/execution_diagnosis_task.py",
+      "startLine": 215,
+      "endLine": 227,
+      "params": [
+        "job_id:str",
+        "vehicle_id:str",
+        "base_api_url:str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "finalise_stale_jobs",
+      "type": "function",
+      "file": "worker_tasks/execution_diagnosis_task.py",
+      "startLine": 229,
+      "endLine": 241,
+      "params": [
+        "vehicle_id:str",
+        "base_api_url:str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "execute_scheduling_job",
+      "type": "function",
+      "file": "worker_tasks/scheduling_tasks.py",
+      "startLine": 21,
+      "endLine": 89,
+      "params": [
+        "vehicle_id: str",
+        "base_api_url: str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "get_service_slot_post_task",
+      "type": "function",
+      "file": "worker_tasks/scheduling_tasks.py",
+      "startLine": 91,
+      "endLine": 99,
+      "params": [
+        "base_api_url: str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "post_final_booking_post_task",
+      "type": "function",
+      "file": "worker_tasks/scheduling_tasks.py",
+      "startLine": 101,
+      "endLine": 107,
+      "params": [
+        "booking_payload: dict",
+        "base_api_url: str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "update_vehicle_state_post_task",
+      "type": "function",
+      "file": "worker_tasks/scheduling_tasks.py",
+      "startLine": 109,
+      "endLine": 125,
+      "params": [
+        "vehicle_id: str",
+        "base_api_url: str",
+        "current_stage: str",
+        "scheduling_flag: bool",
+        "engagement_flag: bool"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "execute_service_completion_job",
+      "type": "function",
+      "file": "worker_tasks/service_completion_tasks.py",
+      "startLine": 28,
+      "endLine": 75,
+      "params": [
+        "vehicle_id: str",
+        "base_api_url: str",
+        "temp_last_processed_telemetry: datetime",
+        "risk_state: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "post_feedback_log_celery",
+      "type": "function",
+      "file": "worker_tasks/service_completion_tasks.py",
+      "startLine": 77,
+      "endLine": 87,
+      "params": [
+        "vehicle_id: str",
+        "base_api_url: str"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "update_vehicle_state_celery",
+      "type": "function",
+      "file": "worker_tasks/service_completion_tasks.py",
+      "startLine": 89,
+      "endLine": 118,
+      "params": [
+        "vehicle_id: str",
+        "base_api_url: str",
+        "temp_last_processed_telemetry: datetime",
+        "risk_state: dict"
+      ],
+      "exported": true,
+      "language": "Python"
+    },
+    {
+      "name": "complete_vehicle_schedule_celery",
+      "type": "function",
+      "file": "worker_tasks/service_completion_tasks.py",
+      "startLine": 120,
+      "endLine": 131,
+      "params": [
+        "vehicle_id: str",
+        "base_api_url: str"
+      ],
+      "exported": true,
+      "language": "Python"
+    }
+  ],
+  "totalCount": 136,
+  "byType": {
+    "function": 78,
+    "class": 8,
+    "method": 50
+  },
+  "byFile": {
+    "agents/collector_agent.py": 4,
+    "agents/diagnosis_agent.py": 13,
+    "agents/engagement_agent.py": 11,
+    "agents/master_agent.py": 13,
+    "agents/scheduling_agent.py": 11,
+    "agents/service_completion_agent.py": 12,
+    "agents/ueba_agent.py": 2,
+    "agents/utils/agent_api_client.py": 2,
+    "backend/main.py": 1,
+    "backend/middleware/auth.py": 2,
+    "backend/raw_data_generator.py": 4,
+    "backend/routes/engagement.py": 1,
+    "backend/routes/feedback.py": 3,
+    "backend/routes/predict.py": 2,
+    "backend/routes/put_diagnosis.py": 1,
+    "backend/routes/put_diagnosis_job.py": 1,
+    "backend/routes/put_done_diagnosis.py": 9,
+    "backend/routes/schedule.py": 5,
+    "backend/routes/service.py": 1,
+    "backend/routes/telemetry.py": 1,
+    "backend/routes/ueba.py": 2,
+    "backend/routes/vehicle_state.py": 3,
+    "helpers/logging_config.py": 1,
+    "helpers/logic/email_service.py": 1,
+    "helpers/logic/generate_feature_simulator.py": 1,
+    "helpers/logic/get_feature_name.py": 1,
+    "helpers/logic/health_gate.py": 1,
+    "helpers/logic/risk_scoring.py": 1,
+    "helpers/logic/slot_generator.py": 1,
+    "worker_tasks/diagnosis_tasks.py": 2,
+    "worker_tasks/engagement_tasks.py": 6,
+    "worker_tasks/execution_diagnosis_task.py": 9,
+    "worker_tasks/scheduling_tasks.py": 4,
+    "worker_tasks/service_completion_tasks.py": 4
+  }
+}

@@ -1,0 +1,1528 @@
+{
+  "files": [
+    {
+      "file": "agents/master_agent.py",
+      "commits": 42,
+      "insertions": 1752,
+      "deletions": 1400,
+      "churnScore": 3152,
+      "lastModified": "2026-02-14T05:30:59+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "agents/engagement_agent.py",
+      "commits": 19,
+      "insertions": 1814,
+      "deletions": 1275,
+      "churnScore": 3089,
+      "lastModified": "2026-02-14T05:30:59+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "agents/diagnosis_agent.py",
+      "commits": 24,
+      "insertions": 1504,
+      "deletions": 1003,
+      "churnScore": 2507,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "agents/service_completion_agent.py",
+      "commits": 12,
+      "insertions": 1033,
+      "deletions": 678,
+      "churnScore": 1711,
+      "lastModified": "2026-02-14T21:14:42+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "agents/scheduling_agent.py",
+      "commits": 19,
+      "insertions": 973,
+      "deletions": 658,
+      "churnScore": 1631,
+      "lastModified": "2026-02-14T05:30:59+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "transition/master_agent.py",
+      "commits": 4,
+      "insertions": 538,
+      "deletions": 538,
+      "churnScore": 1076,
+      "lastModified": "2026-02-07T15:27:05+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "transition/service_completion_agent.py",
+      "commits": 3,
+      "insertions": 430,
+      "deletions": 430,
+      "churnScore": 860,
+      "lastModified": "2026-02-14T05:30:59+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "transition/engagement_task.py",
+      "commits": 3,
+      "insertions": 402,
+      "deletions": 402,
+      "churnScore": 804,
+      "lastModified": "2026-02-14T03:43:59+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "transition/engagement_agent.py",
+      "commits": 2,
+      "insertions": 325,
+      "deletions": 325,
+      "churnScore": 650,
+      "lastModified": "2026-02-14T03:27:54+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "transition/scheduling_agent.py",
+      "commits": 3,
+      "insertions": 292,
+      "deletions": 292,
+      "churnScore": 584,
+      "lastModified": "2026-02-13T15:05:24+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "transition/diagnosis_task.py",
+      "commits": 5,
+      "insertions": 335,
+      "deletions": 190,
+      "churnScore": 525,
+      "lastModified": "2026-02-07T23:25:08+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "worker_tasks/engagement_tasks.py",
+      "commits": 2,
+      "insertions": 430,
+      "deletions": 11,
+      "churnScore": 441,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/put_done_diagnosis.py",
+      "commits": 8,
+      "insertions": 316,
+      "deletions": 22,
+      "churnScore": 338,
+      "lastModified": "2026-02-13T03:35:39+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "backend/simulator.py",
+      "commits": 7,
+      "insertions": 169,
+      "deletions": 169,
+      "churnScore": 338,
+      "lastModified": "2025-12-16T16:08:36+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "transition/scheduling_task.py",
+      "commits": 3,
+      "insertions": 141,
+      "deletions": 141,
+      "churnScore": 282,
+      "lastModified": "2026-02-13T15:05:24+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "transition/diagnosis_agent.py",
+      "commits": 3,
+      "insertions": 135,
+      "deletions": 135,
+      "churnScore": 270,
+      "lastModified": "2026-02-08T00:14:07+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "worker_tasks/execution_diagnosis_task.py",
+      "commits": 12,
+      "insertions": 161,
+      "deletions": 65,
+      "churnScore": 226,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "tasks_celery/diagnosis_task.py",
+      "commits": 4,
+      "insertions": 155,
+      "deletions": 68,
+      "churnScore": 223,
+      "lastModified": "2026-02-03T12:59:29+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/vehicle_state.py",
+      "commits": 15,
+      "insertions": 163,
+      "deletions": 50,
+      "churnScore": 213,
+      "lastModified": "2026-02-14T05:30:59+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/telemetry.py",
+      "commits": 15,
+      "insertions": 141,
+      "deletions": 63,
+      "churnScore": 204,
+      "lastModified": "2026-02-28T12:49:16+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/schedule.py",
+      "commits": 9,
+      "insertions": 158,
+      "deletions": 27,
+      "churnScore": 185,
+      "lastModified": "2026-02-14T05:30:59+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "worker_tasks/scheduling_tasks.py",
+      "commits": 5,
+      "insertions": 152,
+      "deletions": 27,
+      "churnScore": 179,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "transition/service_completion_task.py",
+      "commits": 2,
+      "insertions": 140,
+      "deletions": 21,
+      "churnScore": 161,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/health_gate.py",
+      "commits": 5,
+      "insertions": 93,
+      "deletions": 58,
+      "churnScore": 151,
+      "lastModified": "2026-01-27T11:29:21+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "worker_tasks/diagnosis_tasks.py",
+      "commits": 9,
+      "insertions": 72,
+      "deletions": 45,
+      "churnScore": 117,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/generate_feature_simulator.py",
+      "commits": 2,
+      "insertions": 102,
+      "deletions": 6,
+      "churnScore": 108,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "GEMINI.md",
+      "commits": 5,
+      "insertions": 99,
+      "deletions": 5,
+      "churnScore": 104,
+      "lastModified": "2026-02-28T12:49:16+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/readme.md",
+      "commits": 13,
+      "insertions": 79,
+      "deletions": 13,
+      "churnScore": 92,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/main.py",
+      "commits": 9,
+      "insertions": 66,
+      "deletions": 25,
+      "churnScore": 91,
+      "lastModified": "2026-02-04T02:55:01+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/db/connection.py",
+      "commits": 5,
+      "insertions": 57,
+      "deletions": 29,
+      "churnScore": 86,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "agents/collector_agent.py",
+      "commits": 7,
+      "insertions": 69,
+      "deletions": 9,
+      "churnScore": 78,
+      "lastModified": "2026-02-14T05:30:59+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "agents/ueba_agent.py",
+      "commits": 1,
+      "insertions": 78,
+      "deletions": 0,
+      "churnScore": 78,
+      "lastModified": "2026-01-03T01:23:38+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/raw_data_generator.py",
+      "commits": 2,
+      "insertions": 72,
+      "deletions": 1,
+      "churnScore": 73,
+      "lastModified": "2026-01-19T18:12:32+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/get_feature_name.py",
+      "commits": 2,
+      "insertions": 57,
+      "deletions": 5,
+      "churnScore": 62,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "diag_agent_model/iForest/models/model_metadata.json",
+      "commits": 1,
+      "insertions": 53,
+      "deletions": 0,
+      "churnScore": 53,
+      "lastModified": "2025-12-15T10:08:34+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "transition/service_completion_task.py => worker_tasks/service_completion_tasks.py",
+      "commits": 1,
+      "insertions": 31,
+      "deletions": 19,
+      "churnScore": 50,
+      "lastModified": "2026-02-14T05:30:59+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/put_diagnosis.py",
+      "commits": 4,
+      "insertions": 45,
+      "deletions": 4,
+      "churnScore": 49,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/put_diagnosis_job.py",
+      "commits": 4,
+      "insertions": 45,
+      "deletions": 4,
+      "churnScore": 49,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/predict.py",
+      "commits": 5,
+      "insertions": 35,
+      "deletions": 7,
+      "churnScore": 42,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/service.py",
+      "commits": 1,
+      "insertions": 41,
+      "deletions": 0,
+      "churnScore": 41,
+      "lastModified": "2025-12-17T06:44:23+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/middleware/auth.py",
+      "commits": 2,
+      "insertions": 35,
+      "deletions": 4,
+      "churnScore": 39,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "run_sys.py",
+      "commits": 2,
+      "insertions": 35,
+      "deletions": 0,
+      "churnScore": 35,
+      "lastModified": "2025-12-16T12:02:40+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/feedback.py",
+      "commits": 3,
+      "insertions": 32,
+      "deletions": 0,
+      "churnScore": 32,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "tasks_celery/celery_app.py",
+      "commits": 1,
+      "insertions": 32,
+      "deletions": 0,
+      "churnScore": 32,
+      "lastModified": "2026-01-31T22:44:08+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logging_config.py",
+      "commits": 2,
+      "insertions": 30,
+      "deletions": 1,
+      "churnScore": 31,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/email_service.py",
+      "commits": 1,
+      "insertions": 28,
+      "deletions": 0,
+      "churnScore": 28,
+      "lastModified": "2025-12-17T21:09:25+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "worker_tasks/celery_config.py",
+      "commits": 6,
+      "insertions": 15,
+      "deletions": 12,
+      "churnScore": 27,
+      "lastModified": "2026-02-14T05:30:59+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/slot_generator.py",
+      "commits": 2,
+      "insertions": 24,
+      "deletions": 3,
+      "churnScore": 27,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/ueba.py",
+      "commits": 2,
+      "insertions": 23,
+      "deletions": 3,
+      "churnScore": 26,
+      "lastModified": "2026-01-03T01:23:38+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "agents/vehicle_state.py",
+      "commits": 2,
+      "insertions": 12,
+      "deletions": 12,
+      "churnScore": 24,
+      "lastModified": "2025-12-17T04:17:50+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "tasks_celery/celery_app.py => worker_task/celery_config.py",
+      "commits": 1,
+      "insertions": 21,
+      "deletions": 2,
+      "churnScore": 23,
+      "lastModified": "2026-02-04T02:55:01+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/telemetry.py",
+      "commits": 2,
+      "insertions": 11,
+      "deletions": 11,
+      "churnScore": 22,
+      "lastModified": "2025-12-09T02:06:28+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "agents/utils/agent_api_client.py",
+      "commits": 2,
+      "insertions": 20,
+      "deletions": 0,
+      "churnScore": 20,
+      "lastModified": "2025-12-17T02:35:46+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/engagement.py",
+      "commits": 2,
+      "insertions": 11,
+      "deletions": 0,
+      "churnScore": 11,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/.gitignore",
+      "commits": 6,
+      "insertions": 7,
+      "deletions": 3,
+      "churnScore": 10,
+      "lastModified": "2025-12-17T18:30:50+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "{worker_task => worker_tasks}/celery_config.py",
+      "commits": 1,
+      "insertions": 4,
+      "deletions": 4,
+      "churnScore": 8,
+      "lastModified": "2026-02-04T03:01:20+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/risk_scoring.py",
+      "commits": 1,
+      "insertions": 6,
+      "deletions": 0,
+      "churnScore": 6,
+      "lastModified": "2025-12-16T12:02:40+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "tasks_celery/diagnosis_task.py => worker_task/diagnosis.py",
+      "commits": 1,
+      "insertions": 2,
+      "deletions": 2,
+      "churnScore": 4,
+      "lastModified": "2026-02-04T02:55:01+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "agents/.env",
+      "commits": 2,
+      "insertions": 2,
+      "deletions": 1,
+      "churnScore": 3,
+      "lastModified": "2025-12-17T18:30:50+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "diag_agent_model/iForest.ipynb",
+      "commits": 1,
+      "insertions": 1,
+      "deletions": 0,
+      "churnScore": 1,
+      "lastModified": "2025-12-15T10:08:34+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+      "commits": 20,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-28T12:49:16+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/__pycache__/main.cpython-312.pyc",
+      "commits": 6,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/db/__pycache__/connection.cpython-312.pyc",
+      "commits": 4,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/middleware/__pycache__/auth.cpython-312.pyc",
+      "commits": 3,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "commits": 4,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "commits": 4,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "commits": 4,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "commits": 8,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+      "commits": 10,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+      "commits": 14,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/schedule.cpython-312.pyc",
+      "commits": 9,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+      "commits": 16,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+      "commits": 4,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+      "commits": 3,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "worker_tasks/__pycache__/__init__.cpython-312.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "worker_tasks/__pycache__/celery_config.cpython-312.pyc",
+      "commits": 8,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+      "commits": 12,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "worker_tasks/__pycache__/engagement_tasks.cpython-312.pyc",
+      "commits": 3,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+      "commits": 11,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+      "commits": 5,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "worker_tasks/__pycache__/service_completion_tasks.cpython-312.pyc",
+      "commits": 2,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-26T15:37:22+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "agents/utils/__pycache__/agent_api_client.cpython-312.pyc",
+      "commits": 3,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-14T21:14:42+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "transition/__pycache__/engagement_task.cpython-312.pyc",
+      "commits": 2,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-14T05:30:59+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "transition/__pycache__/scheduling_task.cpython-312.pyc",
+      "commits": 2,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-14T05:30:59+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "transition/diagnosis_task.py => worker_tasks/execution_diagnosis_task.py",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-08T00:14:07+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": ".DS_Store",
+      "commits": 5,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-05T01:39:00+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "{worker_task => worker_tasks}/__init__.py",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-04T03:01:20+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "{worker_task => worker_tasks}/__pycache__/__init__.cpython-312.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-04T03:01:20+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "{worker_task => worker_tasks}/__pycache__/celery_app.cpython-312.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-04T03:01:20+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "{worker_task => worker_tasks}/__pycache__/diagnosis_task.cpython-312.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-04T03:01:20+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "worker_task/diagnosis.py => worker_tasks/diagnosis_tasks.py",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-04T03:01:20+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "{tasks_celery => worker_task}/__init__.py",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-04T02:55:01+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "worker_task/__pycache__/__init__.cpython-312.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-04T02:55:01+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "worker_task/__pycache__/celery_app.cpython-312.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-04T02:55:01+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "worker_task/__pycache__/diagnosis_task.cpython-312.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-02-04T02:55:01+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "tasks_celery/__init__.py",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-01-31T22:44:08+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/__pycache__/__init__.cpython-312.pyc",
+      "commits": 2,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-01-27T18:20:14+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+      "commits": 6,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-01-27T18:20:14+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/service.cpython-312.pyc",
+      "commits": 2,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-01-27T18:20:14+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/ueba.cpython-312.pyc",
+      "commits": 2,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-01-27T18:20:14+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/__pycache__/health_gate.cpython-312.pyc",
+      "commits": 3,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-01-27T16:16:39+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/__pycache__/email_service.cpython-312.pyc",
+      "commits": 2,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-01-21T12:37:55+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "agents/__pycache__/master_agent.cpython-312.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-01-08T16:41:49+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/db/__pycache__/__init__.cpython-312.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-01-03T01:23:38+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/__init__.cpython-312.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-01-03T01:23:38+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/ueba.cpython-313.pyc",
+      "commits": 2,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-01-03T01:23:38+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/__pycache__/email_service.cpython-313.pyc",
+      "commits": 2,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-01-03T01:23:38+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/__pycache__/risk_scoring.cpython-312.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-01-03T01:23:38+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/__pycache__/slot_generator.cpython-312.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2026-01-03T01:23:38+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/feedback.cpython-313.pyc",
+      "commits": 3,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T21:09:25+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/schedule.cpython-313.pyc",
+      "commits": 7,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T21:09:25+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/__pycache__/slot_generator.cpython-313.pyc",
+      "commits": 2,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T21:09:25+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/__pycache__/main.cpython-313.pyc",
+      "commits": 9,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T19:29:10+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/vehicle_state.cpython-313.pyc",
+      "commits": 7,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T19:29:10+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/engagement.cpython-313.pyc",
+      "commits": 2,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T18:26:33+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/predict.cpython-313.pyc",
+      "commits": 4,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T18:26:33+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/__pycache__/health_gate.cpython-313.pyc",
+      "commits": 4,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T18:26:33+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/__pycache__/raw_data_generator.cpython-313.pyc",
+      "commits": 3,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T17:29:16+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/put_diagnosis.cpython-313.pyc",
+      "commits": 2,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T17:29:16+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/put_done_diagnosis.cpython-313.pyc",
+      "commits": 2,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T17:29:16+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/service.cpython-313.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T06:44:23+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "agents/utils/__pycache__/agent_api_client.cpython-313.pyc",
+      "commits": 2,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T02:35:46+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/put_diagnosis_job.cpython-313.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T02:35:46+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/db/__pycache__/connection.cpython-313.pyc",
+      "commits": 4,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T00:44:44+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/middleware/__pycache__/auth.cpython-313.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T00:44:44+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/telemetry.cpython-313.pyc",
+      "commits": 5,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-17T00:44:44+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/__pycache__/generate_feature_simulator.cpython-313.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-16T12:02:40+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/__pycache__/get_feature_name.cpython-313.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-16T12:02:40+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "helpers/logic/__pycache__/risk_scoring.cpython-313.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-16T12:02:40+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "diag_agent_model/.DS_Store",
+      "commits": 2,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-16T10:33:34+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "diag_agent_model/iForest/.DS_Store",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-16T10:33:34+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "diag_agent_model/iForest/logs/model_evaluation.png",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-15T10:08:34+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "diag_agent_model/iForest/models/isolation_forest_v1.pkl",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-15T10:08:34+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/__pycache__/__init__.cpython-313.pyc",
+      "commits": 2,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-15T06:14:19+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/__init__.py",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-09T02:06:28+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/db/__init__.py",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-09T02:06:28+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/db/__pycache__/__init__.cpython-313.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-09T02:06:28+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__init__.py",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-09T02:06:28+05:30",
+      "isHot": false,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/__pycache__/__init__.cpython-313.pyc",
+      "commits": 1,
+      "insertions": 0,
+      "deletions": 0,
+      "churnScore": 0,
+      "lastModified": "2025-12-09T02:06:28+05:30",
+      "isHot": false,
+      "isStale": false
+    }
+  ],
+  "hotFiles": [
+    {
+      "file": "agents/master_agent.py",
+      "commits": 42,
+      "insertions": 1752,
+      "deletions": 1400,
+      "churnScore": 3152,
+      "lastModified": "2026-02-14T05:30:59+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "agents/engagement_agent.py",
+      "commits": 19,
+      "insertions": 1814,
+      "deletions": 1275,
+      "churnScore": 3089,
+      "lastModified": "2026-02-14T05:30:59+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "agents/diagnosis_agent.py",
+      "commits": 24,
+      "insertions": 1504,
+      "deletions": 1003,
+      "churnScore": 2507,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "agents/service_completion_agent.py",
+      "commits": 12,
+      "insertions": 1033,
+      "deletions": 678,
+      "churnScore": 1711,
+      "lastModified": "2026-02-14T21:14:42+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "agents/scheduling_agent.py",
+      "commits": 19,
+      "insertions": 973,
+      "deletions": 658,
+      "churnScore": 1631,
+      "lastModified": "2026-02-14T05:30:59+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "transition/master_agent.py",
+      "commits": 4,
+      "insertions": 538,
+      "deletions": 538,
+      "churnScore": 1076,
+      "lastModified": "2026-02-07T15:27:05+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "transition/service_completion_agent.py",
+      "commits": 3,
+      "insertions": 430,
+      "deletions": 430,
+      "churnScore": 860,
+      "lastModified": "2026-02-14T05:30:59+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "transition/engagement_task.py",
+      "commits": 3,
+      "insertions": 402,
+      "deletions": 402,
+      "churnScore": 804,
+      "lastModified": "2026-02-14T03:43:59+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "transition/engagement_agent.py",
+      "commits": 2,
+      "insertions": 325,
+      "deletions": 325,
+      "churnScore": 650,
+      "lastModified": "2026-02-14T03:27:54+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "transition/scheduling_agent.py",
+      "commits": 3,
+      "insertions": 292,
+      "deletions": 292,
+      "churnScore": 584,
+      "lastModified": "2026-02-13T15:05:24+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "transition/diagnosis_task.py",
+      "commits": 5,
+      "insertions": 335,
+      "deletions": 190,
+      "churnScore": 525,
+      "lastModified": "2026-02-07T23:25:08+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "worker_tasks/engagement_tasks.py",
+      "commits": 2,
+      "insertions": 430,
+      "deletions": 11,
+      "churnScore": 441,
+      "lastModified": "2026-02-14T05:03:12+05:30",
+      "isHot": true,
+      "isStale": false
+    },
+    {
+      "file": "backend/routes/put_done_diagnosis.py",
+      "commits": 8,
+      "insertions": 316,
+      "deletions": 22,
+      "churnScore": 338,
+      "lastModified": "2026-02-13T03:35:39+05:30",
+      "isHot": true,
+      "isStale": false
+    }
+  ],
+  "staleFiles": [],
+  "totalFiles": 139
+}

@@ -1,0 +1,1985 @@
+{
+  "imports": [
+    {
+      "sourceFile": "agents/collector_agent.py",
+      "targetFile": "time",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "time",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/collector_agent.py",
+      "targetFile": "pandas",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "pandas",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/collector_agent.py",
+      "targetFile": "agents.utils.agent_api_client",
+      "importNames": [
+        "agents.utils.agent_api_client",
+        "post"
+      ],
+      "rawSpecifier": "agents.utils.agent_api_client",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/collector_agent.py",
+      "targetFile": "dotenv",
+      "importNames": [
+        "dotenv",
+        "load_dotenv"
+      ],
+      "rawSpecifier": "dotenv",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/collector_agent.py",
+      "targetFile": "os",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "os",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/collector_agent.py",
+      "targetFile": "backend.raw_data_generator",
+      "importNames": [
+        "backend.raw_data_generator",
+        "RawDataGenerator",
+        "VEHICLE_IDS"
+      ],
+      "rawSpecifier": "backend.raw_data_generator",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/collector_agent.py",
+      "targetFile": "helpers.logic.generate_feature_simulator",
+      "importNames": [
+        "helpers.logic.generate_feature_simulator",
+        "extract_features_from_vehicle"
+      ],
+      "rawSpecifier": "helpers.logic.generate_feature_simulator",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/diagnosis_agent.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/diagnosis_agent.py",
+      "targetFile": "time",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "time",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/diagnosis_agent.py",
+      "targetFile": "dotenv",
+      "importNames": [
+        "dotenv",
+        "load_dotenv"
+      ],
+      "rawSpecifier": "dotenv",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/diagnosis_agent.py",
+      "targetFile": "os",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "os",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/diagnosis_agent.py",
+      "targetFile": "threading",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "threading",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/diagnosis_agent.py",
+      "targetFile": "traceback",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "traceback",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/diagnosis_agent.py",
+      "targetFile": "celery.result",
+      "importNames": [
+        "celery.result",
+        "AsyncResult"
+      ],
+      "rawSpecifier": "celery.result",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/diagnosis_agent.py",
+      "targetFile": "multiprocessing",
+      "importNames": [
+        "multiprocessing",
+        "Pool",
+        "cpu_count"
+      ],
+      "rawSpecifier": "multiprocessing",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/diagnosis_agent.py",
+      "targetFile": "concurrent.futures",
+      "importNames": [
+        "concurrent.futures",
+        "ThreadPoolExecutor"
+      ],
+      "rawSpecifier": "concurrent.futures",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/diagnosis_agent.py",
+      "targetFile": "agents.utils.agent_api_client",
+      "importNames": [
+        "agents.utils.agent_api_client",
+        "post",
+        "get"
+      ],
+      "rawSpecifier": "agents.utils.agent_api_client",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/diagnosis_agent.py",
+      "targetFile": "worker_tasks.execution_diagnosis_task",
+      "importNames": [
+        "worker_tasks.execution_diagnosis_task",
+        "execute_diagnosis_job"
+      ],
+      "rawSpecifier": "worker_tasks.execution_diagnosis_task",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/engagement_agent.py",
+      "targetFile": "time",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "time",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/engagement_agent.py",
+      "targetFile": "os",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "os",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/engagement_agent.py",
+      "targetFile": "threading",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "threading",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/engagement_agent.py",
+      "targetFile": "traceback",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "traceback",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/engagement_agent.py",
+      "targetFile": "celery.result",
+      "importNames": [
+        "celery.result",
+        "AsyncResult"
+      ],
+      "rawSpecifier": "celery.result",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/engagement_agent.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/engagement_agent.py",
+      "targetFile": "multiprocessing",
+      "importNames": [
+        "multiprocessing",
+        "Pool",
+        "cpu_count"
+      ],
+      "rawSpecifier": "multiprocessing",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/engagement_agent.py",
+      "targetFile": "concurrent.futures",
+      "importNames": [
+        "concurrent.futures",
+        "ThreadPoolExecutor"
+      ],
+      "rawSpecifier": "concurrent.futures",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/engagement_agent.py",
+      "targetFile": "agents.utils.agent_api_client",
+      "importNames": [
+        "agents.utils.agent_api_client",
+        "post",
+        "get"
+      ],
+      "rawSpecifier": "agents.utils.agent_api_client",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/engagement_agent.py",
+      "targetFile": "worker_tasks.engagement_tasks",
+      "importNames": [
+        "worker_tasks.engagement_tasks",
+        "execute_engagement_job"
+      ],
+      "rawSpecifier": "worker_tasks.engagement_tasks",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/engagement_agent.py",
+      "targetFile": "dotenv",
+      "importNames": [
+        "dotenv",
+        "load_dotenv"
+      ],
+      "rawSpecifier": "dotenv",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/master_agent.py",
+      "targetFile": "celery.result",
+      "importNames": [
+        "celery.result",
+        "AsyncResult"
+      ],
+      "rawSpecifier": "celery.result",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/master_agent.py",
+      "targetFile": "time",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "time",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/master_agent.py",
+      "targetFile": "os",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "os",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/master_agent.py",
+      "targetFile": "threading",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "threading",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/master_agent.py",
+      "targetFile": "traceback",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "traceback",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/master_agent.py",
+      "targetFile": "dotenv",
+      "importNames": [
+        "dotenv",
+        "load_dotenv"
+      ],
+      "rawSpecifier": "dotenv",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/master_agent.py",
+      "targetFile": "agents.utils.agent_api_client",
+      "importNames": [
+        "agents.utils.agent_api_client",
+        "get",
+        "post"
+      ],
+      "rawSpecifier": "agents.utils.agent_api_client",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/master_agent.py",
+      "targetFile": "helpers.logic.health_gate",
+      "importNames": [
+        "helpers.logic.health_gate",
+        "needs_diagnosis"
+      ],
+      "rawSpecifier": "helpers.logic.health_gate",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/master_agent.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/master_agent.py",
+      "targetFile": "multiprocessing",
+      "importNames": [
+        "multiprocessing",
+        "Pool",
+        "cpu_count"
+      ],
+      "rawSpecifier": "multiprocessing",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/master_agent.py",
+      "targetFile": "concurrent.futures",
+      "importNames": [
+        "concurrent.futures",
+        "ThreadPoolExecutor"
+      ],
+      "rawSpecifier": "concurrent.futures",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/master_agent.py",
+      "targetFile": "worker_tasks.diagnosis_tasks",
+      "importNames": [
+        "worker_tasks.diagnosis_tasks",
+        "run_diagnosis"
+      ],
+      "rawSpecifier": "worker_tasks.diagnosis_tasks",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/scheduling_agent.py",
+      "targetFile": "time",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "time",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/scheduling_agent.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/scheduling_agent.py",
+      "targetFile": "os",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "os",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/scheduling_agent.py",
+      "targetFile": "threading",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "threading",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/scheduling_agent.py",
+      "targetFile": "traceback",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "traceback",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/scheduling_agent.py",
+      "targetFile": "celery.result",
+      "importNames": [
+        "celery.result",
+        "AsyncResult"
+      ],
+      "rawSpecifier": "celery.result",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/scheduling_agent.py",
+      "targetFile": "multiprocessing",
+      "importNames": [
+        "multiprocessing",
+        "Pool",
+        "cpu_count"
+      ],
+      "rawSpecifier": "multiprocessing",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/scheduling_agent.py",
+      "targetFile": "concurrent.futures",
+      "importNames": [
+        "concurrent.futures",
+        "ThreadPoolExecutor"
+      ],
+      "rawSpecifier": "concurrent.futures",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/scheduling_agent.py",
+      "targetFile": "agents.utils.agent_api_client",
+      "importNames": [
+        "agents.utils.agent_api_client",
+        "post",
+        "get"
+      ],
+      "rawSpecifier": "agents.utils.agent_api_client",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/scheduling_agent.py",
+      "targetFile": "worker_tasks.scheduling_tasks",
+      "importNames": [
+        "worker_tasks.scheduling_tasks",
+        "execute_scheduling_job"
+      ],
+      "rawSpecifier": "worker_tasks.scheduling_tasks",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/service_completion_agent.py",
+      "targetFile": "time",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "time",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/service_completion_agent.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/service_completion_agent.py",
+      "targetFile": "os",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "os",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/service_completion_agent.py",
+      "targetFile": "threading",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "threading",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/service_completion_agent.py",
+      "targetFile": "traceback",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "traceback",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/service_completion_agent.py",
+      "targetFile": "celery.result",
+      "importNames": [
+        "celery.result",
+        "AsyncResult"
+      ],
+      "rawSpecifier": "celery.result",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/service_completion_agent.py",
+      "targetFile": "multiprocessing",
+      "importNames": [
+        "multiprocessing",
+        "Pool",
+        "cpu_count"
+      ],
+      "rawSpecifier": "multiprocessing",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/service_completion_agent.py",
+      "targetFile": "concurrent.futures",
+      "importNames": [
+        "concurrent.futures",
+        "ThreadPoolExecutor"
+      ],
+      "rawSpecifier": "concurrent.futures",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/service_completion_agent.py",
+      "targetFile": "requests",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "requests",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/service_completion_agent.py",
+      "targetFile": "agents.utils.agent_api_client",
+      "importNames": [
+        "agents.utils.agent_api_client",
+        "post",
+        "get"
+      ],
+      "rawSpecifier": "agents.utils.agent_api_client",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/service_completion_agent.py",
+      "targetFile": "worker_tasks.service_completion_tasks",
+      "importNames": [
+        "worker_tasks.service_completion_tasks",
+        "execute_service_completion_job"
+      ],
+      "rawSpecifier": "worker_tasks.service_completion_tasks",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/service_completion_agent.py",
+      "targetFile": "dotenv",
+      "importNames": [
+        "dotenv",
+        "load_dotenv"
+      ],
+      "rawSpecifier": "dotenv",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/ueba_agent.py",
+      "targetFile": "time",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "time",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/ueba_agent.py",
+      "targetFile": "requests",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "requests",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/ueba_agent.py",
+      "targetFile": "os",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "os",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/ueba_agent.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timedelta",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/ueba_agent.py",
+      "targetFile": "dotenv",
+      "importNames": [
+        "dotenv",
+        "load_dotenv"
+      ],
+      "rawSpecifier": "dotenv",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/ueba_agent.py",
+      "targetFile": "agents.utils.agent_api_client",
+      "importNames": [
+        "agents.utils.agent_api_client",
+        "get",
+        "post"
+      ],
+      "rawSpecifier": "agents.utils.agent_api_client",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "agents/utils/agent_api_client.py",
+      "targetFile": "requests",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "requests",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/db/connection.py",
+      "targetFile": "dotenv",
+      "importNames": [
+        "dotenv",
+        "load_dotenv"
+      ],
+      "rawSpecifier": "dotenv",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/db/connection.py",
+      "targetFile": "os",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "os",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/db/connection.py",
+      "targetFile": "pymongo.mongo_client",
+      "importNames": [
+        "pymongo.mongo_client",
+        "MongoClient"
+      ],
+      "rawSpecifier": "pymongo.mongo_client",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/db/connection.py",
+      "targetFile": "pymongo.server_api",
+      "importNames": [
+        "pymongo.server_api",
+        "ServerApi"
+      ],
+      "rawSpecifier": "pymongo.server_api",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/main.py",
+      "targetFile": "fastapi",
+      "importNames": [
+        "fastapi",
+        "FastAPI"
+      ],
+      "rawSpecifier": "fastapi",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/main.py",
+      "targetFile": "backend.middleware.auth",
+      "importNames": [
+        "backend.middleware.auth",
+        "AgentAuthMiddleware"
+      ],
+      "rawSpecifier": "backend.middleware.auth",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/main.py",
+      "targetFile": "backend.routes.telemetry",
+      "importNames": [
+        "backend.routes.telemetry",
+        "router"
+      ],
+      "rawSpecifier": "backend.routes.telemetry",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/main.py",
+      "targetFile": "backend.routes.predict",
+      "importNames": [
+        "backend.routes.predict",
+        "router"
+      ],
+      "rawSpecifier": "backend.routes.predict",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/main.py",
+      "targetFile": "backend.routes.schedule",
+      "importNames": [
+        "backend.routes.schedule",
+        "router"
+      ],
+      "rawSpecifier": "backend.routes.schedule",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/main.py",
+      "targetFile": "backend.routes.feedback",
+      "importNames": [
+        "backend.routes.feedback",
+        "router"
+      ],
+      "rawSpecifier": "backend.routes.feedback",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/main.py",
+      "targetFile": "backend.routes.ueba",
+      "importNames": [
+        "backend.routes.ueba",
+        "router"
+      ],
+      "rawSpecifier": "backend.routes.ueba",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/main.py",
+      "targetFile": "backend.routes.vehicle_state",
+      "importNames": [
+        "backend.routes.vehicle_state",
+        "router"
+      ],
+      "rawSpecifier": "backend.routes.vehicle_state",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/main.py",
+      "targetFile": "backend.routes.put_diagnosis_job",
+      "importNames": [
+        "backend.routes.put_diagnosis_job",
+        "router"
+      ],
+      "rawSpecifier": "backend.routes.put_diagnosis_job",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/main.py",
+      "targetFile": "backend.routes.put_diagnosis",
+      "importNames": [
+        "backend.routes.put_diagnosis",
+        "router"
+      ],
+      "rawSpecifier": "backend.routes.put_diagnosis",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/main.py",
+      "targetFile": "backend.routes.put_done_diagnosis",
+      "importNames": [
+        "backend.routes.put_done_diagnosis",
+        "router"
+      ],
+      "rawSpecifier": "backend.routes.put_done_diagnosis",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/main.py",
+      "targetFile": "backend.routes.service",
+      "importNames": [
+        "backend.routes.service",
+        "router"
+      ],
+      "rawSpecifier": "backend.routes.service",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/main.py",
+      "targetFile": "backend.routes.engagement",
+      "importNames": [
+        "backend.routes.engagement",
+        "router"
+      ],
+      "rawSpecifier": "backend.routes.engagement",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/middleware/auth.py",
+      "targetFile": "fastapi",
+      "importNames": [
+        "fastapi",
+        "Request",
+        "HTTPException"
+      ],
+      "rawSpecifier": "fastapi",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/middleware/auth.py",
+      "targetFile": "starlette.middleware.base",
+      "importNames": [
+        "starlette.middleware.base",
+        "BaseHTTPMiddleware"
+      ],
+      "rawSpecifier": "starlette.middleware.base",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/raw_data_generator.py",
+      "targetFile": "random",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "random",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/raw_data_generator.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timedelta"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/engagement.py",
+      "targetFile": "fastapi",
+      "importNames": [
+        "fastapi",
+        "APIRouter"
+      ],
+      "rawSpecifier": "fastapi",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/engagement.py",
+      "targetFile": "backend.db.connection",
+      "importNames": [
+        "backend.db.connection",
+        "db"
+      ],
+      "rawSpecifier": "backend.db.connection",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/feedback.py",
+      "targetFile": "fastapi",
+      "importNames": [
+        "fastapi",
+        "APIRouter"
+      ],
+      "rawSpecifier": "fastapi",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/feedback.py",
+      "targetFile": "backend.db.connection",
+      "importNames": [
+        "backend.db.connection",
+        "db"
+      ],
+      "rawSpecifier": "backend.db.connection",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/feedback.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/predict.py",
+      "targetFile": "fastapi",
+      "importNames": [
+        "fastapi",
+        "APIRouter"
+      ],
+      "rawSpecifier": "fastapi",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/predict.py",
+      "targetFile": "backend.db.connection",
+      "importNames": [
+        "backend.db.connection",
+        "db"
+      ],
+      "rawSpecifier": "backend.db.connection",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/put_diagnosis.py",
+      "targetFile": "fastapi",
+      "importNames": [
+        "fastapi",
+        "APIRouter",
+        "Request",
+        "HTTPException"
+      ],
+      "rawSpecifier": "fastapi",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/put_diagnosis.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/put_diagnosis.py",
+      "targetFile": "backend.db.connection",
+      "importNames": [
+        "backend.db.connection",
+        "db"
+      ],
+      "rawSpecifier": "backend.db.connection",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/put_diagnosis_job.py",
+      "targetFile": "fastapi",
+      "importNames": [
+        "fastapi",
+        "APIRouter",
+        "Request",
+        "HTTPException"
+      ],
+      "rawSpecifier": "fastapi",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/put_diagnosis_job.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/put_diagnosis_job.py",
+      "targetFile": "backend.db.connection",
+      "importNames": [
+        "backend.db.connection",
+        "db"
+      ],
+      "rawSpecifier": "backend.db.connection",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/put_done_diagnosis.py",
+      "targetFile": "fastapi",
+      "importNames": [
+        "fastapi",
+        "APIRouter",
+        "HTTPException"
+      ],
+      "rawSpecifier": "fastapi",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/put_done_diagnosis.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/put_done_diagnosis.py",
+      "targetFile": "bson",
+      "importNames": [
+        "bson",
+        "ObjectId"
+      ],
+      "rawSpecifier": "bson",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/put_done_diagnosis.py",
+      "targetFile": "backend.db.connection",
+      "importNames": [
+        "backend.db.connection",
+        "db"
+      ],
+      "rawSpecifier": "backend.db.connection",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/schedule.py",
+      "targetFile": "fastapi",
+      "importNames": [
+        "fastapi",
+        "APIRouter"
+      ],
+      "rawSpecifier": "fastapi",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/schedule.py",
+      "targetFile": "backend.db.connection",
+      "importNames": [
+        "backend.db.connection",
+        "db"
+      ],
+      "rawSpecifier": "backend.db.connection",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/schedule.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone",
+        "timedelta"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/schedule.py",
+      "targetFile": "random",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "random",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/service.py",
+      "targetFile": "fastapi",
+      "importNames": [
+        "fastapi",
+        "APIRouter",
+        "Request",
+        "HTTPException"
+      ],
+      "rawSpecifier": "fastapi",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/service.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/service.py",
+      "targetFile": "backend.db.connection",
+      "importNames": [
+        "backend.db.connection",
+        "db"
+      ],
+      "rawSpecifier": "backend.db.connection",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/telemetry.py",
+      "targetFile": "fastapi",
+      "importNames": [
+        "fastapi",
+        "APIRouter"
+      ],
+      "rawSpecifier": "fastapi",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/telemetry.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/telemetry.py",
+      "targetFile": "backend.db.connection",
+      "importNames": [
+        "backend.db.connection",
+        "db"
+      ],
+      "rawSpecifier": "backend.db.connection",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/ueba.py",
+      "targetFile": "fastapi",
+      "importNames": [
+        "fastapi",
+        "APIRouter"
+      ],
+      "rawSpecifier": "fastapi",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/ueba.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/ueba.py",
+      "targetFile": "backend.db.connection",
+      "importNames": [
+        "backend.db.connection",
+        "db"
+      ],
+      "rawSpecifier": "backend.db.connection",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/vehicle_state.py",
+      "targetFile": "fastapi",
+      "importNames": [
+        "fastapi",
+        "APIRouter",
+        "HTTPException",
+        "Request"
+      ],
+      "rawSpecifier": "fastapi",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/vehicle_state.py",
+      "targetFile": "backend.db.connection",
+      "importNames": [
+        "backend.db.connection",
+        "db"
+      ],
+      "rawSpecifier": "backend.db.connection",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "backend/routes/vehicle_state.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "helpers/logging_config.py",
+      "targetFile": "logging",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "logging",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "helpers/logging_config.py",
+      "targetFile": "logging.handlers",
+      "importNames": [
+        "logging.handlers",
+        "RotatingFileHandler"
+      ],
+      "rawSpecifier": "logging.handlers",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "helpers/logging_config.py",
+      "targetFile": "os",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "os",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "helpers/logic/email_service.py",
+      "targetFile": "smtplib",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "smtplib",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "helpers/logic/email_service.py",
+      "targetFile": "os",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "os",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "helpers/logic/email_service.py",
+      "targetFile": "email.mime.text",
+      "importNames": [
+        "email.mime.text",
+        "MIMEText"
+      ],
+      "rawSpecifier": "email.mime.text",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "helpers/logic/email_service.py",
+      "targetFile": "dotenv",
+      "importNames": [
+        "dotenv",
+        "load_dotenv"
+      ],
+      "rawSpecifier": "dotenv",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "helpers/logic/generate_feature_simulator.py",
+      "targetFile": "pandas",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "pandas",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "helpers/logic/generate_feature_simulator.py",
+      "targetFile": "numpy",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "numpy",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "helpers/logic/generate_feature_simulator.py",
+      "targetFile": "typing",
+      "importNames": [
+        "typing",
+        "Dict",
+        "List"
+      ],
+      "rawSpecifier": "typing",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "helpers/logic/get_feature_name.py",
+      "targetFile": "typing",
+      "importNames": [
+        "typing",
+        "List"
+      ],
+      "rawSpecifier": "typing",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "helpers/logic/health_gate.py",
+      "targetFile": "typing",
+      "importNames": [
+        "typing",
+        "Dict",
+        "Tuple",
+        "List"
+      ],
+      "rawSpecifier": "typing",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "helpers/logic/risk_scoring.py",
+      "targetFile": "numpy",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "numpy",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "helpers/logic/slot_generator.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timedelta",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "helpers/logic/slot_generator.py",
+      "targetFile": "random",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "random",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "run_sys.py",
+      "targetFile": "subprocess",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "subprocess",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "run_sys.py",
+      "targetFile": "sys",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "sys",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "run_sys.py",
+      "targetFile": "os",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "os",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/celery_config.py",
+      "targetFile": "celery",
+      "importNames": [
+        "celery",
+        "Celery"
+      ],
+      "rawSpecifier": "celery",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/celery_config.py",
+      "targetFile": "os",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "os",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/celery_config.py",
+      "targetFile": "dotenv",
+      "importNames": [
+        "dotenv",
+        "load_dotenv"
+      ],
+      "rawSpecifier": "dotenv",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/celery_config.py",
+      "targetFile": "kombu",
+      "importNames": [
+        "kombu",
+        "Queue"
+      ],
+      "rawSpecifier": "kombu",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/diagnosis_tasks.py",
+      "targetFile": "worker_tasks/.celery_config",
+      "importNames": [
+        "celery_config",
+        "app"
+      ],
+      "rawSpecifier": ".celery_config",
+      "isExternal": false
+    },
+    {
+      "sourceFile": "worker_tasks/diagnosis_tasks.py",
+      "targetFile": "celery.utils.log",
+      "importNames": [
+        "celery.utils.log",
+        "get_task_logger"
+      ],
+      "rawSpecifier": "celery.utils.log",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/diagnosis_tasks.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/diagnosis_tasks.py",
+      "targetFile": "joblib",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "joblib",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/diagnosis_tasks.py",
+      "targetFile": "numpy",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "numpy",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/diagnosis_tasks.py",
+      "targetFile": "helpers.logic.get_feature_name",
+      "importNames": [
+        "helpers.logic.get_feature_name",
+        "get_feature_names"
+      ],
+      "rawSpecifier": "helpers.logic.get_feature_name",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/diagnosis_tasks.py",
+      "targetFile": "helpers.logic.risk_scoring",
+      "importNames": [
+        "helpers.logic.risk_scoring",
+        "transform_scores_to_risk"
+      ],
+      "rawSpecifier": "helpers.logic.risk_scoring",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/diagnosis_tasks.py",
+      "targetFile": "agents.utils.agent_api_client",
+      "importNames": [
+        "agents.utils.agent_api_client",
+        "post",
+        "get"
+      ],
+      "rawSpecifier": "agents.utils.agent_api_client",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/engagement_tasks.py",
+      "targetFile": "time",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "time",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/engagement_tasks.py",
+      "targetFile": "requests",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "requests",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/engagement_tasks.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/engagement_tasks.py",
+      "targetFile": "os",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "os",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/engagement_tasks.py",
+      "targetFile": "dotenv",
+      "importNames": [
+        "dotenv",
+        "load_dotenv"
+      ],
+      "rawSpecifier": "dotenv",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/engagement_tasks.py",
+      "targetFile": "helpers.logic.email_service",
+      "importNames": [
+        "helpers.logic.email_service",
+        "send_email"
+      ],
+      "rawSpecifier": "helpers.logic.email_service",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/engagement_tasks.py",
+      "targetFile": "crewai",
+      "importNames": [
+        "crewai",
+        "Agent",
+        "Task",
+        "Crew"
+      ],
+      "rawSpecifier": "crewai",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/engagement_tasks.py",
+      "targetFile": "crewai.llm",
+      "importNames": [
+        "crewai.llm",
+        "LLM"
+      ],
+      "rawSpecifier": "crewai.llm",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/engagement_tasks.py",
+      "targetFile": "agents.utils.agent_api_client",
+      "importNames": [
+        "agents.utils.agent_api_client",
+        "get",
+        "post"
+      ],
+      "rawSpecifier": "agents.utils.agent_api_client",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/engagement_tasks.py",
+      "targetFile": "worker_tasks.celery_config",
+      "importNames": [
+        "worker_tasks.celery_config",
+        "app"
+      ],
+      "rawSpecifier": "worker_tasks.celery_config",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/execution_diagnosis_task.py",
+      "targetFile": "time",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "time",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/execution_diagnosis_task.py",
+      "targetFile": "joblib",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "joblib",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/execution_diagnosis_task.py",
+      "targetFile": "numpy",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "numpy",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/execution_diagnosis_task.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/execution_diagnosis_task.py",
+      "targetFile": "dotenv",
+      "importNames": [
+        "dotenv",
+        "load_dotenv"
+      ],
+      "rawSpecifier": "dotenv",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/execution_diagnosis_task.py",
+      "targetFile": "os",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "os",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/execution_diagnosis_task.py",
+      "targetFile": "backend.db.connection",
+      "importNames": [
+        "backend.db.connection",
+        "db"
+      ],
+      "rawSpecifier": "backend.db.connection",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/execution_diagnosis_task.py",
+      "targetFile": "helpers.logic.get_feature_name",
+      "importNames": [
+        "helpers.logic.get_feature_name",
+        "get_feature_names"
+      ],
+      "rawSpecifier": "helpers.logic.get_feature_name",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/execution_diagnosis_task.py",
+      "targetFile": "helpers.logic.risk_scoring",
+      "importNames": [
+        "helpers.logic.risk_scoring",
+        "transform_scores_to_risk"
+      ],
+      "rawSpecifier": "helpers.logic.risk_scoring",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/execution_diagnosis_task.py",
+      "targetFile": "agents.utils.agent_api_client",
+      "importNames": [
+        "agents.utils.agent_api_client",
+        "post",
+        "get"
+      ],
+      "rawSpecifier": "agents.utils.agent_api_client",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/execution_diagnosis_task.py",
+      "targetFile": "worker_tasks.celery_config",
+      "importNames": [
+        "worker_tasks.celery_config",
+        "app"
+      ],
+      "rawSpecifier": "worker_tasks.celery_config",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/scheduling_tasks.py",
+      "targetFile": "time",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "time",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/scheduling_tasks.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/scheduling_tasks.py",
+      "targetFile": "os",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "os",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/scheduling_tasks.py",
+      "targetFile": "dotenv",
+      "importNames": [
+        "dotenv",
+        "load_dotenv"
+      ],
+      "rawSpecifier": "dotenv",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/scheduling_tasks.py",
+      "targetFile": "agents.utils.agent_api_client",
+      "importNames": [
+        "agents.utils.agent_api_client",
+        "post",
+        "get"
+      ],
+      "rawSpecifier": "agents.utils.agent_api_client",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/scheduling_tasks.py",
+      "targetFile": "worker_tasks.celery_config",
+      "importNames": [
+        "worker_tasks.celery_config",
+        "app"
+      ],
+      "rawSpecifier": "worker_tasks.celery_config",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/service_completion_tasks.py",
+      "targetFile": "time",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "time",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/service_completion_tasks.py",
+      "targetFile": "datetime",
+      "importNames": [
+        "datetime",
+        "datetime",
+        "timezone"
+      ],
+      "rawSpecifier": "datetime",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/service_completion_tasks.py",
+      "targetFile": "os",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "os",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/service_completion_tasks.py",
+      "targetFile": "dotenv",
+      "importNames": [
+        "dotenv",
+        "load_dotenv"
+      ],
+      "rawSpecifier": "dotenv",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/service_completion_tasks.py",
+      "targetFile": "requests",
+      "importNames": [
+        "*"
+      ],
+      "rawSpecifier": "requests",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/service_completion_tasks.py",
+      "targetFile": "agents.utils.agent_api_client",
+      "importNames": [
+        "agents.utils.agent_api_client",
+        "post",
+        "get"
+      ],
+      "rawSpecifier": "agents.utils.agent_api_client",
+      "isExternal": true
+    },
+    {
+      "sourceFile": "worker_tasks/service_completion_tasks.py",
+      "targetFile": "worker_tasks.celery_config",
+      "importNames": [
+        "worker_tasks.celery_config",
+        "app"
+      ],
+      "rawSpecifier": "worker_tasks.celery_config",
+      "isExternal": true
+    }
+  ],
+  "totalEdges": 188,
+  "fileGraph": {
+    "agents/collector_agent.py": [],
+    "agents/diagnosis_agent.py": [],
+    "agents/engagement_agent.py": [],
+    "agents/master_agent.py": [],
+    "agents/scheduling_agent.py": [],
+    "agents/service_completion_agent.py": [],
+    "agents/ueba_agent.py": [],
+    "agents/utils/agent_api_client.py": [],
+    "backend/db/connection.py": [],
+    "backend/main.py": [],
+    "backend/middleware/auth.py": [],
+    "backend/raw_data_generator.py": [],
+    "backend/routes/engagement.py": [],
+    "backend/routes/feedback.py": [],
+    "backend/routes/predict.py": [],
+    "backend/routes/put_diagnosis.py": [],
+    "backend/routes/put_diagnosis_job.py": [],
+    "backend/routes/put_done_diagnosis.py": [],
+    "backend/routes/schedule.py": [],
+    "backend/routes/service.py": [],
+    "backend/routes/telemetry.py": [],
+    "backend/routes/ueba.py": [],
+    "backend/routes/vehicle_state.py": [],
+    "helpers/logging_config.py": [],
+    "helpers/logic/email_service.py": [],
+    "helpers/logic/generate_feature_simulator.py": [],
+    "helpers/logic/get_feature_name.py": [],
+    "helpers/logic/health_gate.py": [],
+    "helpers/logic/risk_scoring.py": [],
+    "helpers/logic/slot_generator.py": [],
+    "run_sys.py": [],
+    "worker_tasks/celery_config.py": [],
+    "worker_tasks/diagnosis_tasks.py": [
+      "worker_tasks/.celery_config"
+    ],
+    "worker_tasks/engagement_tasks.py": [],
+    "worker_tasks/execution_diagnosis_task.py": [],
+    "worker_tasks/scheduling_tasks.py": [],
+    "worker_tasks/service_completion_tasks.py": []
+  },
+  "externalDeps": [
+    "agents.utils.agent_api_client",
+    "backend.db.connection",
+    "backend.middleware.auth",
+    "backend.raw_data_generator",
+    "backend.routes.engagement",
+    "backend.routes.feedback",
+    "backend.routes.predict",
+    "backend.routes.put_diagnosis",
+    "backend.routes.put_diagnosis_job",
+    "backend.routes.put_done_diagnosis",
+    "backend.routes.schedule",
+    "backend.routes.service",
+    "backend.routes.telemetry",
+    "backend.routes.ueba",
+    "backend.routes.vehicle_state",
+    "bson",
+    "celery",
+    "celery.result",
+    "celery.utils.log",
+    "concurrent.futures",
+    "crewai",
+    "crewai.llm",
+    "datetime",
+    "dotenv",
+    "email.mime.text",
+    "fastapi",
+    "helpers.logic.email_service",
+    "helpers.logic.generate_feature_simulator",
+    "helpers.logic.get_feature_name",
+    "helpers.logic.health_gate",
+    "helpers.logic.risk_scoring",
+    "joblib",
+    "kombu",
+    "logging",
+    "logging.handlers",
+    "multiprocessing",
+    "numpy",
+    "os",
+    "pandas",
+    "pymongo.mongo_client",
+    "pymongo.server_api",
+    "random",
+    "requests",
+    "smtplib",
+    "starlette.middleware.base",
+    "subprocess",
+    "sys",
+    "threading",
+    "time",
+    "traceback",
+    "typing",
+    "worker_tasks.celery_config",
+    "worker_tasks.diagnosis_tasks",
+    "worker_tasks.engagement_tasks",
+    "worker_tasks.execution_diagnosis_task",
+    "worker_tasks.scheduling_tasks",
+    "worker_tasks.service_completion_tasks"
+  ]
+}

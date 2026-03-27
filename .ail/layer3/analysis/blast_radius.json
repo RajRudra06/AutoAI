@@ -1,0 +1,2103 @@
+{
+  "commits": [
+    {
+      "hash": "c1e91c15f09efc5c73f7e7d0d8966c55c93a23c7",
+      "author": "rudra",
+      "date": "2026-02-14T05:03:12+05:30",
+      "message": "cleaned code",
+      "directFiles": [
+        "agents/collector_agent.py",
+        "agents/diagnosis_agent.py",
+        "agents/engagement_agent.py",
+        "agents/master_agent.py",
+        "agents/scheduling_agent.py",
+        "backend/__pycache__/main.cpython-312.pyc",
+        "backend/db/__pycache__/connection.cpython-312.pyc",
+        "backend/db/connection.py",
+        "backend/middleware/__pycache__/auth.cpython-312.pyc",
+        "backend/middleware/auth.py",
+        "backend/routes/__pycache__/engagement.cpython-312.pyc",
+        "backend/routes/__pycache__/feedback.cpython-312.pyc",
+        "backend/routes/__pycache__/predict.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+        "backend/routes/__pycache__/schedule.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "backend/routes/engagement.py",
+        "backend/routes/feedback.py",
+        "backend/routes/predict.py",
+        "backend/routes/put_diagnosis.py",
+        "backend/routes/put_diagnosis_job.py",
+        "backend/routes/schedule.py",
+        "backend/routes/vehicle_state.py",
+        "helpers/logging_config.py",
+        "helpers/logic/generate_feature_simulator.py",
+        "helpers/logic/get_feature_name.py",
+        "helpers/logic/slot_generator.py",
+        "transition/service_completion_agent.py",
+        "transition/service_completion_task.py",
+        "worker_tasks/diagnosis_tasks.py",
+        "worker_tasks/engagement_tasks.py",
+        "worker_tasks/execution_diagnosis_task.py",
+        "worker_tasks/scheduling_tasks.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 34,
+      "transitiveCount": 0,
+      "blastRadius": 34
+    },
+    {
+      "hash": "f32e2cc54b2108a63c3da57cdd9befd75b88a38e",
+      "author": "rudra",
+      "date": "2026-01-03T01:23:38+05:30",
+      "message": "working setup after service and scheduling agents",
+      "directFiles": [
+        "agents/ueba_agent.py",
+        "agents/utils/__pycache__/agent_api_client.cpython-312.pyc",
+        "backend/__pycache__/__init__.cpython-312.pyc",
+        "backend/__pycache__/main.cpython-312.pyc",
+        "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+        "backend/db/__pycache__/__init__.cpython-312.pyc",
+        "backend/db/__pycache__/connection.cpython-312.pyc",
+        "backend/middleware/__pycache__/auth.cpython-312.pyc",
+        "backend/readme.md",
+        "backend/routes/__pycache__/__init__.cpython-312.pyc",
+        "backend/routes/__pycache__/engagement.cpython-312.pyc",
+        "backend/routes/__pycache__/feedback.cpython-312.pyc",
+        "backend/routes/__pycache__/predict.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/schedule.cpython-312.pyc",
+        "backend/routes/__pycache__/service.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/__pycache__/ueba.cpython-312.pyc",
+        "backend/routes/__pycache__/ueba.cpython-313.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "backend/routes/ueba.py",
+        "helpers/logic/__pycache__/email_service.cpython-312.pyc",
+        "helpers/logic/__pycache__/email_service.cpython-313.pyc",
+        "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+        "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+        "helpers/logic/__pycache__/health_gate.cpython-312.pyc",
+        "helpers/logic/__pycache__/risk_scoring.cpython-312.pyc",
+        "helpers/logic/__pycache__/slot_generator.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 30,
+      "transitiveCount": 0,
+      "blastRadius": 30
+    },
+    {
+      "hash": "beed66e15c0a3f8d174d0c37230e37b6fad8fc7d",
+      "author": "rudra",
+      "date": "2026-02-26T15:37:22+05:30",
+      "message": "working test 26 feb",
+      "directFiles": [
+        "backend/__pycache__/main.cpython-312.pyc",
+        "backend/db/__pycache__/connection.cpython-312.pyc",
+        "backend/middleware/__pycache__/auth.cpython-312.pyc",
+        "backend/readme.md",
+        "backend/routes/__pycache__/engagement.cpython-312.pyc",
+        "backend/routes/__pycache__/feedback.cpython-312.pyc",
+        "backend/routes/__pycache__/predict.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/schedule.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+        "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+        "worker_tasks/__pycache__/__init__.cpython-312.pyc",
+        "worker_tasks/__pycache__/celery_config.cpython-312.pyc",
+        "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/engagement_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+        "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/service_completion_tasks.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 22,
+      "transitiveCount": 0,
+      "blastRadius": 22
+    },
+    {
+      "hash": "d9ea085966655e655972fd286dd4a98ddeaedba9",
+      "author": "rudra",
+      "date": "2026-02-14T03:27:54+05:30",
+      "message": "workflow healthy till engagement agent with minimal race conditions",
+      "directFiles": [
+        "agents/engagement_agent.py",
+        "backend/readme.md",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/schedule.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "backend/routes/telemetry.py",
+        "backend/routes/vehicle_state.py",
+        "transition/__pycache__/engagement_task.cpython-312.pyc",
+        "transition/engagement_agent.py",
+        "transition/engagement_task.py",
+        "worker_tasks/__pycache__/celery_config.cpython-312.pyc",
+        "worker_tasks/__pycache__/engagement_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+        "worker_tasks/celery_config.py",
+        "worker_tasks/engagement_tasks.py",
+        "worker_tasks/execution_diagnosis_task.py",
+        "worker_tasks/scheduling_tasks.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 18,
+      "transitiveCount": 0,
+      "blastRadius": 18
+    },
+    {
+      "hash": "c30761785603146e7ec01642bf40ea1b3db6f01a",
+      "author": "rudra",
+      "date": "2026-02-14T05:30:59+05:30",
+      "message": "SERVICE COMPLETION AGENT SPLIT done",
+      "directFiles": [
+        "agents/collector_agent.py",
+        "agents/engagement_agent.py",
+        "agents/master_agent.py",
+        "agents/scheduling_agent.py",
+        "agents/service_completion_agent.py",
+        "backend/routes/__pycache__/schedule.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "backend/routes/schedule.py",
+        "backend/routes/vehicle_state.py",
+        "transition/__pycache__/engagement_task.cpython-312.pyc",
+        "transition/__pycache__/scheduling_task.cpython-312.pyc",
+        "transition/service_completion_agent.py",
+        "worker_tasks/celery_config.py",
+        "worker_tasks/service_completion_tasks.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 15,
+      "transitiveCount": 0,
+      "blastRadius": 15
+    },
+    {
+      "hash": "7417d1a80b63551f3330c86c711d8f4e7d1186ec",
+      "author": "rudra",
+      "date": "2026-02-13T03:35:39+05:30",
+      "message": "scheduling refractored agent done",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "agents/scheduling_agent.py",
+        "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/put_done_diagnosis.py",
+        "transition/scheduling_agent.py",
+        "transition/scheduling_task.py",
+        "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+        "worker_tasks/celery_config.py",
+        "worker_tasks/diagnosis_tasks.py",
+        "worker_tasks/execution_diagnosis_task.py",
+        "worker_tasks/scheduling_tasks.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 14,
+      "transitiveCount": 0,
+      "blastRadius": 14
+    },
+    {
+      "hash": "4c8ab0b5133378be17147d0e53de4fc60d63c50c",
+      "author": "rudra",
+      "date": "2026-01-27T18:20:14+05:30",
+      "message": "test",
+      "directFiles": [
+        "backend/__pycache__/__init__.cpython-312.pyc",
+        "backend/__pycache__/main.cpython-312.pyc",
+        "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+        "backend/routes/__pycache__/engagement.cpython-312.pyc",
+        "backend/routes/__pycache__/feedback.cpython-312.pyc",
+        "backend/routes/__pycache__/predict.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/schedule.cpython-312.pyc",
+        "backend/routes/__pycache__/service.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/__pycache__/ueba.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 14,
+      "transitiveCount": 0,
+      "blastRadius": 14
+    },
+    {
+      "hash": "fc0b5ae9a8a0be43bbfa3bb6f918eaaee1492546",
+      "author": "rudra",
+      "date": "2026-02-04T02:55:01+05:30",
+      "message": "celery and diagnosis done",
+      "directFiles": [
+        "agents/master_agent.py",
+        "backend/__pycache__/main.cpython-312.pyc",
+        "backend/main.py",
+        "backend/readme.md",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "worker_task/__init__.py",
+        "worker_task/__pycache__/__init__.cpython-312.pyc",
+        "worker_task/__pycache__/celery_app.cpython-312.pyc",
+        "worker_task/__pycache__/diagnosis_task.cpython-312.pyc",
+        "worker_task/celery_config.py",
+        "worker_task/diagnosis.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 13,
+      "transitiveCount": 0,
+      "blastRadius": 13
+    },
+    {
+      "hash": "d8929d5887de0697b65e39ece6689efd1fd858d7",
+      "author": "rudra",
+      "date": "2026-02-12T23:51:37+05:30",
+      "message": "minor race condition solved",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "agents/master_agent.py",
+        "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/put_diagnosis.py",
+        "backend/routes/put_diagnosis_job.py",
+        "backend/routes/put_done_diagnosis.py",
+        "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+        "worker_tasks/diagnosis_tasks.py",
+        "worker_tasks/execution_diagnosis_task.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 12,
+      "transitiveCount": 0,
+      "blastRadius": 12
+    },
+    {
+      "hash": "304fc3139d2b48ee423bc030bc9f7f8adf84c86d",
+      "author": "rudra",
+      "date": "2026-02-12T21:46:03+05:30",
+      "message": "race conditions tested",
+      "directFiles": [
+        "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/put_diagnosis.py",
+        "backend/routes/put_diagnosis_job.py",
+        "backend/routes/put_done_diagnosis.py",
+        "transition/scheduling_agent.py",
+        "transition/scheduling_task.py",
+        "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+        "worker_tasks/diagnosis_tasks.py",
+        "worker_tasks/execution_diagnosis_task.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 12,
+      "transitiveCount": 0,
+      "blastRadius": 12
+    },
+    {
+      "hash": "3739b1962a77539c24dc7e64fd515c3ddea075de",
+      "author": "rudra",
+      "date": "2026-01-19T18:12:32+05:30",
+      "message": "continous lifecycle achieved",
+      "directFiles": [
+        "agents/collector_agent.py",
+        "agents/engagement_agent.py",
+        "agents/master_agent.py",
+        "agents/scheduling_agent.py",
+        "backend/__pycache__/main.cpython-312.pyc",
+        "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+        "backend/raw_data_generator.py",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "backend/routes/vehicle_state.py",
+        "helpers/logic/__pycache__/health_gate.cpython-312.pyc",
+        "helpers/logic/health_gate.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 12,
+      "transitiveCount": 0,
+      "blastRadius": 12
+    },
+    {
+      "hash": "9e8b205d4f8ef3ab607f394ec881a054bc2fcb54",
+      "author": "rudra",
+      "date": "2026-02-14T21:14:42+05:30",
+      "message": "CONCURRENCY COMPLETED FOR ALL AGENTS",
+      "directFiles": [
+        "agents/service_completion_agent.py",
+        "agents/utils/__pycache__/agent_api_client.cpython-312.pyc",
+        "backend/readme.md",
+        "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+        "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+        "worker_tasks/__pycache__/celery_config.cpython-312.pyc",
+        "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/engagement_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+        "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/service_completion_tasks.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 11,
+      "transitiveCount": 0,
+      "blastRadius": 11
+    },
+    {
+      "hash": "ab6c8b93c3dcdf231e61b6eb4f936f4a777f2009",
+      "author": "rudra",
+      "date": "2025-12-17T02:35:46+05:30",
+      "message": "master_agent api flow done",
+      "directFiles": [
+        "agents/master_agent.py",
+        "agents/utils/__pycache__/agent_api_client.cpython-313.pyc",
+        "agents/utils/agent_api_client.py",
+        "agents/vehicle_state.py",
+        "backend/__pycache__/main.cpython-313.pyc",
+        "backend/main.py",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-313.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-313.pyc",
+        "backend/routes/put_diagnosis.py",
+        "backend/routes/put_diagnosis_job.py",
+        "backend/routes/vehicle_state.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 11,
+      "transitiveCount": 0,
+      "blastRadius": 11
+    },
+    {
+      "hash": "348c9dba48daa6085f2b1e60c2e22854de1cd103",
+      "author": "rudra",
+      "date": "2025-12-17T00:44:44+05:30",
+      "message": "auth layer added, and api layer working",
+      "directFiles": [
+        "agents/collector_agent.py",
+        "agents/utils/__pycache__/agent_api_client.cpython-313.pyc",
+        "agents/utils/agent_api_client.py",
+        "backend/__pycache__/main.cpython-313.pyc",
+        "backend/__pycache__/raw_data_generator.cpython-313.pyc",
+        "backend/db/__pycache__/connection.cpython-313.pyc",
+        "backend/main.py",
+        "backend/middleware/__pycache__/auth.cpython-313.pyc",
+        "backend/middleware/auth.py",
+        "backend/routes/__pycache__/telemetry.cpython-313.pyc",
+        "backend/routes/telemetry.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 11,
+      "transitiveCount": 0,
+      "blastRadius": 11
+    },
+    {
+      "hash": "2b653a951ef6def7d99ec2c981a381c0a6cd0438",
+      "author": "rudra",
+      "date": "2025-12-16T12:02:40+05:30",
+      "message": "new pipeline tested and done",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "backend/readme.md",
+        "backend/routes/__pycache__/telemetry.cpython-313.pyc",
+        "backend/simulator.py",
+        "helpers/logic/__pycache__/generate_feature_simulator.cpython-313.pyc",
+        "helpers/logic/__pycache__/get_feature_name.cpython-313.pyc",
+        "helpers/logic/__pycache__/health_gate.cpython-313.pyc",
+        "helpers/logic/__pycache__/risk_scoring.cpython-313.pyc",
+        "helpers/logic/get_feature_name.py",
+        "helpers/logic/risk_scoring.py",
+        "run_sys.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 11,
+      "transitiveCount": 0,
+      "blastRadius": 11
+    },
+    {
+      "hash": "95c865ea3b0a48e0a1f171938165cc0750d983ad",
+      "author": "rudra",
+      "date": "2026-02-13T15:05:24+05:30",
+      "message": "engagement agent split",
+      "directFiles": [
+        "agents/engagement_agent.py",
+        "agents/scheduling_agent.py",
+        "backend/routes/__pycache__/schedule.cpython-312.pyc",
+        "backend/routes/schedule.py",
+        "transition/engagement_agent.py",
+        "transition/engagement_task.py",
+        "transition/scheduling_agent.py",
+        "transition/scheduling_task.py",
+        "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+        "worker_tasks/scheduling_tasks.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 10,
+      "transitiveCount": 0,
+      "blastRadius": 10
+    },
+    {
+      "hash": "74bde1baa52072a3f07a74a8200ad01c4b0c509e",
+      "author": "rudra",
+      "date": "2025-12-17T18:26:33+05:30",
+      "message": "engagement working without crewai, writer+summary ,preference from user and multi_agent crew",
+      "directFiles": [
+        "agents/engagement_agent.py",
+        "backend/.gitignore",
+        "backend/__pycache__/main.cpython-313.pyc",
+        "backend/main.py",
+        "backend/routes/__pycache__/engagement.cpython-313.pyc",
+        "backend/routes/__pycache__/predict.cpython-313.pyc",
+        "backend/routes/__pycache__/schedule.cpython-313.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-313.pyc",
+        "backend/routes/predict.py",
+        "helpers/logic/__pycache__/health_gate.cpython-313.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 10,
+      "transitiveCount": 0,
+      "blastRadius": 10
+    },
+    {
+      "hash": "cbe2b7c82a4c84f281ff4b80cb2ac63b6d216ff1",
+      "author": "rudra",
+      "date": "2025-12-17T04:17:50+05:30",
+      "message": "diagnosis_agent and master_agent inserted into api pipeline, working",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "agents/master_agent.py",
+        "agents/vehicle_state.py",
+        "backend/__pycache__/main.cpython-313.pyc",
+        "backend/main.py",
+        "backend/routes/__pycache__/put_diagnosis.cpython-313.pyc",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-313.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-313.pyc",
+        "backend/routes/put_done_diagnosis.py",
+        "backend/routes/vehicle_state.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 10,
+      "transitiveCount": 0,
+      "blastRadius": 10
+    },
+    {
+      "hash": "100cda8712da1c49adbbd3af1f3be4dbdf8eb564",
+      "author": "rudra",
+      "date": "2026-02-11T03:33:23+05:30",
+      "message": "added new diagnosis api endpoints for low risk results",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "backend/routes/put_done_diagnosis.py",
+        "worker_tasks/__pycache__/celery_config.cpython-312.pyc",
+        "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+        "worker_tasks/execution_diagnosis_task.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 9,
+      "transitiveCount": 0,
+      "blastRadius": 9
+    },
+    {
+      "hash": "4d59f5166c8e71fe42d09e1b8429dfe87f977fc6",
+      "author": "rudra",
+      "date": "2026-02-04T03:01:20+05:30",
+      "message": "celery and redis running",
+      "directFiles": [
+        "agents/master_agent.py",
+        "worker_tasks/__init__.py",
+        "worker_tasks/__pycache__/__init__.cpython-312.pyc",
+        "worker_tasks/__pycache__/celery_app.cpython-312.pyc",
+        "worker_tasks/__pycache__/celery_config.cpython-312.pyc",
+        "worker_tasks/__pycache__/diagnosis_task.cpython-312.pyc",
+        "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+        "worker_tasks/celery_config.py",
+        "worker_tasks/diagnosis_tasks.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 9,
+      "transitiveCount": 0,
+      "blastRadius": 9
+    },
+    {
+      "hash": "1fab5d4c514c5f6e5fbeea5d5ceda5569c6ecb20",
+      "author": "rudra",
+      "date": "2026-01-27T16:16:39+05:30",
+      "message": "cycling same telemetry error resolved from BE",
+      "directFiles": [
+        "agents/master_agent.py",
+        "agents/service_completion_agent.py",
+        "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "backend/routes/telemetry.py",
+        "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+        "helpers/logic/__pycache__/health_gate.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 9,
+      "transitiveCount": 0,
+      "blastRadius": 9
+    },
+    {
+      "hash": "e8b493e7a9c7983150cd0dad83aed40b4d917677",
+      "author": "rudra",
+      "date": "2025-12-17T17:29:16+05:30",
+      "message": "added engagement agent and corresponding api end points",
+      "directFiles": [
+        "agents/engagement_agent.py",
+        "backend/__pycache__/raw_data_generator.cpython-313.pyc",
+        "backend/routes/__pycache__/predict.cpython-313.pyc",
+        "backend/routes/__pycache__/put_diagnosis.cpython-313.pyc",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-313.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-313.pyc",
+        "backend/routes/engagement.py",
+        "backend/routes/predict.py",
+        "backend/routes/vehicle_state.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 9,
+      "transitiveCount": 0,
+      "blastRadius": 9
+    },
+    {
+      "hash": "85280945410ce4ae39a67d80dfa1d05d4e085839",
+      "author": "rudra",
+      "date": "2026-02-11T09:11:12+05:30",
+      "message": "all diagnosis execution layer checks don",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "agents/master_agent.py",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/put_done_diagnosis.py",
+        "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+        "worker_tasks/execution_diagnosis_task.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 8,
+      "transitiveCount": 0,
+      "blastRadius": 8
+    },
+    {
+      "hash": "566bd5cad418719b15d130fac51e743a33aede3b",
+      "author": "rudra",
+      "date": "2026-02-07T23:25:08+05:30",
+      "message": "SPLIT DIAGNOSIS AGENT",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "backend/db/__pycache__/connection.cpython-312.pyc",
+        "backend/db/connection.py",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "transition/diagnosis_agent.py",
+        "transition/diagnosis_task.py",
+        "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+        "worker_tasks/diagnosis_tasks.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 8,
+      "transitiveCount": 0,
+      "blastRadius": 8
+    },
+    {
+      "hash": "cea11bad7c532ab56ae554f42c7f6314c70968fb",
+      "author": "rudra",
+      "date": "2025-12-17T21:09:25+05:30",
+      "message": "feedback and email_service added",
+      "directFiles": [
+        "agents/engagement_agent.py",
+        "agents/scheduling_agent.py",
+        "backend/routes/__pycache__/feedback.cpython-313.pyc",
+        "backend/routes/__pycache__/schedule.cpython-313.pyc",
+        "backend/routes/schedule.py",
+        "helpers/logic/__pycache__/email_service.cpython-313.pyc",
+        "helpers/logic/__pycache__/slot_generator.cpython-313.pyc",
+        "helpers/logic/email_service.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 8,
+      "transitiveCount": 0,
+      "blastRadius": 8
+    },
+    {
+      "hash": "ad01d16f62b05d7e114d874e8c435bd3d71ac0f1",
+      "author": "rudra",
+      "date": "2025-12-17T19:29:10+05:30",
+      "message": "feedback agent pipeline integrated and working",
+      "directFiles": [
+        "agents/engagement_agent.py",
+        "agents/service_completion_agent.py",
+        "backend/__pycache__/main.cpython-313.pyc",
+        "backend/routes/__pycache__/feedback.cpython-313.pyc",
+        "backend/routes/__pycache__/schedule.cpython-313.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-313.pyc",
+        "backend/routes/feedback.py",
+        "backend/routes/vehicle_state.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 8,
+      "transitiveCount": 0,
+      "blastRadius": 8
+    },
+    {
+      "hash": "71513b7e0ed17cf12c64411e533fe1adbd49819b",
+      "author": "rudra",
+      "date": "2025-12-17T06:44:23+05:30",
+      "message": "schedule_agent and schedule api endpoints added",
+      "directFiles": [
+        "agents/scheduling_agent.py",
+        "backend/__pycache__/main.cpython-313.pyc",
+        "backend/main.py",
+        "backend/routes/__pycache__/schedule.cpython-313.pyc",
+        "backend/routes/__pycache__/service.cpython-313.pyc",
+        "backend/routes/schedule.py",
+        "backend/routes/service.py",
+        "helpers/logic/slot_generator.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 8,
+      "transitiveCount": 0,
+      "blastRadius": 8
+    },
+    {
+      "hash": "665737c1f7080d3a1fa5ac6a5d7f56364e8be91d",
+      "author": "rudra",
+      "date": "2026-02-13T04:14:31+05:30",
+      "message": "scheduling_tasks working",
+      "directFiles": [
+        "agents/scheduling_agent.py",
+        "backend/readme.md",
+        "transition/__pycache__/scheduling_task.cpython-312.pyc",
+        "worker_tasks/__pycache__/celery_config.cpython-312.pyc",
+        "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+        "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 7,
+      "transitiveCount": 0,
+      "blastRadius": 7
+    },
+    {
+      "hash": "3609db602d674d74786c9995d1a87448c085f570",
+      "author": "rudra",
+      "date": "2026-02-14T03:43:59+05:30",
+      "message": "working before service_completion",
+      "directFiles": [
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "transition/engagement_task.py",
+        "transition/service_completion_agent.py",
+        "transition/service_completion_task.py",
+        "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+        "worker_tasks/execution_diagnosis_task.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 6,
+      "transitiveCount": 0,
+      "blastRadius": 6
+    },
+    {
+      "hash": "e113993cf0966b1eeac3a3fe075efdeea1184db8",
+      "author": "rudra",
+      "date": "2026-01-23T09:11:12+05:30",
+      "message": "full pipeline circular mode running",
+      "directFiles": [
+        "agents/collector_agent.py",
+        "agents/diagnosis_agent.py",
+        "agents/engagement_agent.py",
+        "agents/master_agent.py",
+        "agents/scheduling_agent.py",
+        "agents/service_completion_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 6,
+      "transitiveCount": 0,
+      "blastRadius": 6
+    },
+    {
+      "hash": "883c38062f0e04082a9f2471d8d8a50bc46c2fa2",
+      "author": "rudra",
+      "date": "2026-01-21T12:37:55+05:30",
+      "message": "updated agents for recurring flow",
+      "directFiles": [
+        "agents/engagement_agent.py",
+        "agents/scheduling_agent.py",
+        "backend/routes/__pycache__/schedule.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "backend/routes/schedule.py",
+        "helpers/logic/__pycache__/email_service.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 6,
+      "transitiveCount": 0,
+      "blastRadius": 6
+    },
+    {
+      "hash": "f7df1bb2f6a09a038b3d88f483e99768c9cc9fca",
+      "author": "rudra",
+      "date": "2025-12-17T07:27:09+05:30",
+      "message": "schedule issue resolved",
+      "directFiles": [
+        "agents/scheduling_agent.py",
+        "backend/routes/__pycache__/schedule.cpython-313.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-313.pyc",
+        "backend/routes/schedule.py",
+        "backend/routes/vehicle_state.py",
+        "helpers/logic/__pycache__/slot_generator.cpython-313.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 6,
+      "transitiveCount": 0,
+      "blastRadius": 6
+    },
+    {
+      "hash": "cbff97cd18149a0121b9f1352133437d759a8f71",
+      "author": "rudra",
+      "date": "2025-12-16T10:33:34+05:30",
+      "message": "added feature extraction to pipeline and pipeline modified",
+      "directFiles": [
+        ".DS_Store",
+        "backend/routes/telemetry.py",
+        "backend/simulator.py",
+        "diag_agent_model/.DS_Store",
+        "diag_agent_model/iForest/.DS_Store",
+        "helpers/logic/generate_feature_simulator.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 6,
+      "transitiveCount": 0,
+      "blastRadius": 6
+    },
+    {
+      "hash": "8ceacb8119528dd29c40d8892e66d1366248c0bc",
+      "author": "rudra",
+      "date": "2026-02-11T01:59:12+05:30",
+      "message": "celery down redis jobs queued race condition and lifecycle gate of diagnosis done",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "backend/routes/telemetry.py",
+        "backend/routes/vehicle_state.py",
+        "worker_tasks/diagnosis_tasks.py",
+        "worker_tasks/execution_diagnosis_task.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 5,
+      "transitiveCount": 0,
+      "blastRadius": 5
+    },
+    {
+      "hash": "eb1d24b2050b7af10050a593c0024b7a8224f48c",
+      "author": "rudra",
+      "date": "2026-02-06T12:55:19+05:30",
+      "message": "working but before master_assigned_check",
+      "directFiles": [
+        "agents/master_agent.py",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+        "worker_tasks/diagnosis_tasks.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 5,
+      "transitiveCount": 0,
+      "blastRadius": 5
+    },
+    {
+      "hash": "066d4cd8c216d83b3b329b2c411b321c43582c54",
+      "author": "rudra",
+      "date": "2026-01-27T18:07:53+05:30",
+      "message": "full Cyclic with no repetations done, FINAL WORKING",
+      "directFiles": [
+        "agents/master_agent.py",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "backend/routes/telemetry.py",
+        "backend/routes/vehicle_state.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 5,
+      "transitiveCount": 0,
+      "blastRadius": 5
+    },
+    {
+      "hash": "91295cede6239bff649ad2150b7ca03d6c7ab251",
+      "author": "rudra",
+      "date": "2026-01-08T14:34:07+05:30",
+      "message": "tested and class conversion of diagnosis agent",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "agents/master_agent.py",
+        "agents/utils/__pycache__/agent_api_client.cpython-312.pyc",
+        "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 5,
+      "transitiveCount": 0,
+      "blastRadius": 5
+    },
+    {
+      "hash": "2b709bf07fb7e901aab769c1dc5d7d4cdd43182c",
+      "author": "rudra",
+      "date": "2026-01-06T14:05:24+05:30",
+      "message": "working proto test",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "agents/engagement_agent.py",
+        "agents/master_agent.py",
+        "agents/scheduling_agent.py",
+        "agents/service_completion_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 5,
+      "transitiveCount": 0,
+      "blastRadius": 5
+    },
+    {
+      "hash": "74a0a8097fdaa415ae72385dd29ae775f476753e",
+      "author": "rudra",
+      "date": "2026-02-13T03:53:43+05:30",
+      "message": "SCHEDULING AGENT SPLIT",
+      "directFiles": [
+        "agents/scheduling_agent.py",
+        "worker_tasks/celery_config.py",
+        "worker_tasks/diagnosis_tasks.py",
+        "worker_tasks/scheduling_tasks.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 4,
+      "transitiveCount": 0,
+      "blastRadius": 4
+    },
+    {
+      "hash": "2471889ab3cc2d09145ce6692496e3f6755c45bf",
+      "author": "rudra",
+      "date": "2026-02-11T14:45:56+05:30",
+      "message": "all race conditions resolved and operations working as expected",
+      "directFiles": [
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/put_done_diagnosis.py",
+        "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+        "worker_tasks/execution_diagnosis_task.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 4,
+      "transitiveCount": 0,
+      "blastRadius": 4
+    },
+    {
+      "hash": "d7ae272c2c9f511b574fb80e8b289cb7e433ef88",
+      "author": "rudra",
+      "date": "2026-02-11T11:59:38+05:30",
+      "message": "api end point created for stale diagnosis job",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/put_done_diagnosis.py",
+        "worker_tasks/execution_diagnosis_task.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 4,
+      "transitiveCount": 0,
+      "blastRadius": 4
+    },
+    {
+      "hash": "8fc8c0b484f9732fc4ed224b0b9a3c7cf0050efc",
+      "author": "rudra",
+      "date": "2026-02-08T00:14:07+05:30",
+      "message": "diagnosis agent, race condition resolved",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "transition/diagnosis_agent.py",
+        "worker_tasks/celery_config.py",
+        "worker_tasks/execution_diagnosis_task.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 4,
+      "transitiveCount": 0,
+      "blastRadius": 4
+    },
+    {
+      "hash": "76ee83914090dabb857bc63432b30f8d5be0cada",
+      "author": "rudra",
+      "date": "2026-02-05T01:39:00+05:30",
+      "message": "master agent converted succesfully and diagnosis task done and working well",
+      "directFiles": [
+        ".DS_Store",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "worker_tasks/__pycache__/celery_config.cpython-312.pyc",
+        "worker_tasks/celery_config.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 4,
+      "transitiveCount": 0,
+      "blastRadius": 4
+    },
+    {
+      "hash": "dc9e1c4b58854db2d9219e1b119dc83c1563e82f",
+      "author": "rudra",
+      "date": "2026-02-03T11:50:34+05:30",
+      "message": "AFTER MASTER SPLIT",
+      "directFiles": [
+        "agents/master_agent.py",
+        "tasks_celery/diagnosis_task.py",
+        "transition/diagnosis_task.py",
+        "transition/master_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 4,
+      "transitiveCount": 0,
+      "blastRadius": 4
+    },
+    {
+      "hash": "16b46bf78a49c1e52e7c758e5da2ba96f44cba77",
+      "author": "rudra",
+      "date": "2026-01-31T22:44:08+05:30",
+      "message": "celery app created",
+      "directFiles": [
+        "backend/readme.md",
+        "tasks_celery/__init__.py",
+        "tasks_celery/celery_app.py",
+        "tasks_celery/diagnosis_task.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 4,
+      "transitiveCount": 0,
+      "blastRadius": 4
+    },
+    {
+      "hash": "1073733a63abfb1acb4b909cbbe9adcfc3ed4fab",
+      "author": "rudra",
+      "date": "2026-01-27T11:29:21+05:30",
+      "message": "cyclic issue resolved",
+      "directFiles": [
+        "agents/master_agent.py",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/telemetry.py",
+        "helpers/logic/health_gate.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 4,
+      "transitiveCount": 0,
+      "blastRadius": 4
+    },
+    {
+      "hash": "ae4a814de23f4f23b55c166676e209d3544d4dc8",
+      "author": "rudra",
+      "date": "2026-01-08T18:04:13+05:30",
+      "message": "scheduling agent converted to class based",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "agents/master_agent.py",
+        "agents/scheduling_agent.py",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 4,
+      "transitiveCount": 0,
+      "blastRadius": 4
+    },
+    {
+      "hash": "0fde9698cf95976c15f6e43487d078e1f40e702c",
+      "author": "rudra",
+      "date": "2025-12-16T16:08:36+05:30",
+      "message": "simulator.py-> raw_data_generator + collector_agent",
+      "directFiles": [
+        "agents/collector_agent.py",
+        "backend/__pycache__/raw_data_generator.cpython-313.pyc",
+        "backend/raw_data_generator.py",
+        "backend/simulator.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 4,
+      "transitiveCount": 0,
+      "blastRadius": 4
+    },
+    {
+      "hash": "f53451ed22ec3e39bc3cfb39bbd6c2fb8f93a8b1",
+      "author": "rudra",
+      "date": "2026-02-28T12:49:16+05:30",
+      "message": "logger base added",
+      "directFiles": [
+        "GEMINI.md",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/telemetry.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 3,
+      "transitiveCount": 0,
+      "blastRadius": 3
+    },
+    {
+      "hash": "b344c233cdc68e99f54e03afc648093cfccb5b5e",
+      "author": "rudra",
+      "date": "2026-02-11T14:11:24+05:30",
+      "message": "DIAGNOSIS AGENT CONCURRENCY DONE",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+        "worker_tasks/execution_diagnosis_task.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 3,
+      "transitiveCount": 0,
+      "blastRadius": 3
+    },
+    {
+      "hash": "49143e9cdcd9abaf81a8af279ca2a29948f75367",
+      "author": "rudra",
+      "date": "2026-02-10T09:35:06+05:30",
+      "message": "test 10feb",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "agents/master_agent.py",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 3,
+      "transitiveCount": 0,
+      "blastRadius": 3
+    },
+    {
+      "hash": "54b0af9b3fa69d364a29d2e2ae0cb3d99de33450",
+      "author": "rudra",
+      "date": "2026-02-07T15:27:05+05:30",
+      "message": "diagnosis/AFTER/TRANSITION",
+      "directFiles": [
+        "transition/diagnosis_agent.py",
+        "transition/diagnosis_task.py",
+        "transition/master_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 3,
+      "transitiveCount": 0,
+      "blastRadius": 3
+    },
+    {
+      "hash": "a778a2f8afcf1a62927e8f3ae7823aa5ddcb85b3",
+      "author": "rudra",
+      "date": "2026-02-07T14:58:46+05:30",
+      "message": "Fix job flow to avoid duplicates; handle Celery worker death and Redis queue reset",
+      "directFiles": [
+        "agents/master_agent.py",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "backend/routes/vehicle_state.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 3,
+      "transitiveCount": 0,
+      "blastRadius": 3
+    },
+    {
+      "hash": "82e09e25da469e75728da43659b987152b755af5",
+      "author": "rudra",
+      "date": "2026-02-06T15:36:09+05:30",
+      "message": "race condition of multiple diagnosis queueing solved",
+      "directFiles": [
+        "agents/master_agent.py",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/telemetry.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 3,
+      "transitiveCount": 0,
+      "blastRadius": 3
+    },
+    {
+      "hash": "277a41f4d6513700fb6785ceb2006b188259c41e",
+      "author": "rudra",
+      "date": "2026-02-04T23:43:50+05:30",
+      "message": "time compatibility in master agent",
+      "directFiles": [
+        "agents/master_agent.py",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/vehicle_state.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 3,
+      "transitiveCount": 0,
+      "blastRadius": 3
+    },
+    {
+      "hash": "85837a55e3939bbf06b61b879f823ad1b266021f",
+      "author": "rudra",
+      "date": "2026-02-03T11:47:54+05:30",
+      "message": "BEFORE MASTER SPLIT",
+      "directFiles": [
+        "backend/routes/telemetry.py",
+        "transition/diagnosis_task.py",
+        "transition/master_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 3,
+      "transitiveCount": 0,
+      "blastRadius": 3
+    },
+    {
+      "hash": "5729f5d36c5fcd24c1a62a3904a1643afd8e248f",
+      "author": "rudra",
+      "date": "2026-02-03T05:02:49+05:30",
+      "message": "master aget split/transition",
+      "directFiles": [
+        "GEMINI.md",
+        "tasks_celery/diagnosis_task.py",
+        "transition/master_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 3,
+      "transitiveCount": 0,
+      "blastRadius": 3
+    },
+    {
+      "hash": "014bfd9c18d370b9c5473e7bbf40b3833cfc3a53",
+      "author": "rudra",
+      "date": "2026-01-30T03:45:32+05:30",
+      "message": "latest working version",
+      "directFiles": [
+        "agents/engagement_agent.py",
+        "backend/readme.md",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 3,
+      "transitiveCount": 0,
+      "blastRadius": 3
+    },
+    {
+      "hash": "bd4ab00a6e7dabd332290307b0c1a14e4dbc902d",
+      "author": "rudra",
+      "date": "2026-01-21T12:51:33+05:30",
+      "message": "service completion agent in recurrent cycle added",
+      "directFiles": [
+        "agents/service_completion_agent.py",
+        "backend/routes/__pycache__/schedule.cpython-312.pyc",
+        "backend/routes/schedule.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 3,
+      "transitiveCount": 0,
+      "blastRadius": 3
+    },
+    {
+      "hash": "943db53e70904d7c186cd1d343a8fc24a8028011",
+      "author": "rudra",
+      "date": "2026-01-09T01:57:24+05:30",
+      "message": "service completion agent converted and tested",
+      "directFiles": [
+        "agents/master_agent.py",
+        "agents/scheduling_agent.py",
+        "agents/service_completion_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 3,
+      "transitiveCount": 0,
+      "blastRadius": 3
+    },
+    {
+      "hash": "a995067e9ed5f103eeff48d750dbe9f749bda38a",
+      "author": "rudra",
+      "date": "2026-01-08T16:41:49+05:30",
+      "message": "tested master",
+      "directFiles": [
+        "agents/__pycache__/master_agent.cpython-312.pyc",
+        "agents/diagnosis_agent.py",
+        "backend/__pycache__/raw_data_generator.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 3,
+      "transitiveCount": 0,
+      "blastRadius": 3
+    },
+    {
+      "hash": "e52cff917d21aca2c64987c13218e764e103d6ec",
+      "author": "rudra",
+      "date": "2025-12-16T15:10:39+05:30",
+      "message": "test commit, pivot change",
+      "directFiles": [
+        "agents/collector_agent.py",
+        "agents/master_agent.py",
+        "agents/scheduling_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 3,
+      "transitiveCount": 0,
+      "blastRadius": 3
+    },
+    {
+      "hash": "349b02c2df9fc4ec99fe827b715849a8f8b9745a",
+      "author": "rudra",
+      "date": "2025-12-16T11:18:20+05:30",
+      "message": "test removed c",
+      "directFiles": [
+        "agents/master_agent.py",
+        "backend/routes/telemetry.py",
+        "helpers/logic/health_gate.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 3,
+      "transitiveCount": 0,
+      "blastRadius": 3
+    },
+    {
+      "hash": "5d81f5488beda0ca0444f5b6e515c797456aed19",
+      "author": "rudra",
+      "date": "2025-12-16T11:14:33+05:30",
+      "message": "master and health gate changed for pipeline",
+      "directFiles": [
+        "agents/master_agent.py",
+        "backend/simulator.py",
+        "helpers/logic/health_gate.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 3,
+      "transitiveCount": 0,
+      "blastRadius": 3
+    },
+    {
+      "hash": "f76fc2c7c08527d436fffb56b4b3acce60246ada",
+      "author": "rudra",
+      "date": "2026-02-11T10:45:12+05:30",
+      "message": "solved race condition in diagnosis agent",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "agents/master_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 2,
+      "transitiveCount": 0,
+      "blastRadius": 2
+    },
+    {
+      "hash": "a5151af41b4a021487d393e65802f0a2e5042442",
+      "author": "rudra",
+      "date": "2026-02-08T01:00:14+05:30",
+      "message": "3 race conditions applied to diagnosis agent",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "agents/master_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 2,
+      "transitiveCount": 0,
+      "blastRadius": 2
+    },
+    {
+      "hash": "94a31eadbd051dbafb10c1de027a3ef3248d426a",
+      "author": "rudra",
+      "date": "2026-02-07T16:09:04+05:30",
+      "message": "MASTER CONCURRENCY DONE",
+      "directFiles": [
+        "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+        "worker_tasks/diagnosis_tasks.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 2,
+      "transitiveCount": 0,
+      "blastRadius": 2
+    },
+    {
+      "hash": "c30584e6a872f739f1f3999b180f5ffb18697289",
+      "author": "rudra",
+      "date": "2026-02-07T14:36:19+05:30",
+      "message": "reset cycle  workinng fine",
+      "directFiles": [
+        "agents/master_agent.py",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 2,
+      "transitiveCount": 0,
+      "blastRadius": 2
+    },
+    {
+      "hash": "327543b48d37e0033fb0ed9b030cd519ef48e121",
+      "author": "rudra",
+      "date": "2026-02-06T19:48:09+05:30",
+      "message": "duplicate diagnosis job creation wrt master",
+      "directFiles": [
+        "agents/master_agent.py",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 2,
+      "transitiveCount": 0,
+      "blastRadius": 2
+    },
+    {
+      "hash": "a650bb529cfa992b673409fab00c74122637c893",
+      "author": "rudra",
+      "date": "2026-02-05T04:16:40+05:30",
+      "message": "master singular db api call done",
+      "directFiles": [
+        "agents/master_agent.py",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 2,
+      "transitiveCount": 0,
+      "blastRadius": 2
+    },
+    {
+      "hash": "5e96a5076368ba9577f90337043115936b0bcc90",
+      "author": "rudra",
+      "date": "2026-02-04T03:28:30+05:30",
+      "message": "changes to the flow of master_agent",
+      "directFiles": [
+        "backend/readme.md",
+        "worker_tasks/__pycache__/celery_config.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 2,
+      "transitiveCount": 0,
+      "blastRadius": 2
+    },
+    {
+      "hash": "9d9346f68d84c258a0856328747a6e56e5f6c083",
+      "author": "rudra",
+      "date": "2026-02-03T12:59:29+05:30",
+      "message": "AFTER MASTER SPLIT and MASTER COMPLETE",
+      "directFiles": [
+        "agents/master_agent.py",
+        "tasks_celery/diagnosis_task.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 2,
+      "transitiveCount": 0,
+      "blastRadius": 2
+    },
+    {
+      "hash": "6b47f97ee4569b436394804c9bb78c8de0ec1126",
+      "author": "rudra",
+      "date": "2026-02-03T04:05:44+05:30",
+      "message": "celery added and tasks added",
+      "directFiles": [
+        ".DS_Store",
+        "GEMINI.md"
+      ],
+      "transitiveFiles": [],
+      "directCount": 2,
+      "transitiveCount": 0,
+      "blastRadius": 2
+    },
+    {
+      "hash": "fdbc9359936623fea91bf6a94847fe6c379f4b6e",
+      "author": "rudra",
+      "date": "2026-02-01T00:32:49+05:30",
+      "message": "queuing edge case solved",
+      "directFiles": [
+        "agents/master_agent.py",
+        "backend/routes/vehicle_state.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 2,
+      "transitiveCount": 0,
+      "blastRadius": 2
+    },
+    {
+      "hash": "0bf1f2d43a05542ea9a529dc8998a7e24080157a",
+      "author": "rudra",
+      "date": "2026-01-31T23:40:02+05:30",
+      "message": "lifecycle gate defined for the decision layer",
+      "directFiles": [
+        "agents/master_agent.py",
+        "backend/routes/telemetry.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 2,
+      "transitiveCount": 0,
+      "blastRadius": 2
+    },
+    {
+      "hash": "72495b8b05368f740270d7196225beabc20e0278",
+      "author": "rudra",
+      "date": "2026-01-28T18:52:26+05:30",
+      "message": "latest WORKING version",
+      "directFiles": [
+        "agents/engagement_agent.py",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 2,
+      "transitiveCount": 0,
+      "blastRadius": 2
+    },
+    {
+      "hash": "9749087cd2ae7c7fa178699d7987c37ec5084cd9",
+      "author": "rudra",
+      "date": "2026-01-27T18:13:15+05:30",
+      "message": "extra commented code removed",
+      "directFiles": [
+        "agents/master_agent.py",
+        "backend/routes/vehicle_state.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 2,
+      "transitiveCount": 0,
+      "blastRadius": 2
+    },
+    {
+      "hash": "feb5fbd64cbaa814675692fe63aff33ccb6c5a01",
+      "author": "rudra",
+      "date": "2026-01-23T13:28:54+05:30",
+      "message": "self loop solved",
+      "directFiles": [
+        "agents/engagement_agent.py",
+        "agents/service_completion_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 2,
+      "transitiveCount": 0,
+      "blastRadius": 2
+    },
+    {
+      "hash": "f44f2c21936232c6aa85df88059ff7da670438c7",
+      "author": "rudra",
+      "date": "2026-01-08T16:41:16+05:30",
+      "message": "diagnosis agent completed and tested",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "agents/master_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 2,
+      "transitiveCount": 0,
+      "blastRadius": 2
+    },
+    {
+      "hash": "9dec98f1ba57c45583c39902a249f02e5d51259e",
+      "author": "rudra",
+      "date": "2025-12-16T12:50:46+05:30",
+      "message": "added gate checks for same vehicle",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "agents/master_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 2,
+      "transitiveCount": 0,
+      "blastRadius": 2
+    },
+    {
+      "hash": "1248d9682957617238a74c6c3be71829124df049",
+      "author": "rudra",
+      "date": "2026-02-13T14:06:55+05:30",
+      "message": "flow from master to schedule working",
+      "directFiles": [
+        "agents/scheduling_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "f1ff8dff6b49ab48bd7a2041100ed519e52e0ddf",
+      "author": "rudra",
+      "date": "2026-02-06T13:14:15+05:30",
+      "message": "working master celery redis pipeline with duplicity safety",
+      "directFiles": [
+        "agents/master_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "1d3dda44aa473a06c4d266ce11fe7bcdc7576b62",
+      "author": "rudra",
+      "date": "2026-02-03T05:07:18+05:30",
+      "message": "diagnosis_task/transition",
+      "directFiles": [
+        "transition/diagnosis_task.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "29c499027b56fdaa252522ba2122bd39f9975899",
+      "author": "rudra",
+      "date": "2026-02-01T23:42:24+05:30",
+      "message": "gemini cli",
+      "directFiles": [
+        "GEMINI.md"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "b3c0fbd7f655fc7e5413d5f47234c1c7afe0e395",
+      "author": "rudra",
+      "date": "2026-01-31T17:34:40+05:30",
+      "message": "celery folder",
+      "directFiles": [
+        "agents/service_completion_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "0e0b483b52ca11cc9e39f947fb1e91c812f0de65",
+      "author": "rudra",
+      "date": "2026-01-30T15:02:53+05:30",
+      "message": "initial test commit 2",
+      "directFiles": [
+        "agents/service_completion_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "861a03daa4d295b92a4d191d09c84bb75546326b",
+      "author": "rudra",
+      "date": "2026-01-30T15:02:09+05:30",
+      "message": "initial test commit",
+      "directFiles": [
+        "agents/service_completion_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "3497e3ead06e93df0bc16a847fa51d92c4da520e",
+      "author": "rudra",
+      "date": "2026-01-28T19:49:27+05:30",
+      "message": "concurrency ways",
+      "directFiles": [
+        "backend/readme.md"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "360191adc1fc6a351add43cf10ed94b8c7f463a4",
+      "author": "rudra",
+      "date": "2026-01-27T18:58:23+05:30",
+      "message": "mock llm added 2",
+      "directFiles": [
+        "agents/engagement_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "4cb6207b0e034f272b7231370f1b99cf67b8b1af",
+      "author": "rudra",
+      "date": "2026-01-27T18:58:01+05:30",
+      "message": "mock llm added",
+      "directFiles": [
+        "agents/engagement_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "19e43bc3d1b021a4c44406126bd2db8a13ab0e57",
+      "author": "rudra",
+      "date": "2026-01-23T10:07:39+05:30",
+      "message": "crewai in engagement working",
+      "directFiles": [
+        "agents/engagement_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "80bf7c2cbe9afed58fc1a0d4cdc896caa9548e60",
+      "author": "rudra",
+      "date": "2026-01-08T18:29:10+05:30",
+      "message": "scheduler works and tested",
+      "directFiles": [
+        "agents/scheduling_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "4372395cd1e724f82f5bab4fa34f7e8b10ee0ce3",
+      "author": "rudra",
+      "date": "2026-01-08T15:49:28+05:30",
+      "message": "diagnosis agent class conversion",
+      "directFiles": [
+        "agents/diagnosis_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "34412680dc874bdbd426e342383fa776a6a50c4b",
+      "author": "rudra",
+      "date": "2026-01-06T18:28:11+05:30",
+      "message": "class change of master",
+      "directFiles": [
+        "agents/master_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "fecd0e3f72bb6857546fe3eeaf2ba79f45355352",
+      "author": "rudra",
+      "date": "2025-12-17T18:30:50+05:30",
+      "message": "WIP: cleanup before history rewrite",
+      "directFiles": [
+        "backend/.gitignore"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "92ab3ae6117ae7285b7c0f8600b726efb47b72f4",
+      "author": "rudra",
+      "date": "2025-12-17T17:32:25+05:30",
+      "message": "Remove env file and ignore secrets",
+      "directFiles": [
+        "backend/.gitignore"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "bc8e53a4a13f14c469761909468ff3a55a1f7ba6",
+      "author": "rudra",
+      "date": "2025-12-17T17:31:09+05:30",
+      "message": "Remove env file and ignore secrets",
+      "directFiles": [
+        "backend/.gitignore"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "7d3ef34d721246a96297bba68f3a51bafa313336",
+      "author": "rudra",
+      "date": "2025-12-17T07:37:35+05:30",
+      "message": "schedule api fixed",
+      "directFiles": [
+        "agents/scheduling_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "2ced6fadff41e4e4cfd153beb36943c87854a0b7",
+      "author": "rudra",
+      "date": "2025-12-16T12:39:16+05:30",
+      "message": "testing after pipeline change, working",
+      "directFiles": [
+        "agents/master_agent.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 1,
+      "transitiveCount": 0,
+      "blastRadius": 1
+    },
+    {
+      "hash": "19e11ca87a67a57c2e6210e5629032b8ebb6c8ae",
+      "author": "Rudra Rajpurohit",
+      "date": "2026-02-14T21:23:45+05:30",
+      "message": "Merge pull request #1 from RajRudra06/scalable-agent-runtime",
+      "directFiles": [],
+      "transitiveFiles": [],
+      "directCount": 0,
+      "transitiveCount": 0,
+      "blastRadius": 0
+    }
+  ],
+  "avgBlastRadius": 5.5,
+  "maxBlastRadius": {
+    "hash": "c1e91c15f09efc5c73f7e7d0d8966c55c93a23c7",
+    "author": "rudra",
+    "date": "2026-02-14T05:03:12+05:30",
+    "message": "cleaned code",
+    "directFiles": [
+      "agents/collector_agent.py",
+      "agents/diagnosis_agent.py",
+      "agents/engagement_agent.py",
+      "agents/master_agent.py",
+      "agents/scheduling_agent.py",
+      "backend/__pycache__/main.cpython-312.pyc",
+      "backend/db/__pycache__/connection.cpython-312.pyc",
+      "backend/db/connection.py",
+      "backend/middleware/__pycache__/auth.cpython-312.pyc",
+      "backend/middleware/auth.py",
+      "backend/routes/__pycache__/engagement.cpython-312.pyc",
+      "backend/routes/__pycache__/feedback.cpython-312.pyc",
+      "backend/routes/__pycache__/predict.cpython-312.pyc",
+      "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+      "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+      "backend/routes/__pycache__/schedule.cpython-312.pyc",
+      "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+      "backend/routes/engagement.py",
+      "backend/routes/feedback.py",
+      "backend/routes/predict.py",
+      "backend/routes/put_diagnosis.py",
+      "backend/routes/put_diagnosis_job.py",
+      "backend/routes/schedule.py",
+      "backend/routes/vehicle_state.py",
+      "helpers/logging_config.py",
+      "helpers/logic/generate_feature_simulator.py",
+      "helpers/logic/get_feature_name.py",
+      "helpers/logic/slot_generator.py",
+      "transition/service_completion_agent.py",
+      "transition/service_completion_task.py",
+      "worker_tasks/diagnosis_tasks.py",
+      "worker_tasks/engagement_tasks.py",
+      "worker_tasks/execution_diagnosis_task.py",
+      "worker_tasks/scheduling_tasks.py"
+    ],
+    "transitiveFiles": [],
+    "directCount": 34,
+    "transitiveCount": 0,
+    "blastRadius": 34
+  },
+  "highImpactCommits": [
+    {
+      "hash": "c1e91c15f09efc5c73f7e7d0d8966c55c93a23c7",
+      "author": "rudra",
+      "date": "2026-02-14T05:03:12+05:30",
+      "message": "cleaned code",
+      "directFiles": [
+        "agents/collector_agent.py",
+        "agents/diagnosis_agent.py",
+        "agents/engagement_agent.py",
+        "agents/master_agent.py",
+        "agents/scheduling_agent.py",
+        "backend/__pycache__/main.cpython-312.pyc",
+        "backend/db/__pycache__/connection.cpython-312.pyc",
+        "backend/db/connection.py",
+        "backend/middleware/__pycache__/auth.cpython-312.pyc",
+        "backend/middleware/auth.py",
+        "backend/routes/__pycache__/engagement.cpython-312.pyc",
+        "backend/routes/__pycache__/feedback.cpython-312.pyc",
+        "backend/routes/__pycache__/predict.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+        "backend/routes/__pycache__/schedule.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "backend/routes/engagement.py",
+        "backend/routes/feedback.py",
+        "backend/routes/predict.py",
+        "backend/routes/put_diagnosis.py",
+        "backend/routes/put_diagnosis_job.py",
+        "backend/routes/schedule.py",
+        "backend/routes/vehicle_state.py",
+        "helpers/logging_config.py",
+        "helpers/logic/generate_feature_simulator.py",
+        "helpers/logic/get_feature_name.py",
+        "helpers/logic/slot_generator.py",
+        "transition/service_completion_agent.py",
+        "transition/service_completion_task.py",
+        "worker_tasks/diagnosis_tasks.py",
+        "worker_tasks/engagement_tasks.py",
+        "worker_tasks/execution_diagnosis_task.py",
+        "worker_tasks/scheduling_tasks.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 34,
+      "transitiveCount": 0,
+      "blastRadius": 34
+    },
+    {
+      "hash": "f32e2cc54b2108a63c3da57cdd9befd75b88a38e",
+      "author": "rudra",
+      "date": "2026-01-03T01:23:38+05:30",
+      "message": "working setup after service and scheduling agents",
+      "directFiles": [
+        "agents/ueba_agent.py",
+        "agents/utils/__pycache__/agent_api_client.cpython-312.pyc",
+        "backend/__pycache__/__init__.cpython-312.pyc",
+        "backend/__pycache__/main.cpython-312.pyc",
+        "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+        "backend/db/__pycache__/__init__.cpython-312.pyc",
+        "backend/db/__pycache__/connection.cpython-312.pyc",
+        "backend/middleware/__pycache__/auth.cpython-312.pyc",
+        "backend/readme.md",
+        "backend/routes/__pycache__/__init__.cpython-312.pyc",
+        "backend/routes/__pycache__/engagement.cpython-312.pyc",
+        "backend/routes/__pycache__/feedback.cpython-312.pyc",
+        "backend/routes/__pycache__/predict.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/schedule.cpython-312.pyc",
+        "backend/routes/__pycache__/service.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/__pycache__/ueba.cpython-312.pyc",
+        "backend/routes/__pycache__/ueba.cpython-313.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "backend/routes/ueba.py",
+        "helpers/logic/__pycache__/email_service.cpython-312.pyc",
+        "helpers/logic/__pycache__/email_service.cpython-313.pyc",
+        "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+        "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+        "helpers/logic/__pycache__/health_gate.cpython-312.pyc",
+        "helpers/logic/__pycache__/risk_scoring.cpython-312.pyc",
+        "helpers/logic/__pycache__/slot_generator.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 30,
+      "transitiveCount": 0,
+      "blastRadius": 30
+    },
+    {
+      "hash": "beed66e15c0a3f8d174d0c37230e37b6fad8fc7d",
+      "author": "rudra",
+      "date": "2026-02-26T15:37:22+05:30",
+      "message": "working test 26 feb",
+      "directFiles": [
+        "backend/__pycache__/main.cpython-312.pyc",
+        "backend/db/__pycache__/connection.cpython-312.pyc",
+        "backend/middleware/__pycache__/auth.cpython-312.pyc",
+        "backend/readme.md",
+        "backend/routes/__pycache__/engagement.cpython-312.pyc",
+        "backend/routes/__pycache__/feedback.cpython-312.pyc",
+        "backend/routes/__pycache__/predict.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/schedule.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "helpers/logic/__pycache__/generate_feature_simulator.cpython-312.pyc",
+        "helpers/logic/__pycache__/get_feature_name.cpython-312.pyc",
+        "worker_tasks/__pycache__/__init__.cpython-312.pyc",
+        "worker_tasks/__pycache__/celery_config.cpython-312.pyc",
+        "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/engagement_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+        "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/service_completion_tasks.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 22,
+      "transitiveCount": 0,
+      "blastRadius": 22
+    },
+    {
+      "hash": "d9ea085966655e655972fd286dd4a98ddeaedba9",
+      "author": "rudra",
+      "date": "2026-02-14T03:27:54+05:30",
+      "message": "workflow healthy till engagement agent with minimal race conditions",
+      "directFiles": [
+        "agents/engagement_agent.py",
+        "backend/readme.md",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/schedule.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "backend/routes/telemetry.py",
+        "backend/routes/vehicle_state.py",
+        "transition/__pycache__/engagement_task.cpython-312.pyc",
+        "transition/engagement_agent.py",
+        "transition/engagement_task.py",
+        "worker_tasks/__pycache__/celery_config.cpython-312.pyc",
+        "worker_tasks/__pycache__/engagement_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/scheduling_tasks.cpython-312.pyc",
+        "worker_tasks/celery_config.py",
+        "worker_tasks/engagement_tasks.py",
+        "worker_tasks/execution_diagnosis_task.py",
+        "worker_tasks/scheduling_tasks.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 18,
+      "transitiveCount": 0,
+      "blastRadius": 18
+    },
+    {
+      "hash": "c30761785603146e7ec01642bf40ea1b3db6f01a",
+      "author": "rudra",
+      "date": "2026-02-14T05:30:59+05:30",
+      "message": "SERVICE COMPLETION AGENT SPLIT done",
+      "directFiles": [
+        "agents/collector_agent.py",
+        "agents/engagement_agent.py",
+        "agents/master_agent.py",
+        "agents/scheduling_agent.py",
+        "agents/service_completion_agent.py",
+        "backend/routes/__pycache__/schedule.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "backend/routes/schedule.py",
+        "backend/routes/vehicle_state.py",
+        "transition/__pycache__/engagement_task.cpython-312.pyc",
+        "transition/__pycache__/scheduling_task.cpython-312.pyc",
+        "transition/service_completion_agent.py",
+        "worker_tasks/celery_config.py",
+        "worker_tasks/service_completion_tasks.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 15,
+      "transitiveCount": 0,
+      "blastRadius": 15
+    },
+    {
+      "hash": "7417d1a80b63551f3330c86c711d8f4e7d1186ec",
+      "author": "rudra",
+      "date": "2026-02-13T03:35:39+05:30",
+      "message": "scheduling refractored agent done",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "agents/scheduling_agent.py",
+        "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/put_done_diagnosis.py",
+        "transition/scheduling_agent.py",
+        "transition/scheduling_task.py",
+        "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+        "worker_tasks/celery_config.py",
+        "worker_tasks/diagnosis_tasks.py",
+        "worker_tasks/execution_diagnosis_task.py",
+        "worker_tasks/scheduling_tasks.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 14,
+      "transitiveCount": 0,
+      "blastRadius": 14
+    },
+    {
+      "hash": "4c8ab0b5133378be17147d0e53de4fc60d63c50c",
+      "author": "rudra",
+      "date": "2026-01-27T18:20:14+05:30",
+      "message": "test",
+      "directFiles": [
+        "backend/__pycache__/__init__.cpython-312.pyc",
+        "backend/__pycache__/main.cpython-312.pyc",
+        "backend/__pycache__/raw_data_generator.cpython-312.pyc",
+        "backend/routes/__pycache__/engagement.cpython-312.pyc",
+        "backend/routes/__pycache__/feedback.cpython-312.pyc",
+        "backend/routes/__pycache__/predict.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/schedule.cpython-312.pyc",
+        "backend/routes/__pycache__/service.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/__pycache__/ueba.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc"
+      ],
+      "transitiveFiles": [],
+      "directCount": 14,
+      "transitiveCount": 0,
+      "blastRadius": 14
+    },
+    {
+      "hash": "fc0b5ae9a8a0be43bbfa3bb6f918eaaee1492546",
+      "author": "rudra",
+      "date": "2026-02-04T02:55:01+05:30",
+      "message": "celery and diagnosis done",
+      "directFiles": [
+        "agents/master_agent.py",
+        "backend/__pycache__/main.cpython-312.pyc",
+        "backend/main.py",
+        "backend/readme.md",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/telemetry.cpython-312.pyc",
+        "backend/routes/__pycache__/vehicle_state.cpython-312.pyc",
+        "worker_task/__init__.py",
+        "worker_task/__pycache__/__init__.cpython-312.pyc",
+        "worker_task/__pycache__/celery_app.cpython-312.pyc",
+        "worker_task/__pycache__/diagnosis_task.cpython-312.pyc",
+        "worker_task/celery_config.py",
+        "worker_task/diagnosis.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 13,
+      "transitiveCount": 0,
+      "blastRadius": 13
+    },
+    {
+      "hash": "d8929d5887de0697b65e39ece6689efd1fd858d7",
+      "author": "rudra",
+      "date": "2026-02-12T23:51:37+05:30",
+      "message": "minor race condition solved",
+      "directFiles": [
+        "agents/diagnosis_agent.py",
+        "agents/master_agent.py",
+        "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/put_diagnosis.py",
+        "backend/routes/put_diagnosis_job.py",
+        "backend/routes/put_done_diagnosis.py",
+        "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+        "worker_tasks/diagnosis_tasks.py",
+        "worker_tasks/execution_diagnosis_task.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 12,
+      "transitiveCount": 0,
+      "blastRadius": 12
+    },
+    {
+      "hash": "304fc3139d2b48ee423bc030bc9f7f8adf84c86d",
+      "author": "rudra",
+      "date": "2026-02-12T21:46:03+05:30",
+      "message": "race conditions tested",
+      "directFiles": [
+        "backend/routes/__pycache__/put_diagnosis.cpython-312.pyc",
+        "backend/routes/__pycache__/put_diagnosis_job.cpython-312.pyc",
+        "backend/routes/__pycache__/put_done_diagnosis.cpython-312.pyc",
+        "backend/routes/put_diagnosis.py",
+        "backend/routes/put_diagnosis_job.py",
+        "backend/routes/put_done_diagnosis.py",
+        "transition/scheduling_agent.py",
+        "transition/scheduling_task.py",
+        "worker_tasks/__pycache__/diagnosis_tasks.cpython-312.pyc",
+        "worker_tasks/__pycache__/execution_diagnosis_task.cpython-312.pyc",
+        "worker_tasks/diagnosis_tasks.py",
+        "worker_tasks/execution_diagnosis_task.py"
+      ],
+      "transitiveFiles": [],
+      "directCount": 12,
+      "transitiveCount": 0,
+      "blastRadius": 12
+    }
+  ]
+}

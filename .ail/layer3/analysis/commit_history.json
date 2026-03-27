@@ -1,0 +1,1079 @@
+{
+  "commits": [
+    {
+      "hash": "f53451ed22ec3e39bc3cfb39bbd6c2fb8f93a8b1",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-28T12:49:16+05:30",
+      "message": "logger base added",
+      "filesChanged": 3,
+      "insertions": 2,
+      "deletions": 0
+    },
+    {
+      "hash": "beed66e15c0a3f8d174d0c37230e37b6fad8fc7d",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-26T15:37:22+05:30",
+      "message": "working test 26 feb",
+      "filesChanged": 22,
+      "insertions": 1,
+      "deletions": 5
+    },
+    {
+      "hash": "19e11ca87a67a57c2e6210e5629032b8ebb6c8ae",
+      "author": "Rudra Rajpurohit",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-14T21:23:45+05:30",
+      "message": "Merge pull request #1 from RajRudra06/scalable-agent-runtime",
+      "filesChanged": 0,
+      "insertions": 0,
+      "deletions": 0
+    },
+    {
+      "hash": "9e8b205d4f8ef3ab607f394ec881a054bc2fcb54",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-14T21:14:42+05:30",
+      "message": "CONCURRENCY COMPLETED FOR ALL AGENTS",
+      "filesChanged": 11,
+      "insertions": 11,
+      "deletions": 3
+    },
+    {
+      "hash": "c30761785603146e7ec01642bf40ea1b3db6f01a",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-14T05:30:59+05:30",
+      "message": "SERVICE COMPLETION AGENT SPLIT done",
+      "filesChanged": 15,
+      "insertions": 448,
+      "deletions": 550
+    },
+    {
+      "hash": "c1e91c15f09efc5c73f7e7d0d8966c55c93a23c7",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-14T05:03:12+05:30",
+      "message": "cleaned code",
+      "filesChanged": 34,
+      "insertions": 265,
+      "deletions": 325
+    },
+    {
+      "hash": "3609db602d674d74786c9995d1a87448c085f570",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-14T03:43:59+05:30",
+      "message": "working before service_completion",
+      "filesChanged": 6,
+      "insertions": 440,
+      "deletions": 2
+    },
+    {
+      "hash": "d9ea085966655e655972fd286dd4a98ddeaedba9",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-14T03:27:54+05:30",
+      "message": "workflow healthy till engagement agent with minimal race conditions",
+      "filesChanged": 18,
+      "insertions": 765,
+      "deletions": 1116
+    },
+    {
+      "hash": "95c865ea3b0a48e0a1f171938165cc0750d983ad",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-13T15:05:24+05:30",
+      "message": "engagement agent split",
+      "filesChanged": 10,
+      "insertions": 740,
+      "deletions": 185
+    },
+    {
+      "hash": "1248d9682957617238a74c6c3be71829124df049",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-13T14:06:55+05:30",
+      "message": "flow from master to schedule working",
+      "filesChanged": 1,
+      "insertions": 2,
+      "deletions": 7
+    },
+    {
+      "hash": "665737c1f7080d3a1fa5ac6a5d7f56364e8be91d",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-13T04:14:31+05:30",
+      "message": "scheduling_tasks working",
+      "filesChanged": 7,
+      "insertions": 12,
+      "deletions": 3
+    },
+    {
+      "hash": "74a0a8097fdaa415ae72385dd29ae775f476753e",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-13T03:53:43+05:30",
+      "message": "SCHEDULING AGENT SPLIT",
+      "filesChanged": 4,
+      "insertions": 8,
+      "deletions": 21
+    },
+    {
+      "hash": "7417d1a80b63551f3330c86c711d8f4e7d1186ec",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-13T03:35:39+05:30",
+      "message": "scheduling refractored agent done",
+      "filesChanged": 14,
+      "insertions": 585,
+      "deletions": 557
+    },
+    {
+      "hash": "d8929d5887de0697b65e39ece6689efd1fd858d7",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-12T23:51:37+05:30",
+      "message": "minor race condition solved",
+      "filesChanged": 12,
+      "insertions": 109,
+      "deletions": 13
+    },
+    {
+      "hash": "304fc3139d2b48ee423bc030bc9f7f8adf84c86d",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-12T21:46:03+05:30",
+      "message": "race conditions tested",
+      "filesChanged": 12,
+      "insertions": 456,
+      "deletions": 15
+    },
+    {
+      "hash": "2471889ab3cc2d09145ce6692496e3f6755c45bf",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-11T14:45:56+05:30",
+      "message": "all race conditions resolved and operations working as expected",
+      "filesChanged": 4,
+      "insertions": 5,
+      "deletions": 4
+    },
+    {
+      "hash": "b344c233cdc68e99f54e03afc648093cfccb5b5e",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-11T14:11:24+05:30",
+      "message": "DIAGNOSIS AGENT CONCURRENCY DONE",
+      "filesChanged": 3,
+      "insertions": 11,
+      "deletions": 4
+    },
+    {
+      "hash": "d7ae272c2c9f511b574fb80e8b289cb7e433ef88",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-11T11:59:38+05:30",
+      "message": "api end point created for stale diagnosis job",
+      "filesChanged": 4,
+      "insertions": 36,
+      "deletions": 8
+    },
+    {
+      "hash": "f76fc2c7c08527d436fffb56b4b3acce60246ada",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-11T10:45:12+05:30",
+      "message": "solved race condition in diagnosis agent",
+      "filesChanged": 2,
+      "insertions": 1,
+      "deletions": 3
+    },
+    {
+      "hash": "85280945410ce4ae39a67d80dfa1d05d4e085839",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-11T09:11:12+05:30",
+      "message": "all diagnosis execution layer checks don",
+      "filesChanged": 8,
+      "insertions": 61,
+      "deletions": 27
+    },
+    {
+      "hash": "100cda8712da1c49adbbd3af1f3be4dbdf8eb564",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-11T03:33:23+05:30",
+      "message": "added new diagnosis api endpoints for low risk results",
+      "filesChanged": 9,
+      "insertions": 165,
+      "deletions": 294
+    },
+    {
+      "hash": "8ceacb8119528dd29c40d8892e66d1366248c0bc",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-11T01:59:12+05:30",
+      "message": "celery down redis jobs queued race condition and lifecycle gate of diagnosis done",
+      "filesChanged": 5,
+      "insertions": 661,
+      "deletions": 160
+    },
+    {
+      "hash": "49143e9cdcd9abaf81a8af279ca2a29948f75367",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-10T09:35:06+05:30",
+      "message": "test 10feb",
+      "filesChanged": 3,
+      "insertions": 45,
+      "deletions": 39
+    },
+    {
+      "hash": "a5151af41b4a021487d393e65802f0a2e5042442",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-08T01:00:14+05:30",
+      "message": "3 race conditions applied to diagnosis agent",
+      "filesChanged": 2,
+      "insertions": 105,
+      "deletions": 28
+    },
+    {
+      "hash": "8fc8c0b484f9732fc4ed224b0b9a3c7cf0050efc",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-08T00:14:07+05:30",
+      "message": "diagnosis agent, race condition resolved",
+      "filesChanged": 4,
+      "insertions": 34,
+      "deletions": 231
+    },
+    {
+      "hash": "566bd5cad418719b15d130fac51e743a33aede3b",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-07T23:25:08+05:30",
+      "message": "SPLIT DIAGNOSIS AGENT",
+      "filesChanged": 8,
+      "insertions": 77,
+      "deletions": 67
+    },
+    {
+      "hash": "94a31eadbd051dbafb10c1de027a3ef3248d426a",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-07T16:09:04+05:30",
+      "message": "MASTER CONCURRENCY DONE",
+      "filesChanged": 2,
+      "insertions": 56,
+      "deletions": 4
+    },
+    {
+      "hash": "54b0af9b3fa69d364a29d2e2ae0cb3d99de33450",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-07T15:27:05+05:30",
+      "message": "diagnosis/AFTER/TRANSITION",
+      "filesChanged": 3,
+      "insertions": 263,
+      "deletions": 0
+    },
+    {
+      "hash": "a778a2f8afcf1a62927e8f3ae7823aa5ddcb85b3",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-07T14:58:46+05:30",
+      "message": "Fix job flow to avoid duplicates; handle Celery worker death and Redis queue reset",
+      "filesChanged": 3,
+      "insertions": 6,
+      "deletions": 2
+    },
+    {
+      "hash": "c30584e6a872f739f1f3999b180f5ffb18697289",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-07T14:36:19+05:30",
+      "message": "reset cycle  workinng fine",
+      "filesChanged": 2,
+      "insertions": 24,
+      "deletions": 6
+    },
+    {
+      "hash": "327543b48d37e0033fb0ed9b030cd519ef48e121",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-06T19:48:09+05:30",
+      "message": "duplicate diagnosis job creation wrt master",
+      "filesChanged": 2,
+      "insertions": 0,
+      "deletions": 2
+    },
+    {
+      "hash": "82e09e25da469e75728da43659b987152b755af5",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-06T15:36:09+05:30",
+      "message": "race condition of multiple diagnosis queueing solved",
+      "filesChanged": 3,
+      "insertions": 62,
+      "deletions": 26
+    },
+    {
+      "hash": "f1ff8dff6b49ab48bd7a2041100ed519e52e0ddf",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-06T13:14:15+05:30",
+      "message": "working master celery redis pipeline with duplicity safety",
+      "filesChanged": 1,
+      "insertions": 24,
+      "deletions": 26
+    },
+    {
+      "hash": "eb1d24b2050b7af10050a593c0024b7a8224f48c",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-06T12:55:19+05:30",
+      "message": "working but before master_assigned_check",
+      "filesChanged": 5,
+      "insertions": 40,
+      "deletions": 350
+    },
+    {
+      "hash": "a650bb529cfa992b673409fab00c74122637c893",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-05T04:16:40+05:30",
+      "message": "master singular db api call done",
+      "filesChanged": 2,
+      "insertions": 451,
+      "deletions": 188
+    },
+    {
+      "hash": "76ee83914090dabb857bc63432b30f8d5be0cada",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-05T01:39:00+05:30",
+      "message": "master agent converted succesfully and diagnosis task done and working well",
+      "filesChanged": 4,
+      "insertions": 1,
+      "deletions": 1
+    },
+    {
+      "hash": "277a41f4d6513700fb6785ceb2006b188259c41e",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-04T23:43:50+05:30",
+      "message": "time compatibility in master agent",
+      "filesChanged": 3,
+      "insertions": 97,
+      "deletions": 31
+    },
+    {
+      "hash": "5e96a5076368ba9577f90337043115936b0bcc90",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-04T03:28:30+05:30",
+      "message": "changes to the flow of master_agent",
+      "filesChanged": 2,
+      "insertions": 1,
+      "deletions": 1
+    },
+    {
+      "hash": "4d59f5166c8e71fe42d09e1b8429dfe87f977fc6",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-04T03:01:20+05:30",
+      "message": "celery and redis running",
+      "filesChanged": 9,
+      "insertions": 5,
+      "deletions": 5
+    },
+    {
+      "hash": "fc0b5ae9a8a0be43bbfa3bb6f918eaaee1492546",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-04T02:55:01+05:30",
+      "message": "celery and diagnosis done",
+      "filesChanged": 13,
+      "insertions": 29,
+      "deletions": 22
+    },
+    {
+      "hash": "9d9346f68d84c258a0856328747a6e56e5f6c083",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-03T12:59:29+05:30",
+      "message": "AFTER MASTER SPLIT and MASTER COMPLETE",
+      "filesChanged": 2,
+      "insertions": 26,
+      "deletions": 36
+    },
+    {
+      "hash": "dc9e1c4b58854db2d9219e1b119dc83c1563e82f",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-03T11:50:34+05:30",
+      "message": "AFTER MASTER SPLIT",
+      "filesChanged": 4,
+      "insertions": 229,
+      "deletions": 824
+    },
+    {
+      "hash": "85837a55e3939bbf06b61b879f823ad1b266021f",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-03T11:47:54+05:30",
+      "message": "BEFORE MASTER SPLIT",
+      "filesChanged": 3,
+      "insertions": 416,
+      "deletions": 0
+    },
+    {
+      "hash": "1d3dda44aa473a06c4d266ce11fe7bcdc7576b62",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-03T05:07:18+05:30",
+      "message": "diagnosis_task/transition",
+      "filesChanged": 1,
+      "insertions": 51,
+      "deletions": 0
+    },
+    {
+      "hash": "5729f5d36c5fcd24c1a62a3904a1643afd8e248f",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-03T05:02:49+05:30",
+      "message": "master aget split/transition",
+      "filesChanged": 3,
+      "insertions": 292,
+      "deletions": 1
+    },
+    {
+      "hash": "6b47f97ee4569b436394804c9bb78c8de0ec1126",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-03T04:05:44+05:30",
+      "message": "celery added and tasks added",
+      "filesChanged": 2,
+      "insertions": 12,
+      "deletions": 0
+    },
+    {
+      "hash": "29c499027b56fdaa252522ba2122bd39f9975899",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-01T23:42:24+05:30",
+      "message": "gemini cli",
+      "filesChanged": 1,
+      "insertions": 78,
+      "deletions": 0
+    },
+    {
+      "hash": "fdbc9359936623fea91bf6a94847fe6c379f4b6e",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-02-01T00:32:49+05:30",
+      "message": "queuing edge case solved",
+      "filesChanged": 2,
+      "insertions": 34,
+      "deletions": 2
+    },
+    {
+      "hash": "0bf1f2d43a05542ea9a529dc8998a7e24080157a",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-31T23:40:02+05:30",
+      "message": "lifecycle gate defined for the decision layer",
+      "filesChanged": 2,
+      "insertions": 15,
+      "deletions": 5
+    },
+    {
+      "hash": "16b46bf78a49c1e52e7c758e5da2ba96f44cba77",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-31T22:44:08+05:30",
+      "message": "celery app created",
+      "filesChanged": 4,
+      "insertions": 41,
+      "deletions": 1
+    },
+    {
+      "hash": "b3c0fbd7f655fc7e5413d5f47234c1c7afe0e395",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-31T17:34:40+05:30",
+      "message": "celery folder",
+      "filesChanged": 1,
+      "insertions": 1,
+      "deletions": 1
+    },
+    {
+      "hash": "0e0b483b52ca11cc9e39f947fb1e91c812f0de65",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-30T15:02:53+05:30",
+      "message": "initial test commit 2",
+      "filesChanged": 1,
+      "insertions": 1,
+      "deletions": 1
+    },
+    {
+      "hash": "861a03daa4d295b92a4d191d09c84bb75546326b",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-30T15:02:09+05:30",
+      "message": "initial test commit",
+      "filesChanged": 1,
+      "insertions": 1,
+      "deletions": 1
+    },
+    {
+      "hash": "014bfd9c18d370b9c5473e7bbf40b3833cfc3a53",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-30T03:45:32+05:30",
+      "message": "latest working version",
+      "filesChanged": 3,
+      "insertions": 408,
+      "deletions": 4
+    },
+    {
+      "hash": "3497e3ead06e93df0bc16a847fa51d92c4da520e",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-28T19:49:27+05:30",
+      "message": "concurrency ways",
+      "filesChanged": 1,
+      "insertions": 13,
+      "deletions": 1
+    },
+    {
+      "hash": "72495b8b05368f740270d7196225beabc20e0278",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-28T18:52:26+05:30",
+      "message": "latest WORKING version",
+      "filesChanged": 2,
+      "insertions": 1,
+      "deletions": 403
+    },
+    {
+      "hash": "360191adc1fc6a351add43cf10ed94b8c7f463a4",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-27T18:58:23+05:30",
+      "message": "mock llm added 2",
+      "filesChanged": 1,
+      "insertions": 0,
+      "deletions": 1
+    },
+    {
+      "hash": "4cb6207b0e034f272b7231370f1b99cf67b8b1af",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-27T18:58:01+05:30",
+      "message": "mock llm added",
+      "filesChanged": 1,
+      "insertions": 56,
+      "deletions": 34
+    },
+    {
+      "hash": "4c8ab0b5133378be17147d0e53de4fc60d63c50c",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-27T18:20:14+05:30",
+      "message": "test",
+      "filesChanged": 14,
+      "insertions": 0,
+      "deletions": 0
+    },
+    {
+      "hash": "9749087cd2ae7c7fa178699d7987c37ec5084cd9",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-27T18:13:15+05:30",
+      "message": "extra commented code removed",
+      "filesChanged": 2,
+      "insertions": 0,
+      "deletions": 192
+    },
+    {
+      "hash": "066d4cd8c216d83b3b329b2c411b321c43582c54",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-27T18:07:53+05:30",
+      "message": "full Cyclic with no repetations done, FINAL WORKING",
+      "filesChanged": 5,
+      "insertions": 61,
+      "deletions": 10
+    },
+    {
+      "hash": "1fab5d4c514c5f6e5fbeea5d5ceda5569c6ecb20",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-27T16:16:39+05:30",
+      "message": "cycling same telemetry error resolved from BE",
+      "filesChanged": 9,
+      "insertions": 290,
+      "deletions": 57
+    },
+    {
+      "hash": "1073733a63abfb1acb4b909cbbe9adcfc3ed4fab",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-27T11:29:21+05:30",
+      "message": "cyclic issue resolved",
+      "filesChanged": 4,
+      "insertions": 21,
+      "deletions": 21
+    },
+    {
+      "hash": "feb5fbd64cbaa814675692fe63aff33ccb6c5a01",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-23T13:28:54+05:30",
+      "message": "self loop solved",
+      "filesChanged": 2,
+      "insertions": 134,
+      "deletions": 181
+    },
+    {
+      "hash": "19e43bc3d1b021a4c44406126bd2db8a13ab0e57",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-23T10:07:39+05:30",
+      "message": "crewai in engagement working",
+      "filesChanged": 1,
+      "insertions": 59,
+      "deletions": 118
+    },
+    {
+      "hash": "e113993cf0966b1eeac3a3fe075efdeea1184db8",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-23T09:11:12+05:30",
+      "message": "full pipeline circular mode running",
+      "filesChanged": 6,
+      "insertions": 246,
+      "deletions": 246
+    },
+    {
+      "hash": "bd4ab00a6e7dabd332290307b0c1a14e4dbc902d",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-21T12:51:33+05:30",
+      "message": "service completion agent in recurrent cycle added",
+      "filesChanged": 3,
+      "insertions": 283,
+      "deletions": 106
+    },
+    {
+      "hash": "883c38062f0e04082a9f2471d8d8a50bc46c2fa2",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-21T12:37:55+05:30",
+      "message": "updated agents for recurring flow",
+      "filesChanged": 6,
+      "insertions": 163,
+      "deletions": 21
+    },
+    {
+      "hash": "3739b1962a77539c24dc7e64fd515c3ddea075de",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-19T18:12:32+05:30",
+      "message": "continous lifecycle achieved",
+      "filesChanged": 12,
+      "insertions": 28,
+      "deletions": 26
+    },
+    {
+      "hash": "943db53e70904d7c186cd1d343a8fc24a8028011",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-09T01:57:24+05:30",
+      "message": "service completion agent converted and tested",
+      "filesChanged": 3,
+      "insertions": 115,
+      "deletions": 146
+    },
+    {
+      "hash": "80bf7c2cbe9afed58fc1a0d4cdc896caa9548e60",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-08T18:29:10+05:30",
+      "message": "scheduler works and tested",
+      "filesChanged": 1,
+      "insertions": 9,
+      "deletions": 97
+    },
+    {
+      "hash": "ae4a814de23f4f23b55c166676e209d3544d4dc8",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-08T18:04:13+05:30",
+      "message": "scheduling agent converted to class based",
+      "filesChanged": 4,
+      "insertions": 326,
+      "deletions": 54
+    },
+    {
+      "hash": "a995067e9ed5f103eeff48d750dbe9f749bda38a",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-08T16:41:49+05:30",
+      "message": "tested master",
+      "filesChanged": 3,
+      "insertions": 30,
+      "deletions": 164
+    },
+    {
+      "hash": "f44f2c21936232c6aa85df88059ff7da670438c7",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-08T16:41:16+05:30",
+      "message": "diagnosis agent completed and tested",
+      "filesChanged": 2,
+      "insertions": 10,
+      "deletions": 135
+    },
+    {
+      "hash": "4372395cd1e724f82f5bab4fa34f7e8b10ee0ce3",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-08T15:49:28+05:30",
+      "message": "diagnosis agent class conversion",
+      "filesChanged": 1,
+      "insertions": 174,
+      "deletions": 5
+    },
+    {
+      "hash": "91295cede6239bff649ad2150b7ca03d6c7ab251",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-08T14:34:07+05:30",
+      "message": "tested and class conversion of diagnosis agent",
+      "filesChanged": 5,
+      "insertions": 295,
+      "deletions": 124
+    },
+    {
+      "hash": "34412680dc874bdbd426e342383fa776a6a50c4b",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-06T18:28:11+05:30",
+      "message": "class change of master",
+      "filesChanged": 1,
+      "insertions": 130,
+      "deletions": 70
+    },
+    {
+      "hash": "2b709bf07fb7e901aab769c1dc5d7d4cdd43182c",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-06T14:05:24+05:30",
+      "message": "working proto test",
+      "filesChanged": 5,
+      "insertions": 13,
+      "deletions": 152
+    },
+    {
+      "hash": "f32e2cc54b2108a63c3da57cdd9befd75b88a38e",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2026-01-03T01:23:38+05:30",
+      "message": "working setup after service and scheduling agents",
+      "filesChanged": 30,
+      "insertions": 94,
+      "deletions": 4
+    },
+    {
+      "hash": "cea11bad7c532ab56ae554f42c7f6314c70968fb",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-17T21:09:25+05:30",
+      "message": "feedback and email_service added",
+      "filesChanged": 8,
+      "insertions": 124,
+      "deletions": 53
+    },
+    {
+      "hash": "ad01d16f62b05d7e114d874e8c435bd3d71ac0f1",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-17T19:29:10+05:30",
+      "message": "feedback agent pipeline integrated and working",
+      "filesChanged": 8,
+      "insertions": 116,
+      "deletions": 14
+    },
+    {
+      "hash": "fecd0e3f72bb6857546fe3eeaf2ba79f45355352",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-17T18:30:50+05:30",
+      "message": "WIP: cleanup before history rewrite",
+      "filesChanged": 1,
+      "insertions": 1,
+      "deletions": 1
+    },
+    {
+      "hash": "74bde1baa52072a3f07a74a8200ad01c4b0c509e",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-17T18:26:33+05:30",
+      "message": "engagement working without crewai, writer+summary ,preference from user and multi_agent crew",
+      "filesChanged": 10,
+      "insertions": 263,
+      "deletions": 39
+    },
+    {
+      "hash": "92ab3ae6117ae7285b7c0f8600b726efb47b72f4",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-17T17:32:25+05:30",
+      "message": "Remove env file and ignore secrets",
+      "filesChanged": 1,
+      "insertions": 2,
+      "deletions": 1
+    },
+    {
+      "hash": "bc8e53a4a13f14c469761909468ff3a55a1f7ba6",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-17T17:31:09+05:30",
+      "message": "Remove env file and ignore secrets",
+      "filesChanged": 1,
+      "insertions": 1,
+      "deletions": 0
+    },
+    {
+      "hash": "e8b493e7a9c7983150cd0dad83aed40b4d917677",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-17T17:29:16+05:30",
+      "message": "added engagement agent and corresponding api end points",
+      "filesChanged": 9,
+      "insertions": 157,
+      "deletions": 7
+    },
+    {
+      "hash": "7d3ef34d721246a96297bba68f3a51bafa313336",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-17T07:37:35+05:30",
+      "message": "schedule api fixed",
+      "filesChanged": 1,
+      "insertions": 3,
+      "deletions": 3
+    },
+    {
+      "hash": "f7df1bb2f6a09a038b3d88f483e99768c9cc9fca",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-17T07:27:09+05:30",
+      "message": "schedule issue resolved",
+      "filesChanged": 6,
+      "insertions": 20,
+      "deletions": 12
+    },
+    {
+      "hash": "71513b7e0ed17cf12c64411e533fe1adbd49819b",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-17T06:44:23+05:30",
+      "message": "schedule_agent and schedule api endpoints added",
+      "filesChanged": 8,
+      "insertions": 173,
+      "deletions": 1
+    },
+    {
+      "hash": "cbe2b7c82a4c84f281ff4b80cb2ac63b6d216ff1",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-17T04:17:50+05:30",
+      "message": "diagnosis_agent and master_agent inserted into api pipeline, working",
+      "filesChanged": 10,
+      "insertions": 210,
+      "deletions": 88
+    },
+    {
+      "hash": "ab6c8b93c3dcdf231e61b6eb4f936f4a777f2009",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-17T02:35:46+05:30",
+      "message": "master_agent api flow done",
+      "filesChanged": 11,
+      "insertions": 135,
+      "deletions": 27
+    },
+    {
+      "hash": "348c9dba48daa6085f2b1e60c2e22854de1cd103",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-17T00:44:44+05:30",
+      "message": "auth layer added, and api layer working",
+      "filesChanged": 11,
+      "insertions": 84,
+      "deletions": 12
+    },
+    {
+      "hash": "0fde9698cf95976c15f6e43487d078e1f40e702c",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-16T16:08:36+05:30",
+      "message": "simulator.py-> raw_data_generator + collector_agent",
+      "filesChanged": 4,
+      "insertions": 129,
+      "deletions": 119
+    },
+    {
+      "hash": "e52cff917d21aca2c64987c13218e764e103d6ec",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-16T15:10:39+05:30",
+      "message": "test commit, pivot change",
+      "filesChanged": 3,
+      "insertions": 0,
+      "deletions": 2
+    },
+    {
+      "hash": "9dec98f1ba57c45583c39902a249f02e5d51259e",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-16T12:50:46+05:30",
+      "message": "added gate checks for same vehicle",
+      "filesChanged": 2,
+      "insertions": 48,
+      "deletions": 9
+    },
+    {
+      "hash": "2ced6fadff41e4e4cfd153beb36943c87854a0b7",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-16T12:39:16+05:30",
+      "message": "testing after pipeline change, working",
+      "filesChanged": 1,
+      "insertions": 3,
+      "deletions": 0
+    },
+    {
+      "hash": "2b653a951ef6def7d99ec2c981a381c0a6cd0438",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-16T12:02:40+05:30",
+      "message": "new pipeline tested and done",
+      "filesChanged": 11,
+      "insertions": 187,
+      "deletions": 70
+    },
+    {
+      "hash": "349b02c2df9fc4ec99fe827b715849a8f8b9745a",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-16T11:18:20+05:30",
+      "message": "test removed c",
+      "filesChanged": 3,
+      "insertions": 0,
+      "deletions": 20
+    },
+    {
+      "hash": "5d81f5488beda0ca0444f5b6e515c797456aed19",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-16T11:14:33+05:30",
+      "message": "master and health gate changed for pipeline",
+      "filesChanged": 3,
+      "insertions": 31,
+      "deletions": 61
+    },
+    {
+      "hash": "cbff97cd18149a0121b9f1352133437d759a8f71",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-16T10:33:34+05:30",
+      "message": "added feature extraction to pipeline and pipeline modified",
+      "filesChanged": 6,
+      "insertions": 226,
+      "deletions": 49
+    },
+    {
+      "hash": "9c643f47062c923bfc9c674f1e0a40451756f896",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-15T10:08:34+05:30",
+      "message": "iForest synthetic model .pkl file added",
+      "filesChanged": 6,
+      "insertions": 54,
+      "deletions": 0
+    },
+    {
+      "hash": "c65a7a480adf102c425903192467953e0c4afc4d",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-15T08:30:13+05:30",
+      "message": "better logging and single_cmd",
+      "filesChanged": 3,
+      "insertions": 62,
+      "deletions": 0
+    },
+    {
+      "hash": "eaa54675936f86eccc72d90b41e8002568f665c4",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-15T07:53:20+05:30",
+      "message": "better resolution_cycle and current_state flags added",
+      "filesChanged": 4,
+      "insertions": 176,
+      "deletions": 26
+    },
+    {
+      "hash": "07b166af671bb9815ad91df8474ffd420a915d59",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-15T06:14:19+05:30",
+      "message": "master and health_gate working",
+      "filesChanged": 8,
+      "insertions": 142,
+      "deletions": 2
+    },
+    {
+      "hash": "b3000b2b78c6a8c3229e7f4b238a18a85299c0c5",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-15T05:03:01+05:30",
+      "message": "updated simulator, more sensor data",
+      "filesChanged": 4,
+      "insertions": 50,
+      "deletions": 20
+    },
+    {
+      "hash": "41d9789d29f01e92a6d138a2a1c43bc7b47e71e9",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-09T02:06:28+05:30",
+      "message": "routes established",
+      "filesChanged": 23,
+      "insertions": 135,
+      "deletions": 22
+    },
+    {
+      "hash": "a2baa6c612559fcf3bac56ed737fe841fdeba321",
+      "author": "rudra",
+      "email": "rudra.rajpurohit@icloud.com",
+      "date": "2025-12-09T01:10:34+05:30",
+      "message": "initial commit",
+      "filesChanged": 4,
+      "insertions": 42,
+      "deletions": 0
+    }
+  ],
+  "totalCommits": 107,
+  "dateRange": {
+    "first": "2025-12-09T01:10:34+05:30",
+    "last": "2026-02-28T12:49:16+05:30"
+  }
+}
