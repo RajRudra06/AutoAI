@@ -12,6 +12,7 @@ from backend.routes.put_diagnosis import router as diag_job_queue
 from backend.routes.put_done_diagnosis import router as diag_done_routes
 from backend.routes.service import router as service_router
 from backend.routes.engagement import router as engagement_router
+from backend.routes.activity import router as activity_router
 
 app = FastAPI(title="AutoAI Backend")
 
@@ -34,6 +35,7 @@ protected_app.include_router(diag_job_queue)
 protected_app.include_router(diag_done_routes)
 protected_app.include_router(service_router)
 protected_app.include_router(engagement_router)
+protected_app.include_router(activity_router)
 
 
 app.mount("/api", protected_app)

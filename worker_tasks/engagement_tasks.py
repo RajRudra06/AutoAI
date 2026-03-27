@@ -104,27 +104,35 @@ SEVEN_DAY_RULES = {
     }
 }
 
-groq_llm = LLM(
-    model="groq/llama-3.1-8b-instant",
-    api_key=os.getenv("GROQ_API_KEY")
-)
+try:
+    groq_llm = LLM(
+        model="groq/llama-3.1-8b-instant",
+        api_key=os.getenv("GROQ_API_KEY")
+    )
 
-engagement_llm_agent = Agent(
-    role="Customer Engagement Specialist",
-    goal=(
-        "Explain vehicle issues clearly, reassure the customer, "
-        "and guide them toward service completion."
-    ),
-    backstory=(
-        "You are an automotive service advisor AI. "
-        "You receive technical diagnoses and must translate them "
-        "into calm, actionable customer communication."
-    ),
-    llm=groq_llm,
-    verbose=False
-)
+    engagement_llm_agent = Agent(
+        role="Customer Engagement Specialist",
+        goal=(
+            "Explain vehicle issues clearly, reassure the customer, "
+            "and guide them toward service completion."
+        ),
+        backstory=(
+            "You are an automotive service advisor AI. "
+            "You receive technical diagnoses and must translate them "
+            "into calm, actionable customer communication."
+        ),
+        llm=groq_llm,
+        verbose=False
+    )
+except Exception as e:
+    print(f"[ENGAGEMENT TASK][WARN] CrewAI LLM init failed, fallback mode enabled: {e}")
+    groq_llm = None
+    engagement_llm_agent = None
 
 def build_engagement_task_celery(vehicle_id, issue, booking):
+    if engagement_llm_agent is None:
+        raise RuntimeError("CrewAI engagement agent unavailable")
+
     description = f"""
     Vehicle ID: {vehicle_id}
 
@@ -152,6 +160,9 @@ def build_engagement_task_celery(vehicle_id, issue, booking):
     )
 
 def run_crewai_engagement_celery(vehicle_id, issue, booking):
+    if engagement_llm_agent is None:
+        raise RuntimeError("CrewAI engagement agent unavailable")
+
     print(f"  [DEBUG] run_crewai: Step 1 - Building task")
     task = build_engagement_task_celery(vehicle_id, issue, booking)
 
