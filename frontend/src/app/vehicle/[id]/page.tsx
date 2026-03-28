@@ -30,6 +30,7 @@ import {
   VehicleSummaryPayload,
 } from "@/lib/types";
 import styles from "@/app/vehicle/[id]/page.module.css";
+import LiveTelemetryModal from "@/components/LiveTelemetryModal";
 
 /* ─── Stage helpers ─── */
 const LIFECYCLE_STAGES = [
@@ -93,6 +94,7 @@ export default function VehicleDetailsPage() {
   const [events, setEvents] = useState<ActivityEvent[]>([]);
   const [summary, setSummary] = useState<VehicleSummaryPayload | null>(null);
   const [loadingSummary, setLoadingSummary] = useState(false);
+  const [isLiveStreamOpen, setIsLiveStreamOpen] = useState(false);
 
   const refresh = useCallback(async () => {
     const [allVehicles, timeline] = await Promise.all([
@@ -125,9 +127,9 @@ export default function VehicleDetailsPage() {
 
   const features = useMemo(() => {
     if (!vehicle?.latest_features) return [];
-    return Object.entries(vehicle.latest_features).slice(0, 6).map(([key, value]) => ({
+    return Object.entries(vehicle.latest_features).slice(0, 12).map(([key, value]) => ({
       label: formatFeatureKey(key),
-      value: String(value),
+      value: typeof value === "number" ? value.toFixed(1) : String(value),
     }));
   }, [vehicle]);
 
@@ -146,17 +148,41 @@ export default function VehicleDetailsPage() {
   async function generateSummary() {
     setLoadingSummary(true);
     try {
-      const data = await regenerateVehicleSummary(vehicleId);
-      setSummary(data);
+      const resp = await regenerateVehicleSummary(vehicleId);
+      setSummary(resp);
+    } catch (e) {
+      console.error(e);
     } finally {
       setLoadingSummary(false);
     }
   }
 
+  async function startSimulation() {
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+      const resp = await fetch(`${baseUrl}/api/simulation/start/${vehicleId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (resp.ok) {
+        await refresh();
+      }
+    } catch (e) {
+      console.error("Failed to start simulation:", e);
+    }
+  }
+
   return (
     <>
+      {/* ─── Live Telemetry Modal ─── */}
+      <LiveTelemetryModal 
+        vehicleId={vehicleId} 
+        isOpen={isLiveStreamOpen} 
+        onClose={() => setIsLiveStreamOpen(false)} 
+      />
+
       {/* ─── Nav ─── */}
-      <nav className={styles.navBar}>
+      <nav className={`${styles.navBar} ${isLiveStreamOpen ? styles.blurred : ""}`}>
         <div className={styles.navLeft}>
           <Link href="/welcome" className={styles.navLogo}>
             <Zap strokeWidth={2.5} />
@@ -178,7 +204,7 @@ export default function VehicleDetailsPage() {
         </div>
       </nav>
 
-      <main className={styles.shell}>
+      <main className={`${styles.shell} ${isLiveStreamOpen ? styles.blurred : ""}`}>
         {/* ─── Vehicle Hero ─── */}
         <motion.section
           className={styles.vehicleHero}
@@ -285,9 +311,23 @@ export default function VehicleDetailsPage() {
                 <Gauge size={18} style={{ marginRight: 8, verticalAlign: "middle" }} />
                 Live Telemetry
               </h2>
-              <span className={`${styles.panelCount} mono`}>
-                {features.length} sensors
-              </span>
+              <div className={styles.heroActions}>
+                <button 
+                  className={styles.simulationBtn}
+                  onClick={startSimulation}
+                  title="Start the autonomous service lifecycle"
+                >
+                  <Sparkles size={16} />
+                  Start Service Journey
+                </button>
+                <button
+                  className={styles.streamToggleBtn}
+                  onClick={() => setIsLiveStreamOpen(true)}
+                >
+                  <Radio size={16} className={styles.pulseIcon} />
+                  Monitor Live Stream
+                </button>
+              </div>
             </div>
 
             {!vehicle ? (

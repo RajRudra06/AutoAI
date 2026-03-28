@@ -3,8 +3,8 @@
 import random
 from datetime import datetime, timedelta
 
-VEHICLE_IDS = ["V001", "V002", "V003", "V004", "V005"]
-FAILING_VEHICLES = {"V004"}
+VEHICLE_IDS = ["V001", "V002", "V003", "V004", "V005", "V_FAMILYCAR", "V_PHASE_B_TEST"]
+FAILING_VEHICLES = {"V004", "V_FAMILYCAR"}
 
 class RawDataGenerator:
     def __init__(self):
@@ -34,19 +34,19 @@ class RawDataGenerator:
             }
 
     def evolve(self, v, failing=False):
-        v["engine_temp_c"] += random.uniform(0.1, 0.3 if failing else 0.15)
-        v["oil_pressure_psi"] -= random.uniform(0.05, 0.15 if failing else 0.08)
-        v["brake_pad_mm"] -= random.uniform(0.01, 0.04 if failing else 0.02)
-        v["battery_voltage_v"] -= random.uniform(0.001, 0.01)
-        v["vibration_level"] += random.uniform(0.01, 0.05 if failing else 0.02)
-        v["transmission_temp_c"] += random.uniform(0.1, 0.3)
-        v["coolant_temp_c"] += random.uniform(0.05, 0.2)
-        v["engine_rpm"] += random.randint(-100, 200)
+        v["engine_temp_c"] = round(max(30, min(140, v["engine_temp_c"] + random.uniform(0.1, 0.4 if failing else 0.2))), 1)
+        v["oil_pressure_psi"] = round(max(0, min(100, v["oil_pressure_psi"] - random.uniform(0.05, 0.2 if failing else 0.1))), 1)
+        v["brake_pad_mm"] = round(max(0, min(15, v["brake_pad_mm"] - random.uniform(0.01, 0.05 if failing else 0.02))), 2)
+        v["battery_voltage_v"] = round(max(0, min(15, v["battery_voltage_v"] - random.uniform(0.005, 0.02 if failing else 0.01))), 2)
+        v["vibration_level"] = round(max(0, min(5, v["vibration_level"] + random.uniform(0.01, 0.06 if failing else 0.03))), 3)
+        v["transmission_temp_c"] = round(max(30, min(140, v["transmission_temp_c"] + random.uniform(0.1, 0.5))), 1)
+        v["coolant_temp_c"] = round(max(30, min(140, v["coolant_temp_c"] + random.uniform(0.05, 0.3))), 1)
+        v["engine_rpm"] = max(700, min(7500, v["engine_rpm"] + random.randint(-200, 400 if failing else 200)))
         v["daily_miles"] = random.randint(40, 90)
         v["harsh_braking_events"] += random.randint(0, 1)
         v["harsh_acceleration_events"] += random.randint(0, 2)
         v["cold_starts"] = random.randint(0, 1)
-        v["fuel_consumption_l_per_100km"] += random.uniform(-0.2, 0.3)
+        v["fuel_consumption_l_per_100km"] = round(max(3, min(25, v["fuel_consumption_l_per_100km"] + random.uniform(-0.5, 0.5))), 2)
         v["miles_since_last_service"] += random.randint(5, 30)
         v["timestamp"] += timedelta(minutes=30)
         return v

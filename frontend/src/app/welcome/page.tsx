@@ -69,6 +69,8 @@ export default function WelcomePage() {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [vehicleToDelete, setVehicleToDelete] = useState<{ id: string; name: string } | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [form, setForm] = useState({
@@ -173,14 +175,18 @@ export default function WelcomePage() {
     }
   }
 
-  async function onDeleteVehicle(vehicleId: string) {
-    if (!confirm("Are you sure you want to delete this vehicle?")) return;
+  async function confirmDelete() {
+    if (!vehicleToDelete) return;
+    setIsDeleting(true);
     try {
-      await deleteVehicle(vehicleId);
+      await deleteVehicle(vehicleToDelete.id);
       await refreshVehicles();
+      setVehicleToDelete(null);
     } catch (err) {
       alert("Failed to delete vehicle.");
       console.error(err);
+    } finally {
+      setIsDeleting(false);
     }
   }
 
@@ -405,20 +411,20 @@ export default function WelcomePage() {
                         <div style={{ display: "flex", gap: "8px" }}>
                           <button
                             className={styles.openBtn}
-                            style={{ color: "#f87171", borderColor: "rgba(248, 113, 113, 0.3)" }}
+                            style={{ color: "#f87171", borderColor: "rgba(248, 113, 113, 0.3)", padding: "10px" }}
                             onClick={(e) => {
                               e.preventDefault();
-                              onDeleteVehicle(vehicle.vehicle_id);
+                              setVehicleToDelete({ id: vehicle.vehicle_id, name: vehicle.vehicle_profile?.name || "Unknown Vehicle" });
                             }}
                             title="Delete Vehicle"
                           >
-                            <Trash2 size={14} />
+                            <Trash2 size={18} />
                           </button>
                           <Link
                             className={styles.openBtn}
                             href={`/vehicle/${vehicle.vehicle_id}`}
                           >
-                            Open <ChevronRight size={14} />
+                            Open <ChevronRight size={18} />
                           </Link>
                         </div>
                       </div>
@@ -477,6 +483,38 @@ export default function WelcomePage() {
           </section>
         </div>
       </main>
+
+      {/* ─── Delete Confirmation Modal ─── */}
+      {vehicleToDelete && (
+        <div className={styles.modalBackdrop}>
+          <div className={styles.modalCard} style={{ width: "min(460px, 92vw)", padding: "32px" }}>
+            <h2 className={styles.modalTitle} style={{ color: "#f87171", fontSize: "28px", fontWeight: "800" }}>Delete Vehicle</h2>
+            <p className={styles.modalDesc} style={{ margin: "16px 0 32px", fontSize: "18px", color: "#cbd5e1", lineHeight: "1.6" }}>
+              Are you sure you want to permanently delete <strong>{vehicleToDelete.name}</strong>? This action cannot be undone and will erase all telemetry data.
+            </p>
+            <div className={styles.modalFooter} style={{ display: "flex", gap: "16px", justifyContent: "flex-end" }}>
+              <button
+                type="button"
+                className={styles.modalBtnCancel}
+                style={{ fontSize: "16px", padding: "12px 24px" }}
+                onClick={() => setVehicleToDelete(null)}
+                disabled={isDeleting}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className={styles.modalBtnSubmit}
+                style={{ background: "#ef4444", fontSize: "16px", padding: "12px 24px", fontWeight: "700" }}
+                onClick={confirmDelete}
+                disabled={isDeleting}
+              >
+                {isDeleting ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ─── Add Vehicle Modal ─── */}
       <AnimatePresence>

@@ -12,7 +12,7 @@ from helpers.logic.generate_feature_simulator import extract_features_from_vehic
 load_dotenv()
 
 READINGS_PER_VEHICLE = 120
-SLEEP_SECONDS = 60
+SLEEP_SECONDS = 5
 BASE_API_URL = os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")
 TELEMETRY_API_URL = f"{BASE_API_URL}/api/telematics/data"
 

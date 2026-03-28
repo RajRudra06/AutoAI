@@ -93,4 +93,4 @@ def extract_features_from_vehicle(vehicle_df: pd.DataFrame) -> Dict:
     features['driving_aggression_score'] = total_harsh / 7
     features['tire_balance_score'] = 1 / (1 + features['tire_pressure_std'])
 
-    return features
+    return {k: round(v, 2) if isinstance(v, (int, float, np.float64, np.int64)) else v for k, v in features.items()}

@@ -178,9 +178,9 @@ class SchedulingAgent:
 
         if (
             workflow_stage in {"SCHEDULING_COMPLETE", "ENGAGEMENT_COMPLETE"}
-            or last_processed_telemetry>= latest_feature_associated_telemetryID
+            or (latest_feature_associated_telemetryID is None)
+            or (last_processed_telemetry is not None and latest_feature_associated_telemetryID is not None and last_processed_telemetry >= latest_feature_associated_telemetryID)
             or (pipeline_assigned_at and pipeline_status != "ASSIGNED_BY_DIAGNOSIS_AGENT")
-           
         ):
 
             if (

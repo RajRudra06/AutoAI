@@ -6,11 +6,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32px;
-  height: 64px;
-  background: rgba(3, 7, 18, 0.85);
-  backdrop-filter: blur(16px) saturate(1.4);
-  border-bottom: 1px solid var(--border-subtle);
+  padding: 0 40px;
+  height: 84px;
+  background: rgba(3, 7, 18, 0.9);
+  backdrop-filter: blur(20px) saturate(1.6);
+  border-bottom: 2px solid var(--border-subtle);
   animation: slideDown 0.4s var(--ease-out);
 }
 
@@ -24,22 +24,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.15));
   border: 1px solid rgba(99, 102, 241, 0.25);
   color: #818cf8;
 }
 
 .navLogo svg {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
 }
 
 .navTitle {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 800;
   letter-spacing: -0.01em;
 }
 
@@ -72,11 +72,11 @@
 
 /* ─── Main Shell ─── */
 .shell {
-  width: min(1360px, 94vw);
+  width: min(1440px, 96vw);
   margin: 0 auto;
-  padding: 32px 0 64px;
+  padding: 40px 0 80px;
   display: grid;
-  gap: 28px;
+  gap: 40px;
   position: relative;
   z-index: 1;
 }
@@ -218,7 +218,7 @@
 .statsRow {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 24px;
   animation: fadeInUp 0.5s var(--ease-out) 0.1s both;
 }
 
@@ -279,7 +279,7 @@
 .contentGrid {
   display: grid;
   grid-template-columns: 1.6fr 1fr;
-  gap: 24px;
+  gap: 32px;
   animation: fadeInUp 0.5s var(--ease-out) 0.2s both;
 }
 
@@ -332,17 +332,17 @@
 /* ─── Vehicle Grid ─── */
 .vehicleGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 24px;
   position: relative;
   z-index: 1;
 }
 
 .vehicleCard {
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   background: var(--bg-elevated);
-  padding: 24px;
+  padding: 34px;
   transition: all 0.3s var(--ease-out);
   cursor: pointer;
   position: relative;
@@ -360,13 +360,13 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 14px;
+  margin-bottom: 20px;
 }
 
 .vehicleCardTop h3 {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 28px;
+  font-weight: 800;
   line-height: 1.2;
 }
 
@@ -375,10 +375,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  font-size: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  font-size: 16px;
   font-weight: 600;
 }
 
@@ -403,13 +403,13 @@
 .metaRow {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
+  gap: 14px;
+  font-size: 19px;
 }
 
 .metaLabel {
   color: var(--text-muted);
-  min-width: 65px;
+  min-width: 110px;
 }
 
 .metaValue {
@@ -420,20 +420,21 @@
 .stageBadge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 10px;
+  gap: 10px;
+  padding: 10px 20px;
   border-radius: var(--radius-full);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   border: 1px solid;
 }
 
 .stageIdle {
-  border-color: rgba(99, 102, 241, 0.25);
-  color: #818cf8;
-  background: rgba(99, 102, 241, 0.08);
+  border-color: #06b6d4;
+  color: #22d3ee;
+  background: rgba(6, 182, 212, 0.15);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
 }
 
 .stagePending {
@@ -458,15 +459,15 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-top: 4px;
-  padding: 8px 14px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
   border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
   background: rgba(99, 102, 241, 0.06);
   color: var(--text-accent);
-  font-size: 13px;
-  font-weight: 500;
   transition: all 0.2s;
+  cursor: pointer;
 }
 
 .openBtn:hover {

@@ -288,21 +288,10 @@ class DiagnosisAgent:
         timeout = 60
 
         if (
-            workflow_stage
-            in {
-                "DIAGNOSIS_COMPLETE",
-                "SCHEDULING_COMPLETE",
-                "ENGAGEMENT_COMPLETE",
-            }
-            or high_risk
-            or (
-                last_processed_telemetry
-                and latest_feature_associated_telemetryID
-                and last_processed_telemetry
-                >= latest_feature_associated_telemetryID
-            )
+            workflow_stage in {"DIAGNOSIS_COMPLETE", "SCHEDULING_COMPLETE", "ENGAGEMENT_COMPLETE"}
+            or (latest_feature_associated_telemetryID is None)
+            or (last_processed_telemetry is not None and latest_feature_associated_telemetryID is not None and last_processed_telemetry >= latest_feature_associated_telemetryID)
             or (pipeline_assigned_at and pipeline_status != "ASSIGNED_BY_MASTER_AGENT")
-           
         ):
             if (
                 pipeline_status == "ASSIGNED_BY_DIAGNOSIS_AGENT"

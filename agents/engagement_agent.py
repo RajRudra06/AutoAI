@@ -193,11 +193,9 @@ class EngagementAgent:
         timeout = 60 
 
         if (
-            workflow_stage
-            in {
-                "ENGAGEMENT_COMPLETE",
-            }
-            or last_processed_telemetry>= latest_feature_associated_telemetryID
+            workflow_stage in {"ENGAGEMENT_COMPLETE"}
+            or (latest_feature_associated_telemetryID is None)
+            or (last_processed_telemetry is not None and latest_feature_associated_telemetryID is not None and last_processed_telemetry >= latest_feature_associated_telemetryID)
             or (pipeline_assigned_at and pipeline_status != "ASSIGNED_BY_SCHEDULING_AGENT")
         ):
             if (

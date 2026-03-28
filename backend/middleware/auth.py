@@ -9,7 +9,8 @@ VALID_AGENTS = {
 class AgentAuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
 
-        if request.url.path == "/health":
+        # Skip auth for health and WebSockets (browsers don't support custom headers on WS)
+        if request.url.path == "/health" or request.scope.get("type") == "websocket" or "/ws/" in request.url.path:
             return await call_next(request)
 
         agent_id = request.headers.get("X-AGENT-ID")

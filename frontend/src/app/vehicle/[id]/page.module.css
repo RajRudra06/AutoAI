@@ -6,11 +6,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32px;
-  height: 64px;
-  background: rgba(3, 7, 18, 0.85);
-  backdrop-filter: blur(16px) saturate(1.4);
-  border-bottom: 1px solid var(--border-subtle);
+  padding: 0 40px;
+  height: 84px;
+  background: rgba(3, 7, 18, 0.9);
+  backdrop-filter: blur(20px) saturate(1.6);
+  border-bottom: 2px solid var(--border-subtle);
   animation: slideDown 0.4s var(--ease-out);
 }
 
@@ -24,22 +24,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.15));
   border: 1px solid rgba(99, 102, 241, 0.25);
   color: #818cf8;
 }
 
 .navLogo svg {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
 }
 
 .navTitle {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 800;
 }
 
 .navTitleAccent {
@@ -75,11 +75,11 @@
 
 /* ─── Shell ─── */
 .shell {
-  width: min(1360px, 94vw);
+  width: min(1440px, 96vw);
   margin: 0 auto;
-  padding: 32px 0 64px;
+  padding: 40px 0 80px;
   display: grid;
-  gap: 24px;
+  gap: 32px;
   position: relative;
   z-index: 1;
 }
@@ -125,21 +125,21 @@
 }
 
 .heroName {
-  font-size: clamp(26px, 3vw, 36px);
+  font-size: clamp(32px, 4vw, 48px);
   font-weight: 800;
   letter-spacing: -0.02em;
-  line-height: 1.15;
-  margin-bottom: 6px;
+  line-height: 1.1;
+  margin-bottom: 8px;
 }
 
 .heroIdentity {
-  font-size: 14px;
+  font-size: 17px;
   color: var(--text-secondary);
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .heroId {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-muted);
 }
 
@@ -156,20 +156,22 @@
 .currentStageBadge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
+  gap: 12px;
+  padding: 12px 24px;
   border-radius: var(--radius-full);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   border: 1px solid;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
 }
 
 .stageIdle {
-  border-color: rgba(99, 102, 241, 0.25);
-  color: #818cf8;
-  background: rgba(99, 102, 241, 0.08);
+  border-color: #06b6d4;
+  color: #22d3ee;
+  background: rgba(6, 182, 212, 0.15);
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
 }
 
 .stagePending {
@@ -224,22 +226,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 14px;
   flex-shrink: 0;
-  min-width: 120px;
+  min-width: 150px;
   position: relative;
 }
 
 .nodeCircle {
-  width: 40px;
-  height: 40px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  font-weight: 700;
-  border: 2px solid;
+  font-size: 20px;
+  font-weight: 800;
+  border: 3px solid;
   transition: all 0.3s var(--ease-out);
   position: relative;
   z-index: 2;
@@ -267,11 +269,11 @@
 }
 
 .nodeLabel {
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 700;
   color: var(--text-muted);
   text-align: center;
-  max-width: 100px;
+  max-width: 140px;
   line-height: 1.3;
 }
 
@@ -301,7 +303,7 @@
 .contentGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 32px;
   animation: fadeInUp 0.5s var(--ease-out) 0.2s both;
 }
 
@@ -324,6 +326,10 @@
   height: 200px;
   background: radial-gradient(circle, rgba(99, 102, 241, 0.04) 0%, transparent 70%);
   pointer-events: none;
+}
+
+.panel {
+  padding-bottom: 40px !important;
 }
 
 .panelHeader {
@@ -354,18 +360,22 @@
 /* ─── Feature Grid (Telemetry) ─── */
 .featureGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 12px;
   position: relative;
   z-index: 1;
 }
 
 .featureCard {
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 16px;
+  padding: 18px 20px;
   background: var(--bg-elevated);
-  transition: all 0.2s var(--ease-out);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  min-height: 90px;
 }
 
 .featureCard:hover {
@@ -375,16 +385,21 @@
 
 .featureLabel {
   font-size: 11px;
+  font-weight: 800;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 8px;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
 }
 
 .featureValue {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-default);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ─── Issue List ─── */
@@ -399,13 +414,13 @@
 .issueItem {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px 18px;
+  gap: 14px;
+  padding: 18px 22px;
   border: 1px solid rgba(248, 113, 113, 0.4);
   border-radius: var(--radius-md);
   background: rgba(220, 38, 38, 0.15);
   color: #fef2f2;
-  font-size: 15px;
+  font-size: 17px;
   transition: all 0.2s;
 }
 
@@ -484,7 +499,7 @@
 }
 
 .summaryBlockText {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text-secondary);
   line-height: 1.6;
 }
@@ -635,3 +650,276 @@
     gap: 8px;
   }
 }
+
+/* ─── Blur Effect ─── */
+.shell.blurred,
+.navBar.blurred {
+  filter: blur(16px) saturate(1.8) brightness(0.7);
+  pointer-events: none;
+  transition: filter 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* ─── Live Telemetry Modal ─── */
+.liveStreamOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(2, 4, 12, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(4px);
+}
+
+.liveStreamModal {
+  width: 100%;
+  max-width: 900px;
+  background: rgba(13, 17, 26, 0.92);
+  backdrop-filter: blur(32px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 32px;
+  box-shadow: 
+    0 40px 100px -20px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 36px 48px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modalTitleArea h3 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  margin-top: 10px;
+  letter-spacing: -0.02em;
+}
+
+.liveIndicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  padding: 6px 14px;
+  border-radius: 100px;
+  width: fit-content;
+}
+
+.liveDot {
+  width: 8px;
+  height: 8px;
+  background: #f87171;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #ef4444;
+  animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 0.4; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1.15); }
+}
+
+.closeModalBtn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.closeModalBtn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  transform: translateY(-2px);
+}
+
+.modalLoading {
+  padding: 120px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  color: #64748b;
+}
+
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes hover { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+.liveDataGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 48px;
+}
+
+.liveMetricCard {
+  position: relative;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.liveMetricCard:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.4);
+}
+
+.metricIcon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 18px;
+  z-index: 1;
+}
+
+.metricContent {
+  flex: 1;
+  z-index: 1;
+}
+
+.metricLabel {
+  font-size: 12px;
+  font-weight: 800;
+  color: #475569;
+  letter-spacing: 0.12em;
+  margin-bottom: 6px;
+}
+
+.metricValueLine {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.metricValue {
+  font-size: 32px;
+  font-weight: 900;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.metricUnit {
+  font-size: 15px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.metricGlow {
+  position: absolute;
+  bottom: -50px;
+  right: -50px;
+  width: 120px;
+  height: 120px;
+  filter: blur(50px);
+  opacity: 0.02;
+  transition: opacity 0.4s;
+}
+
+.liveMetricCard:hover .metricGlow {
+  opacity: 0.12;
+}
+
+.modalFooter {
+  padding: 28px 48px;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.statusPill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #475569;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.statusDotSmall {
+  width: 6px;
+  height: 6px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #10b981;
+}
+
+.timestampMono {
+  font-size: 12px;
+  font-weight: 500;
+  color: #334155;
+  letter-spacing: 0.04em;
+  font-family: inherit;
+}
+
+.monitorLiveBtn {
+  background: rgba(6, 182, 212, 0.08);
+  border: 1px solid rgba(6, 182, 212, 0.12);
+  color: #06b6d4;
+  padding: 8px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.monitorLiveBtn:hover {
+  background: rgba(6, 182, 212, 0.15);
+  border-color: rgba(6, 182, 212, 0.3);
+  color: #22d3ee;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -6px rgba(6, 182, 212, 0.3);
+}
+
+@media (max-width: 900px) {
+  .liveDataGrid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 32px;
+  }
+}
+
+@media (max-width: 600px) {
+  .liveDataGrid {
+    grid-template-columns: 1fr;
+  }
+}
+

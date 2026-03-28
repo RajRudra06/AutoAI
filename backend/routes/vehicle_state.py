@@ -47,16 +47,34 @@ def _simulated_features(vehicle_type: str) -> dict:
         "oil_health_percent": round(random.uniform(58, 99), 1),
         "tire_pressure_psi": round(random.uniform(30, 36), 1),
         "odometer_km": random.randint(2_000, 210_000),
+        "engine_rpm": random.randint(1800, 2500),
+        "fuel_level_percent": round(random.uniform(60, 90), 1),
+        "coolant_pressure_psi": round(random.uniform(15, 20), 1),
+        "intake_air_temp_c": round(random.uniform(35, 45), 1),
+        "throttle_pos_percent": round(random.uniform(10, 30), 1),
+        "brake_pad_wear_percent": round(random.uniform(80, 95), 1),
     }
 
 
 def _mutate_simulated_features(current: dict) -> dict:
     latest = dict(current or {})
-    latest["speed_kmph"] = round(max(0, float(latest.get("speed_kmph", 55)) + random.uniform(-4, 5)), 1)
-    latest["battery_percent"] = round(max(5, min(100, float(latest.get("battery_percent", 70)) + random.uniform(-1.8, 0.6))), 1)
-    latest["engine_temp_c"] = round(max(58, min(122, float(latest.get("engine_temp_c", 84)) + random.uniform(-2.2, 2.6))), 1)
-    latest["oil_health_percent"] = round(max(20, min(100, float(latest.get("oil_health_percent", 80)) + random.uniform(-0.7, 0.1))), 1)
-    latest["tire_pressure_psi"] = round(max(24, min(38, float(latest.get("tire_pressure_psi", 33)) + random.uniform(-0.5, 0.5))), 1)
+    latest["speed_kmph"] = round(max(0, min(220, float(latest.get("speed_kmph", 55)) + random.uniform(-4, 5))), 1)
+    latest["battery_percent"] = round(max(0, min(100, float(latest.get("battery_percent", 75)) - random.uniform(0.01, 0.05))), 2)
+    latest["engine_temp_c"] = round(max(30, min(130, float(latest.get("engine_temp_c", 84)) + random.uniform(-1.5, 2.0))), 1)
+    latest["oil_health_percent"] = round(max(0, min(100, float(latest.get("oil_health_percent", 80)) - random.uniform(0.01, 0.05))), 2)
+    latest["tire_pressure_psi"] = round(max(15, min(50, float(latest.get("tire_pressure_psi", 33)) + random.uniform(-0.2, 0.2))), 1)
+    latest["engine_rpm"] = round(max(700, min(7500, float(latest.get("engine_rpm", 2000)) + random.uniform(-150, 150))), 0)
+    latest["fuel_level_percent"] = round(max(0, min(100, float(latest.get("fuel_level_percent", 75)) - random.uniform(0.01, 0.05))), 2)
+    latest["coolant_pressure_psi"] = round(max(0, min(40, float(latest.get("coolant_pressure_psi", 17)) + random.uniform(-0.2, 0.2))), 1)
+    latest["intake_air_temp_c"] = round(max(10, min(90, float(latest.get("intake_air_temp_c", 40)) + random.uniform(-0.3, 0.3))), 1)
+    latest["throttle_pos_percent"] = round(max(0, min(100, float(latest.get("throttle_pos_percent", 20)) + random.uniform(-4, 4))), 1)
+    latest["brake_pad_wear_percent"] = round(max(0, min(100, float(latest.get("brake_pad_wear_percent", 85)) - random.uniform(0.001, 0.005))), 2)
+    # Extra sensors for RawDataGenerator compatibility
+    latest["oil_pressure_psi"] = round(max(0, min(100, float(latest.get("oil_pressure_psi", 40)) + random.uniform(-0.5, 0.5))), 1)
+    latest["brake_pad_mm"] = round(max(0, min(15, float(latest.get("brake_pad_mm", 10)) - random.uniform(0.01, 0.03))), 2)
+    latest["vibration_level"] = round(max(0, min(5, float(latest.get("vibration_level", 0.1)) + random.uniform(-0.01, 0.02))), 3)
+    latest["transmission_temp_c"] = round(max(30, min(130, float(latest.get("transmission_temp_c", 75)) + random.uniform(-0.5, 0.5))), 1)
+    latest["coolant_temp_c"] = round(max(30, min(130, float(latest.get("coolant_temp_c", 80)) + random.uniform(-0.5, 0.5))), 1)
     return latest
 
 
