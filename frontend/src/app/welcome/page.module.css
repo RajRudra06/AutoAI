@@ -1,0 +1,138 @@
+.shell {
+  width: min(1320px, 95vw);
+  margin: 28px auto 42px;
+  display: grid;
+  gap: 14px;
+}
+
+.hero {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 22px;
+  background: linear-gradient(140deg, rgba(11, 21, 39, 0.94), rgba(14, 10, 28, 0.9));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.hero h1 {
+  margin-top: 6px;
+  font-size: clamp(24px, 3.2vw, 36px);
+}
+
+.subtitle {
+  margin-top: 8px;
+  color: var(--text-muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 12px;
+}
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--bg-panel) 90%, black);
+  padding: 14px;
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.vehicleGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.vehicleCard {
+  border: 1px solid var(--line-soft);
+  border-radius: 12px;
+  background: rgba(8, 12, 20, 0.7);
+  padding: 12px;
+  display: grid;
+  gap: 7px;
+}
+
+.vehicleCard h3 {
+  font-size: 18px;
+}
+
+.vehicleMeta {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.badge {
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 11px;
+  width: fit-content;
+}
+
+.badgeBad {
+  border-color: #ff4f6c;
+  color: #ff4f6c;
+}
+
+.badgeOk {
+  border-color: #3ddc97;
+  color: #3ddc97;
+}
+
+.openBtn {
+  margin-top: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 7px 10px;
+  background: rgba(13, 20, 31, 0.85);
+  color: #e2ecff;
+  width: fit-content;
+}
+
+.issueList {
+  display: grid;
+  gap: 8px;
+}
+
+.issueItem {
+  border: 1px solid rgba(255, 79, 108, 0.35);
+  border-radius: 10px;
+  background: rgba(42, 9, 20, 0.48);
+  padding: 10px;
+}
+
+.issueItem p {
+  color: #ffd5dd;
+  margin-top: 5px;
+  font-size: 13px;
+}
+
+.empty {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+@media (max-width: 980px) {
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vehicleGrid {
+    grid-template-columns: 1fr;
+  }
+}

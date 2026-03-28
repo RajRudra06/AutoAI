@@ -1,0 +1,117 @@
+.shell {
+  width: min(1400px, 96vw);
+  margin: 24px auto 40px;
+  display: grid;
+  gap: 18px;
+}
+
+.hero {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  background: linear-gradient(150deg, rgba(12, 20, 35, 0.9), rgba(9, 15, 24, 0.86));
+}
+
+.hero h1 {
+  margin-top: 8px;
+  font-size: clamp(26px, 3.8vw, 42px);
+  line-height: 1.05;
+  max-width: 650px;
+}
+
+.subtitle {
+  margin-top: 10px;
+  color: var(--text-muted);
+  max-width: 680px;
+}
+
+.heroStatus {
+  border: 1px solid var(--line-soft);
+  border-radius: 14px;
+  padding: 14px;
+  min-width: 280px;
+  background: rgba(8, 12, 20, 0.72);
+}
+
+.signal {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.signalLive {
+  background: var(--accent-green);
+  box-shadow: 0 0 14px var(--accent-green);
+}
+
+.signalDegraded {
+  background: var(--accent-orange);
+  box-shadow: 0 0 14px var(--accent-orange);
+}
+
+.vehicleLink {
+  margin-top: 14px;
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: #d8e7fc;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 12px;
+}
+
+.insightsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.error {
+  border: 1px solid rgba(255, 79, 108, 0.4);
+  color: #ff879a;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+@media (max-width: 1200px) {
+  .metricsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .insightsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 780px) {
+  .hero {
+    flex-direction: column;
+  }
+
+  .heroStatus {
+    min-width: 0;
+  }
+
+  .metricsGrid {
+    grid-template-columns: 1fr;
+  }
+}

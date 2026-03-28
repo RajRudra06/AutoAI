@@ -8,8 +8,18 @@ from pydantic import BaseModel, Field
 from backend.activity.event_bus import event_bus
 from backend.activity.service import store_activity_event
 from backend.db.connection import db
+from worker_tasks.celery_config import app as celery_app
 
 router = APIRouter(prefix="/activity", tags=["Activity"])
+
+QUEUE_NAMES = [
+    "diagnosis_queue",
+    "execution_diagnosis_task_queue",
+    "scheduling_queue",
+    "engagement_queue",
+    "service_completion_queue",
+    "default",
+]
 
 
 class ActivityEventPayload(BaseModel):
@@ -148,6 +158,145 @@ def get_activity_metrics_overview(window_events: int = Query(default=500, ge=50,
         "status_counts": status_counts,
         "source_counts": source_counts,
         "transition_counts": transition_counts,
+    }
+
+
+def _queue_depths_from_redis() -> tuple[dict[str, int], str]:
+    try:
+        with celery_app.connection_for_read() as connection:
+            transport_type = getattr(connection.transport, "driver_type", "")
+            if transport_type != "redis":
+                return ({name: 0 for name in QUEUE_NAMES}, "unsupported_broker")
+
+            channel = connection.channel()
+            client = getattr(channel, "client", None)
+            if client is None:
+                return ({name: 0 for name in QUEUE_NAMES}, "broker_client_unavailable")
+
+            queue_depths: dict[str, int] = {}
+            for queue_name in QUEUE_NAMES:
+                try:
+                    queue_depths[queue_name] = int(client.llen(queue_name))
+                except Exception:
+                    queue_depths[queue_name] = 0
+
+            try:
+                channel.close()
+            except Exception:
+                pass
+
+            return (queue_depths, "ok")
+    except Exception:
+        return ({name: 0 for name in QUEUE_NAMES}, "redis_unreachable")
+
+
+def _worker_heartbeat_snapshot() -> dict[str, Any]:
+    inspector = celery_app.control.inspect(timeout=1.5)
+
+    try:
+        stats = inspector.stats() or {}
+    except Exception:
+        stats = {}
+
+    workers: dict[str, Any] = {}
+    for worker_name, worker_stats in stats.items():
+        workers[worker_name] = {
+            "online": True,
+            "pid": worker_stats.get("pid"),
+            "pool": worker_stats.get("pool", {}).get("max-concurrency"),
+            "total_tasks": sum((worker_stats.get("total") or {}).values()),
+        }
+
+    return {
+        "online_worker_count": len(workers),
+        "workers": workers,
+        "status": "ok" if workers else "no_workers_detected",
+    }
+
+
+def _build_health_trends(window_events: int = 240, points: int = 24) -> dict[str, Any]:
+    rows = list(
+        db.activity_events
+        .find({}, {"status": 1, "latency_ms": 1, "timestamp": 1})
+        .sort("timestamp", -1)
+        .limit(window_events)
+    )
+
+    if not rows:
+        return {
+            "latency_ms_trend": [0] * points,
+            "retry_signal_trend": [0] * points,
+            "avg_latency_ms": 0.0,
+            "retry_signal_percent": 0.0,
+        }
+
+    rows = list(reversed(rows))
+    latencies = [
+        float(r.get("latency_ms"))
+        for r in rows
+        if isinstance(r.get("latency_ms"), (int, float))
+    ]
+    avg_latency_ms = round(sum(latencies) / len(latencies), 2) if latencies else 0.0
+
+    signal_set = {"failed", "stale", "skipped"}
+    signal_count = sum(1 for r in rows if (r.get("status") or "").lower() in signal_set)
+    retry_signal_percent = round((signal_count / max(1, len(rows))) * 100, 2)
+
+    bucket_size = max(1, len(rows) // points)
+    latency_trend: list[int] = []
+    retry_trend: list[int] = []
+
+    for idx in range(points):
+        start = idx * bucket_size
+        end = start + bucket_size
+        chunk = rows[start:end]
+
+        if not chunk:
+            latency_trend.append(0)
+            retry_trend.append(0)
+            continue
+
+        chunk_latencies = [
+            float(item.get("latency_ms"))
+            for item in chunk
+            if isinstance(item.get("latency_ms"), (int, float))
+        ]
+        if chunk_latencies:
+            latency_trend.append(int(round(sum(chunk_latencies) / len(chunk_latencies))))
+        else:
+            latency_trend.append(0)
+
+        chunk_signals = sum(1 for item in chunk if (item.get("status") or "").lower() in signal_set)
+        retry_trend.append(int(round((chunk_signals / max(1, len(chunk))) * 100)))
+
+    return {
+        "latency_ms_trend": latency_trend,
+        "retry_signal_trend": retry_trend,
+        "avg_latency_ms": avg_latency_ms,
+        "retry_signal_percent": retry_signal_percent,
+    }
+
+
+@router.get("/metrics/health")
+def get_queue_and_worker_health():
+    queue_depths, queue_status = _queue_depths_from_redis()
+    heartbeat = _worker_heartbeat_snapshot()
+    trends = _build_health_trends()
+
+    total_queue_depth = sum(queue_depths.values())
+    max_depth = max(queue_depths.values()) if queue_depths else 0
+
+    return {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "queue_status": queue_status,
+        "queue_depths": queue_depths,
+        "total_queue_depth": total_queue_depth,
+        "max_queue_depth": max_depth,
+        "worker_heartbeat": heartbeat,
+        "latency_ms_trend": trends["latency_ms_trend"],
+        "retry_signal_trend": trends["retry_signal_trend"],
+        "avg_latency_ms": trends["avg_latency_ms"],
+        "retry_signal_percent": trends["retry_signal_percent"],
     }
 
 
