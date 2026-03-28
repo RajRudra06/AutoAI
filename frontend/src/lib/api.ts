@@ -32,19 +32,24 @@ export async function fetchActivityEvents(params: {
   limit?: number;
   status?: string;
 } = {}): Promise<ActivityEvent[]> {
-  const search = new URLSearchParams();
-  if (params.vehicle_id) search.set("vehicle_id", params.vehicle_id);
-  if (params.source_name) search.set("source_name", params.source_name);
-  if (params.status) search.set("status", params.status);
-  search.set("limit", String(params.limit ?? 80));
+  try {
+    const search = new URLSearchParams();
+    if (params.vehicle_id) search.set("vehicle_id", params.vehicle_id);
+    if (params.source_name) search.set("source_name", params.source_name);
+    if (params.status) search.set("status", params.status);
+    search.set("limit", String(params.limit ?? 80));
 
-  const response = await fetch(`${API_BASE}/activity/events?${search.toString()}`, {
-    headers: authHeaders,
-    cache: "no-store",
-  });
+    const response = await fetch(`${API_BASE}/activity/events?${search.toString()}`, {
+      headers: authHeaders,
+      cache: "no-store",
+    });
 
-  const data = await jsonOrThrow<{ events: ActivityEvent[] }>(response);
-  return data.events ?? [];
+    const data = await jsonOrThrow<{ events: ActivityEvent[] }>(response);
+    return data.events ?? [];
+  } catch (error) {
+    console.warn("fetchActivityEvents failed", error);
+    return [];
+  }
 }
 
 export async function fetchMetrics(windowEvents = 200): Promise<MetricsOverview> {
@@ -106,13 +111,18 @@ export async function deleteVehicle(vehicleId: string): Promise<boolean> {
 }
 
 export async function fetchVehicleActivity(vehicleId: string, limit = 25): Promise<ActivityEvent[]> {
-  const response = await fetch(`${API_BASE}/activity/vehicle/${vehicleId}?limit=${limit}`, {
-    headers: authHeaders,
-    cache: "no-store",
-  });
+  try {
+    const response = await fetch(`${API_BASE}/activity/vehicle/${vehicleId}?limit=${limit}`, {
+      headers: authHeaders,
+      cache: "no-store",
+    });
 
-  const data = await jsonOrThrow<{ events: ActivityEvent[] }>(response);
-  return data.events ?? [];
+    const data = await jsonOrThrow<{ events: ActivityEvent[] }>(response);
+    return data.events ?? [];
+  } catch (error) {
+    console.warn("fetchVehicleActivity failed", error);
+    return [];
+  }
 }
 
 export async function fetchVehicleSummary(vehicleId: string): Promise<VehicleSummaryPayload | null> {
@@ -137,6 +147,24 @@ export async function regenerateVehicleSummary(vehicleId: string): Promise<Vehic
 
   const data = await jsonOrThrow<{ success: boolean; summary?: VehicleSummaryPayload }>(response);
   return data.summary ?? null;
+}
+
+export async function triggerSimulationStart(vehicleId: string): Promise<boolean> {
+  const response = await fetch(`${API_BASE}/simulation/start/${vehicleId}`, {
+    method: "POST",
+    headers: authHeaders,
+  });
+  const data = await jsonOrThrow<{ success: boolean }>(response);
+  return data.success;
+}
+
+export async function triggerSystemBreach(vehicleId: string): Promise<boolean> {
+  const response = await fetch(`${API_BASE}/simulation/force-risk/${vehicleId}`, {
+    method: "POST",
+    headers: authHeaders,
+  });
+  const data = await jsonOrThrow<{ success: boolean }>(response);
+  return data.success;
 }
 
 export function getWsUrl(): string {

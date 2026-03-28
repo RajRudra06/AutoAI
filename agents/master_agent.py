@@ -49,16 +49,17 @@ class MasterAgent:
         vehicle_id = vehicle_state_params["vehicle_id"]
         print(f"[MASTER SHARD {self.shard_id}][DIAG-CHECK] Checking vehicle {vehicle_state_params['vehicle_id']}")
         diagnosis_required = vehicle_state_params["workflow_flags"]["diagnosis_required"]
-        if diagnosis_required:
-            print(f"[MASTER SHARD {self.shard_id}][DIAG-CHECK] Skipped — diagnosis already required")
-            self.log_activity(
-                vehicle_id=vehicle_id,
-                action="master_gate_diagnosis_already_required",
-                status="skipped",
-                summary="Master gate skipped because diagnosis was already required.",
-                workflow_stage=vehicle_state_params["workflow_stage"],
-            )
+        pipeline_status = vehicle_state_params["pipeline_associated"].get("pipeline_status", "UNKNOWN")
+        
+        # If diagnosis is required but NOT yet assigned, this is a manual trigger. Let it pass.
+        if diagnosis_required and pipeline_status == "ASSIGNED_BY_MASTER_AGENT":
+            print(f"[MASTER SHARD {self.shard_id}][DIAG-CHECK] Skipped — diagnosis already actively being processed")
             return None
+        
+        if diagnosis_required and pipeline_status == "MANUALLY_TRIGGERED":
+            print(f"[MASTER SHARD {self.shard_id}][DIAG-CHECK] Manual trigger detected - bypassing gate reasons")
+            return {"reasons": {"manual_trigger": "User initiated service journey"}, "should_trigger": True}
+        
         should_trigger, reasons = needs_diagnosis(
             telemetry=vehicle_state_params["latest_features"],
             previous_telemetry=vehicle_state_params["previous_features"]
@@ -275,12 +276,16 @@ class MasterAgent:
         comparison_datetime = datetime(1968, 1, 1, tzinfo=timezone.utc)
         if (
             workflow_stage in {"DIAGNOSIS_PENDING", "DIAGNOSIS_COMPLETE", "SCHEDULING_COMPLETE", "ENGAGEMENT_COMPLETE"}
-            or high_risk_active
             or (latest_feature_associated_telemetryID is None)
-            or (last_processed_telemetry is not None and latest_feature_associated_telemetryID is not None and last_processed_telemetry >= latest_feature_associated_telemetryID)
-            or (pipeline_assigned_at and pipeline_status != "TELEMETRY_INITIATED")
+            or (last_processed_telemetry is not None and latest_feature_associated_telemetryID is not None and last_processed_telemetry >= latest_feature_associated_telemetryID and not diagnosis_required)
+            or (pipeline_assigned_at and pipeline_status != "TELEMETRY_INITIATED" and pipeline_status != "MANUALLY_TRIGGERED")
         ):
-            print(f"[MASTER SHARD {self.shard_id}][GATE] Vehicle blocked by lifecycle gate")
+            # Special case: If high_risk is active but we are in IDLE, we SHOULD allow it to proceed to DIAGNOSIS
+            if high_risk_active and workflow_stage == "IDLE":
+                print(f"[MASTER SHARD {self.shard_id}][GATE] High Risk in IDLE detected - Allowing to proceed")
+                pass 
+            else:
+                print(f"[MASTER SHARD {self.shard_id}][GATE] Vehicle blocked by lifecycle gate")
 
             if (pipeline_status == "ASSIGNED_BY_MASTER_AGENT" and pipeline_assigned_at and workflow_stage == "IDLE" and not diagnosis_required and celery_task_id is not None) :
                 if (now - pipeline_assigned_at).total_seconds() > timeout:

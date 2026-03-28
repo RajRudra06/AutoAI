@@ -23,6 +23,8 @@ import {
   fetchVehicles,
   fetchVehicleSummary,
   regenerateVehicleSummary,
+  triggerSimulationStart,
+  triggerSystemBreach,
 } from "@/lib/api";
 import {
   ActivityEvent,
@@ -159,12 +161,8 @@ export default function VehicleDetailsPage() {
 
   async function startSimulation() {
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-      const resp = await fetch(`${baseUrl}/api/simulation/start/${vehicleId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      });
-      if (resp.ok) {
+      const success = await triggerSimulationStart(vehicleId);
+      if (success) {
         await refresh();
       }
     } catch (e) {
@@ -172,8 +170,30 @@ export default function VehicleDetailsPage() {
     }
   }
 
+  async function forceRisk() {
+    try {
+      const success = await triggerSystemBreach(vehicleId);
+      if (success) {
+        await refresh();
+      }
+    } catch (e) {
+      console.error("Failed to force risk:", e);
+    }
+  }
+
   return (
     <>
+      {/* ─── Simulation Controls ─── */}
+      {/* ─── Simulation Controls ─── */}
+      <button 
+        className={`${styles.premiumBtn} ${styles.forceRiskBtn}`}
+        onClick={forceRisk}
+        title="Simulate a critical system failure"
+      >
+        <AlertTriangle size={16} />
+        Simulate System Breach
+      </button>
+
       {/* ─── Live Telemetry Modal ─── */}
       <LiveTelemetryModal 
         vehicleId={vehicleId} 
@@ -313,15 +333,16 @@ export default function VehicleDetailsPage() {
               </h2>
               <div className={styles.heroActions}>
                 <button 
-                  className={styles.simulationBtn}
+                  className={`${styles.premiumBtn} ${styles.simulationBtn}`}
                   onClick={startSimulation}
-                  title="Start the autonomous service lifecycle"
+                  disabled={!vehicle?.risk_state?.high_risk_active || vehicle?.workflow_state?.current_stage !== "IDLE"}
+                  title={!vehicle?.risk_state?.high_risk_active ? "System must be in high-risk state to initiate service" : "Start the autonomous service lifecycle"}
                 >
                   <Sparkles size={16} />
                   Start Service Journey
                 </button>
                 <button
-                  className={styles.streamToggleBtn}
+                  className={`${styles.premiumBtn} ${styles.streamToggleBtn}`}
                   onClick={() => setIsLiveStreamOpen(true)}
                 >
                   <Radio size={16} className={styles.pulseIcon} />
