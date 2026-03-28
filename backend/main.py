@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from backend.middleware.auth import AgentAuthMiddleware
 from backend.routes.telemetry import router as telemetry_router
@@ -15,6 +16,14 @@ from backend.routes.engagement import router as engagement_router
 from backend.routes.activity import router as activity_router
 
 app = FastAPI(title="AutoAI Backend")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust in production if needed
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/health")
 def health():

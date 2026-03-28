@@ -95,7 +95,7 @@ def main() -> int:
     processes: List[Tuple[str, subprocess.Popen]] = []
 
     try:
-        backend_cmd = [str(PYTHON_BIN), "-m", "uvicorn", "backend.main:app", "--port", "8000"]
+        backend_cmd = [str(PYTHON_BIN), "-m", "uvicorn", "backend.main:app", "--port", "8000", "--reload", "--reload-dir", "backend"]
         backend = start_process("backend", backend_cmd, env)
         processes.append(("backend", backend))
 

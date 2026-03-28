@@ -64,6 +64,16 @@ export type VehicleSummaryPayload = {
 
 export type VehicleState = {
   vehicle_id: string;
+  owner_id?: string;
+  owner_name?: string;
+  owner_email?: string;
+  vehicle_profile?: {
+    name?: string;
+    company?: string;
+    type?: string;
+    model?: string;
+    year?: number | null;
+  };
   latest_features?: Record<string, number | string | boolean | null>;
   workflow_state?: {
     current_stage?: string;
@@ -85,4 +95,15 @@ export type VehicleState = {
 
 export type VehicleListResponse = {
   vehicles: VehicleState[];
+};
+
+export type RegisterVehiclePayload = {
+  owner_id: string;
+  owner_name?: string;
+  owner_email?: string;
+  vehicle_name: string;
+  company: string;
+  vehicle_type: string;
+  model: string;
+  year?: number;
 };

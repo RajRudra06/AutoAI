@@ -2,6 +2,7 @@ import {
   ActivityEvent,
   MetricsOverview,
   QueueWorkerHealth,
+  RegisterVehiclePayload,
   VehicleListResponse,
   VehicleState,
   VehicleSummaryPayload,
@@ -67,14 +68,41 @@ export async function fetchQueueWorkerHealth(): Promise<QueueWorkerHealth> {
   return jsonOrThrow<QueueWorkerHealth>(response);
 }
 
-export async function fetchVehicles(): Promise<VehicleState[]> {
-  const response = await fetch(`${API_BASE}/vehicles/state`, {
+export async function fetchVehicles(ownerId?: string): Promise<VehicleState[]> {
+  const query = ownerId ? `?owner_id=${encodeURIComponent(ownerId)}` : "";
+  try {
+    const response = await fetch(`${API_BASE}/vehicles/state${query}`, {
+      headers: authHeaders,
+      cache: "no-store",
+    });
+
+    const data = await jsonOrThrow<VehicleListResponse>(response);
+    return data.vehicles ?? [];
+  } catch (error) {
+    console.warn("fetchVehicles failed", error);
+    return [];
+  }
+}
+
+export async function registerVehicle(payload: RegisterVehiclePayload): Promise<VehicleState> {
+  const response = await fetch(`${API_BASE}/vehicles/register`, {
+    method: "POST",
     headers: authHeaders,
-    cache: "no-store",
+    body: JSON.stringify(payload),
   });
 
-  const data = await jsonOrThrow<VehicleListResponse>(response);
-  return data.vehicles ?? [];
+  const data = await jsonOrThrow<{ success: boolean; vehicle: VehicleState }>(response);
+  return data.vehicle;
+}
+
+export async function deleteVehicle(vehicleId: string): Promise<boolean> {
+  const response = await fetch(`${API_BASE}/vehicles/${vehicleId}`, {
+    method: "DELETE",
+    headers: authHeaders,
+  });
+  
+  const data = await jsonOrThrow<{ success: boolean; deleted: boolean }>(response);
+  return data.deleted;
 }
 
 export async function fetchVehicleActivity(vehicleId: string, limit = 25): Promise<ActivityEvent[]> {
