@@ -68,4 +68,5 @@ IDEAS:
 
 Steps to run:
 
-1. ./run_all.sh from project root 
+1. ./run_all.sh from project root (to run backend, celery workers and agents) after activating the Auto_ENV
+2. 
