@@ -54,6 +54,8 @@ def _ensure_indexes() -> None:
     db.activity_events.create_index([("vehicle_id", 1), ("timestamp", -1)])
     db.activity_events.create_index([("status", 1), ("timestamp", -1)])
     db.activity_events.create_index([("source_name", 1), ("timestamp", -1)])
+    db.activity_summaries.create_index([("vehicle_id", 1)], unique=True)
+    db.activity_summaries.create_index([("generated_at", -1)])
     _indexes_initialized = True
 
 

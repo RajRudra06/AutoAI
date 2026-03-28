@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Request
 from backend.db.connection import db
 from datetime import datetime,timezone
+from backend.activity.helpers import emit_activity_event
 
 router = APIRouter(prefix="/vehicles", tags=["Vehicle State"])
 
@@ -55,6 +56,14 @@ def get_vehicle_state(vehicle_id: str, request: Request):
 @router.post("/update")
 def update_vehicle_state(payload: dict):
     vehicle_id = payload["vehicle_id"]
+    existing = db.vehicle_state.find_one(
+        {"vehicle_id": vehicle_id},
+        {"workflow_state.current_stage": 1, "pipeline_associated.pipeline_status": 1, "_id": 0},
+    ) or {}
+    previous_stage = (
+        existing.get("workflow_state", {})
+        .get("current_stage")
+    )
 
     workflow_state = payload.get("workflow_state")
     risk_state = payload.get("risk_state")
@@ -108,6 +117,23 @@ def update_vehicle_state(payload: dict):
         db.vehicle_state.update_one(
             {"vehicle_id": vehicle_id},
             {"$set": update_doc}
+        )
+
+    next_stage = (workflow_state or {}).get("current_stage") if workflow_state is not None else None
+    if next_stage and next_stage != previous_stage:
+        emit_activity_event(
+            vehicle_id=vehicle_id,
+            source_type="api",
+            source_name="vehicle_state_route",
+            stage_from=previous_stage,
+            stage_to=next_stage,
+            action="vehicle_state_transition",
+            status="success",
+            summary="Vehicle workflow stage changed via state update API.",
+            details={
+                "pipeline_status": (pipeline_associated or {}).get("pipeline_status"),
+                "has_celery_task": bool((pipeline_associated or {}).get("celery_task_id")),
+            },
         )
 
     return {"success": True}

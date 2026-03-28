@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from datetime import datetime, timezone
 from backend.db.connection import db
+from backend.activity.helpers import emit_activity_event
 
 router = APIRouter(prefix="/telematics", tags=["Telemetry"])
 
@@ -73,6 +74,18 @@ def receive_telemetry(payload: dict):
             }
         },
         upsert=True
+    )
+
+    emit_activity_event(
+        vehicle_id=vehicle_id,
+        source_type="api",
+        source_name="telemetry_route",
+        stage_from="IDLE",
+        stage_to="IDLE",
+        action="telemetry_received",
+        status="success",
+        summary="Telemetry ingested and vehicle state refreshed.",
+        details={"feature_count": len(features or {})},
     )
 
     return {"success": True}

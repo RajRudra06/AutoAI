@@ -64,3 +64,8 @@ IDEAS:
 2. celery has one main app file where the entire celery config are made and multiple task files made seprately containing all the task u want to run asyncly.
 
 3. as many as workers can be run u want that will actually pick the task avaible not attached to one particular task
+
+
+Steps to run:
+
+1. ./run_all.sh from project root 

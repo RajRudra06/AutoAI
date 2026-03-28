@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from backend.db.connection import db
 from datetime import datetime, timezone,timedelta
 import random
+from backend.activity.helpers import emit_activity_event
 
 router = APIRouter(prefix="/schedule", tags=["Scheduling"])
 
@@ -10,6 +11,18 @@ router = APIRouter(prefix="/schedule", tags=["Scheduling"])
 def book_slot(payload: dict):
     payload.setdefault("created_at", datetime.now(timezone.utc))
     db.bookings.insert_one(payload)
+
+    emit_activity_event(
+        vehicle_id=payload.get("vehicle_id", "UNKNOWN"),
+        source_type="api",
+        source_name="schedule_route",
+        stage_from="DIAGNOSIS_COMPLETE",
+        stage_to="SCHEDULING_COMPLETE",
+        action="booking_created",
+        status="success",
+        summary="Tentative service booking created.",
+        details={"slot": payload.get("slot"), "center_id": payload.get("center_id")},
+    )
     return {"success": True}
 
 
@@ -93,10 +106,28 @@ def update_vehicle_state(payload: dict):
     if "pipeline_associated.celery_task_id" in payload:
         update_doc["pipeline_associated.celery_task_id"] = payload["pipeline_associated.celery_task_id"]
 
+    current = db.vehicle_state.find_one({"vehicle_id": vehicle_id}, {"workflow_state": 1, "_id": 0}) or {}
+    previous_stage = (current.get("workflow_state") or {}).get("current_stage")
+
     db.vehicle_state.update_one(
         {"vehicle_id": vehicle_id},
         {"$set": update_doc}
     )
+
+    workflow_state = payload.get("workflow_state") or {}
+    next_stage = workflow_state.get("current_stage")
+    if next_stage:
+        emit_activity_event(
+            vehicle_id=vehicle_id,
+            source_type="api",
+            source_name="schedule_route",
+            stage_from=previous_stage,
+            stage_to=next_stage,
+            action="schedule_workflow_updated",
+            status="success",
+            summary="Scheduling workflow state updated.",
+            details={"flags": workflow_state.get("flags") or {}},
+        )
 
     return {"success": True}
 
@@ -127,5 +158,20 @@ def complete_booking_schedule(payload: dict):
             }
         }
     )
+
+    if result.modified_count:
+        emit_activity_event(
+            vehicle_id=vehicle_id,
+            source_type="api",
+            source_name="schedule_route",
+            stage_from="ENGAGEMENT_COMPLETE",
+            stage_to="ENGAGEMENT_COMPLETE",
+            action="booking_completed",
+            status="success",
+            summary="Service booking marked complete.",
+            details={"vehicle_id": vehicle_id},
+        )
+
+    return {"success": bool(result.modified_count)}
 
    

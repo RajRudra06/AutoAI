@@ -124,7 +124,25 @@ asyncio.run(main())
 PY
 
 ## Phase B
-- Pending
+- Added summary endpoints:
+	- POST /api/activity/summary/{vehicle_id}
+	- GET /api/activity/summary/{vehicle_id}
+- Expanded `GET /api/activity/metrics/overview` with fleet/risk/throughput counters.
+- Added backend instrumentation emits across routes, master agent, and diagnosis worker.
+
+### Phase B Validation Commands
+
+Generate summary for one vehicle timeline:
+
+curl -sS -H 'X-AGENT-ID: agent_001' -H 'X-API-KEY: secret_key_001' -X POST http://127.0.0.1:8000/api/activity/summary/V_PHASE_A
+
+Fetch latest summary:
+
+curl -sS -H 'X-AGENT-ID: agent_001' -H 'X-API-KEY: secret_key_001' http://127.0.0.1:8000/api/activity/summary/V_PHASE_A
+
+Fetch enhanced mission-control metrics:
+
+curl -sS -H 'X-AGENT-ID: agent_001' -H 'X-API-KEY: secret_key_001' 'http://127.0.0.1:8000/api/activity/metrics/overview?window_events=100'
 
 ## Phase C
 - Pending

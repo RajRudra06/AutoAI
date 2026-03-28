@@ -23,13 +23,41 @@ class MasterAgent:
         self.shard_id = shard_id
         self.total_shards = total_shards
         self.max_threads = max_threads
+
+    def log_activity(self, vehicle_id: str, action: str, status: str, summary: str, **details):
+        try:
+            post(
+                f"{self.api_base_url}/api/activity/log",
+                json={
+                    "vehicle_id": vehicle_id,
+                    "source_type": "agent",
+                    "source_name": "master_agent",
+                    "action": action,
+                    "status": status,
+                    "summary": summary,
+                    "details": {
+                        "shard_id": self.shard_id,
+                        **details,
+                    },
+                },
+            )
+        except Exception:
+            pass
         
     def diagnosis_check(self, vehicle):
         vehicle_state_params = self.extract_vehicle_params(vehicle)
+        vehicle_id = vehicle_state_params["vehicle_id"]
         print(f"[MASTER SHARD {self.shard_id}][DIAG-CHECK] Checking vehicle {vehicle_state_params['vehicle_id']}")
         diagnosis_required = vehicle_state_params["workflow_flags"]["diagnosis_required"]
         if diagnosis_required:
             print(f"[MASTER SHARD {self.shard_id}][DIAG-CHECK] Skipped — diagnosis already required")
+            self.log_activity(
+                vehicle_id=vehicle_id,
+                action="master_gate_diagnosis_already_required",
+                status="skipped",
+                summary="Master gate skipped because diagnosis was already required.",
+                workflow_stage=vehicle_state_params["workflow_stage"],
+            )
             return None
         should_trigger, reasons = needs_diagnosis(
             telemetry=vehicle_state_params["latest_features"],
@@ -44,8 +72,22 @@ class MasterAgent:
         )
         if not should_trigger:
             print(f"[MASTER SHARD {self.shard_id}][DIAG-CHECK] No diagnosis triggered")
+            self.log_activity(
+                vehicle_id=vehicle_id,
+                action="master_gate_no_diagnosis",
+                status="info",
+                summary="Master gate evaluated telemetry and did not trigger diagnosis.",
+                reasons=reasons,
+            )
             return None
         print(f"[MASTER SHARD {self.shard_id}][DIAG-CHECK] Diagnosis SHOULD triggered")
+        self.log_activity(
+            vehicle_id=vehicle_id,
+            action="master_gate_diagnosis_triggered",
+            status="success",
+            summary="Master gate triggered diagnosis enqueue.",
+            reasons=reasons,
+        )
         return {"reasons": reasons, "should_trigger": should_trigger}
 
     def cycle(self, vehicles_for_my_shard: list):
@@ -110,9 +152,23 @@ class MasterAgent:
                 return
 
             print(f"[MASTER SHARD {self.shard_id}][ENQUEUE] Task queued for {vehicle_id}, task_id={res.id}")
+            self.log_activity(
+                vehicle_id=vehicle_id,
+                action="master_enqueue_diagnosis",
+                status="success",
+                summary="Diagnosis task enqueued by master agent.",
+                celery_task_id=res.id,
+            )
 
         except Exception as e:
             print(f"[MASTER SHARD {self.shard_id}][ERROR] Task queueing failed, rolling back vehicle state: {e}")
+            self.log_activity(
+                vehicle_id=vehicle_id,
+                action="master_enqueue_diagnosis",
+                status="failed",
+                summary="Master agent failed to enqueue diagnosis task.",
+                error=str(e),
+            )
 
             post(
                 f"{self.api_base_url}/api/vehicles/update",

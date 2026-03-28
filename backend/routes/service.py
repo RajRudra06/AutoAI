@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Request, HTTPException
 from datetime import datetime, timezone
 from backend.db.connection import db
+from backend.activity.helpers import emit_activity_event
 
 router = APIRouter(prefix="/service", tags=["Service"])
 
@@ -32,6 +33,18 @@ def complete_service(payload: dict, request: Request):
                 "last_updated": datetime.now(timezone.utc)
             }
         }
+    )
+
+    emit_activity_event(
+        vehicle_id=vehicle_id,
+        source_type="api",
+        source_name="service_route",
+        stage_from="ENGAGEMENT_COMPLETE",
+        stage_to="IDLE",
+        action="service_completed",
+        status="success",
+        summary="Service completion closed the lifecycle and reset vehicle to IDLE.",
+        details={"requested_by": agent_id},
     )
 
     return {

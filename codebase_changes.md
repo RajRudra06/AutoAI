@@ -112,8 +112,46 @@ Change logging format:
 
 ## Phase B - Backend Coverage
 
-### Pending
-- No changes logged yet.
+### 2026-03-27 - Backend coverage instrumentation + summaries + richer metrics
+- Date: 2026-03-27
+- Phase: B (Backend Coverage)
+- Area: Route/agent/worker instrumentation, summary pipeline, dashboard metrics
+- Files changed:
+	- backend/routes/activity.py
+	- backend/activity/service.py
+	- backend/routes/telemetry.py
+	- backend/routes/put_diagnosis.py
+	- backend/routes/put_diagnosis_job.py
+	- backend/routes/put_done_diagnosis.py
+	- backend/routes/schedule.py
+	- backend/routes/service.py
+	- backend/routes/vehicle_state.py
+	- agents/master_agent.py
+	- worker_tasks/diagnosis_tasks.py
+- What changed:
+	- Added summary endpoints:
+		- POST /api/activity/summary/{vehicle_id}
+		- GET /api/activity/summary/{vehicle_id}
+	- Added deterministic technical/business/judge summary generation from activity timeline events and persisted summaries in `activity_summaries`.
+	- Expanded metrics overview payload with fleet stage counts, active/high-risk vehicle counts, events/min, and stale/failed event counters for mission-control cards.
+	- Wired activity instrumentation into key API transition points (telemetry ingestion, diagnosis queue/finalization, scheduling updates, service completion, vehicle-state transitions).
+	- Added agent-level activity emits in `master_agent` for gate decisions and enqueue success/failure.
+	- Added worker-level activity emits in `diagnosis_tasks` for start/precheck/stale-abort/queue-success/queue-failure.
+	- Added `activity_summaries` indexes for fast vehicle summary reads.
+- Why changed:
+	- Phase B requirement: provide complete backend observability coverage and a narrative summary layer that the frontend can render as a live, high-signal operational story.
+- Risk/impact:
+	- Primarily additive instrumentation; no route removals or schema-breaking API changes.
+	- New counters are derived from existing collections and may reflect current runtime state noise in dev environments.
+- Validation done:
+	- Syntax check:
+		- `/Users/rudrarajpurohit/Desktop/EY/AutoAI/.venv/bin/python -m compileall backend/routes/activity.py backend/routes/telemetry.py backend/routes/put_diagnosis.py backend/routes/put_diagnosis_job.py backend/routes/put_done_diagnosis.py backend/routes/schedule.py backend/routes/service.py backend/routes/vehicle_state.py backend/activity/service.py agents/master_agent.py worker_tasks/diagnosis_tasks.py`
+	- Regression check:
+		- `./phase_a_e2e_test.sh` passed.
+	- New endpoint checks:
+		- `POST /api/activity/summary/V_PHASE_A` returned generated summaries.
+		- `GET /api/activity/summary/V_PHASE_A` returned persisted summary document.
+		- `GET /api/activity/metrics/overview?window_events=100` returned enhanced metrics fields.
 
 ---
 

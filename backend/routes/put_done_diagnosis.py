@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from datetime import datetime, timezone
 from bson import ObjectId
 from backend.db.connection import db
+from backend.activity.helpers import emit_activity_event
 
 router = APIRouter(prefix="/diagnosis", tags=["Diagnosis"])
 
@@ -87,6 +88,18 @@ def skip_diagnosis(payload: dict):
         }
     )
 
+    emit_activity_event(
+        vehicle_id=vehicle_id,
+        source_type="api",
+        source_name="diagnosis_finalize_route",
+        stage_from="DIAGNOSIS_PENDING",
+        stage_to="IDLE",
+        action="diagnosis_skipped",
+        status="skipped",
+        summary="Diagnosis was skipped by lifecycle gate and vehicle reset to IDLE.",
+        details={"job_id": str(job_id), "reason": reason},
+    )
+
     return {"success": True}
 
 @router.post("/fail")
@@ -129,6 +142,18 @@ def fail_diagnosis(payload: dict):
         }
     )
 
+    emit_activity_event(
+        vehicle_id=vehicle_id,
+        source_type="api",
+        source_name="diagnosis_finalize_route",
+        stage_from="DIAGNOSIS_PENDING",
+        stage_to="IDLE",
+        action="diagnosis_failed",
+        status="failed",
+        summary="Diagnosis failed and vehicle was reset to IDLE.",
+        details={"job_id": str(job_id), "error": payload.get("error")},
+    )
+
     return {"success": True}
 
 @router.post("/failed_job_no_risk")
@@ -169,6 +194,18 @@ def failed_job_no_risk(payload: dict):
                 "last_updated": now
             }
         }
+    )
+
+    emit_activity_event(
+        vehicle_id=vehicle_id,
+        source_type="api",
+        source_name="diagnosis_finalize_route",
+        stage_from="DIAGNOSIS_PENDING",
+        stage_to="IDLE",
+        action="diagnosis_failed_no_risk_path",
+        status="failed",
+        summary="Diagnosis no-risk path failed and vehicle was reset to IDLE.",
+        details={"job_id": str(job_id), "error": payload.get("error")},
     )
 
     return {"success": True}
@@ -224,6 +261,19 @@ def complete_job_no_risk(payload: dict):
         }
     )
 
+    emit_activity_event(
+        vehicle_id=vehicle_id,
+        source_type="api",
+        source_name="diagnosis_finalize_route",
+        stage_from="DIAGNOSIS_PENDING",
+        stage_to="IDLE",
+        action="diagnosis_completed_no_risk",
+        status="success",
+        risk_level=payload.get("risk_level"),
+        summary="Diagnosis completed as low risk and vehicle reset to IDLE.",
+        details={"job_id": str(job_id), "risk_score": payload.get("risk_score")},
+    )
+
     return {"success": True}
 
 @router.post("/complete")
@@ -272,6 +322,23 @@ def complete_diagnosis(payload: dict):
         }
     )
 
+    emit_activity_event(
+        vehicle_id=vehicle_id,
+        source_type="api",
+        source_name="diagnosis_finalize_route",
+        stage_from="DIAGNOSIS_PENDING",
+        stage_to="DIAGNOSIS_COMPLETE",
+        action="diagnosis_completed",
+        status="success",
+        risk_level=payload.get("risk_level"),
+        summary="Diagnosis completed and vehicle moved to scheduling stage.",
+        details={
+            "job_id": str(job_id),
+            "risk_score": payload.get("risk_score"),
+            "unresolved_issue_count": len(payload.get("unresolved_issues") or []),
+        },
+    )
+
     return {"success": True}
 
 
@@ -291,4 +358,16 @@ def finalize_stale_diagnosis_jobs(payload: dict):
             }   
         }
         
+    )
+
+    emit_activity_event(
+        vehicle_id=vehicle_id,
+        source_type="api",
+        source_name="diagnosis_finalize_route",
+        stage_from="DIAGNOSIS_PENDING",
+        stage_to="DIAGNOSIS_PENDING",
+        action="diagnosis_marked_stale",
+        status="stale",
+        summary="Diagnosis job was marked stale for recovery handling.",
+        details={"vehicle_id": vehicle_id},
     )

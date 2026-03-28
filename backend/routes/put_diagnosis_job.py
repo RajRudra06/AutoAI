@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Request, HTTPException
 from datetime import datetime, timezone
 from backend.db.connection import db
+from backend.activity.helpers import emit_activity_event
 
 router = APIRouter(prefix="/diagnosis", tags=["Diagnosis"])
 
@@ -36,6 +37,18 @@ def queue_diagnosis(payload: dict, request: Request):
                  "pipeline_associated.celery_task_id": None
             }
         }
+    )
+
+    emit_activity_event(
+        vehicle_id=vehicle_id,
+        source_type="api",
+        source_name="diagnosis_queue_route",
+        stage_from="IDLE",
+        stage_to="DIAGNOSIS_PENDING",
+        action="diagnosis_job_queued",
+        status="success",
+        summary="Diagnosis job queued and workflow moved to DIAGNOSIS_PENDING.",
+        details={"requested_by": agent_id, "trigger_reason_count": len(reasons)},
     )
 
     return {"success": True, "vehicle_id": vehicle_id}
