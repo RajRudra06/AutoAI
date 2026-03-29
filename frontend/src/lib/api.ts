@@ -52,25 +52,33 @@ export async function fetchActivityEvents(params: {
   }
 }
 
-export async function fetchMetrics(windowEvents = 200): Promise<MetricsOverview> {
-  const response = await fetch(
-    `${API_BASE}/activity/metrics/overview?window_events=${windowEvents}`,
-    {
-      headers: authHeaders,
-      cache: "no-store",
-    },
-  );
-
-  return jsonOrThrow<MetricsOverview>(response);
+export async function fetchMetrics(windowEvents = 200): Promise<MetricsOverview | null> {
+  try {
+    const response = await fetch(
+      `${API_BASE}/activity/metrics/overview?window_events=${windowEvents}`,
+      {
+        headers: authHeaders,
+        cache: "no-store",
+      },
+    );
+    return await jsonOrThrow<MetricsOverview>(response);
+  } catch (error) {
+    console.warn("fetchMetrics failed", error);
+    return null;
+  }
 }
 
-export async function fetchQueueWorkerHealth(): Promise<QueueWorkerHealth> {
-  const response = await fetch(`${API_BASE}/activity/metrics/health`, {
-    headers: authHeaders,
-    cache: "no-store",
-  });
-
-  return jsonOrThrow<QueueWorkerHealth>(response);
+export async function fetchQueueWorkerHealth(): Promise<QueueWorkerHealth | null> {
+  try {
+    const response = await fetch(`${API_BASE}/activity/metrics/health`, {
+      headers: authHeaders,
+      cache: "no-store",
+    });
+    return await jsonOrThrow<QueueWorkerHealth>(response);
+  } catch (error) {
+    console.warn("fetchQueueWorkerHealth failed", error);
+    return null;
+  }
 }
 
 export async function fetchVehicles(ownerId?: string): Promise<VehicleState[]> {
@@ -89,15 +97,20 @@ export async function fetchVehicles(ownerId?: string): Promise<VehicleState[]> {
   }
 }
 
-export async function registerVehicle(payload: RegisterVehiclePayload): Promise<VehicleState> {
-  const response = await fetch(`${API_BASE}/vehicles/register`, {
-    method: "POST",
-    headers: authHeaders,
-    body: JSON.stringify(payload),
-  });
+export async function registerVehicle(payload: RegisterVehiclePayload): Promise<VehicleState | null> {
+  try {
+    const response = await fetch(`${API_BASE}/vehicles/register`, {
+      method: "POST",
+      headers: authHeaders,
+      body: JSON.stringify(payload),
+    });
 
-  const data = await jsonOrThrow<{ success: boolean; vehicle: VehicleState }>(response);
-  return data.vehicle;
+    const data = await jsonOrThrow<{ success: boolean; vehicle: VehicleState }>(response);
+    return data.vehicle;
+  } catch (error) {
+    console.warn("registerVehicle failed", error);
+    return null;
+  }
 }
 
 export async function deleteVehicle(vehicleId: string): Promise<boolean> {
@@ -126,27 +139,37 @@ export async function fetchVehicleActivity(vehicleId: string, limit = 25): Promi
 }
 
 export async function fetchVehicleSummary(vehicleId: string): Promise<VehicleSummaryPayload | null> {
-  const response = await fetch(`${API_BASE}/activity/summary/${vehicleId}`, {
-    headers: authHeaders,
-    cache: "no-store",
-  });
+  try {
+    const response = await fetch(`${API_BASE}/activity/summary/${vehicleId}`, {
+      headers: authHeaders,
+      cache: "no-store",
+    });
 
-  if (response.status === 404) {
+    if (response.status === 404) {
+      return null;
+    }
+
+    const data = await jsonOrThrow<{ success: boolean; summary?: VehicleSummaryPayload }>(response);
+    return data.summary ?? null;
+  } catch (error) {
+    console.warn("fetchVehicleSummary failed", error);
     return null;
   }
-
-  const data = await jsonOrThrow<{ success: boolean; summary?: VehicleSummaryPayload }>(response);
-  return data.summary ?? null;
 }
 
 export async function regenerateVehicleSummary(vehicleId: string): Promise<VehicleSummaryPayload | null> {
-  const response = await fetch(`${API_BASE}/activity/summary/${vehicleId}`, {
-    method: "POST",
-    headers: authHeaders,
-  });
+  try {
+    const response = await fetch(`${API_BASE}/activity/summary/${vehicleId}`, {
+      method: "POST",
+      headers: authHeaders,
+    });
 
-  const data = await jsonOrThrow<{ success: boolean; summary?: VehicleSummaryPayload }>(response);
-  return data.summary ?? null;
+    const data = await jsonOrThrow<{ success: boolean; summary?: VehicleSummaryPayload }>(response);
+    return data.summary ?? null;
+  } catch (error) {
+    console.warn("regenerateVehicleSummary failed", error);
+    return null;
+  }
 }
 
 export async function triggerSimulationStart(vehicleId: string): Promise<boolean> {

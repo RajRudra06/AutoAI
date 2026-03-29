@@ -280,6 +280,14 @@
   animation: pulse 2s ease-in-out infinite;
 }
 
+.nodeHum {
+  border-color: rgba(6, 182, 212, 0.4);
+  background: rgba(6, 182, 212, 0.08);
+  color: #22d3ee;
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.15);
+  animation: activeHum 3s infinite ease-in-out;
+}
+
 .nodeLabel {
   font-size: 16px;
   font-weight: 700;
