@@ -45,95 +45,78 @@ Important:
 - Keep `.env` lines in strict `KEY=VALUE` format.
 - Do not add plain words or malformed lines in `.env`.
 
-## Recommended Run (One Command)
+## Quick Start (Two-Terminal Setup)
 
-From project root:
+Follow these steps to launch the entire AutoAI ecosystem in under 60 seconds.
+
+### 1. Terminal 1: Agentic Backend & Orchestration
+This terminal handles the FastAPI server, MongoDB persistence, and the multi-agent decision layers.
 
 ```bash
+# Activate the virtual environment
+source AutoAI_ENV/bin/activate
+
+# Launch the full-stack agentic engine
 ./run_all.sh
 ```
 
-This starts:
-- FastAPI backend
-- Collector agent
-- Master agent
-- Diagnosis agent
-- Scheduling agent
-- Engagement agent
-- Service completion agent
-- All required Celery workers (queue-specific)
+**What this starts:**
+- **FastAPI Core**: The central API gateway.
+- **Agent Cluster**: Master, Diagnosis, Scheduling, Engagement, and Service agents.
+- **Worker Layer**: All queue-specific Celery workers for autonomous execution.
 
-To stop everything:
-- Press `Ctrl+C` in the same terminal.
+---
+
+### 2. Terminal 2: Mission Control Dashboard
+This terminal handles the high-fidelity Next.js frontend simulation.
+
+```bash
+cd frontend
+
+# Clean stale builds and ensure dependencies are synchronized
+rm -rf .next
+npm install
+
+# Launch the interactive simulation dashboard
+npm run dev
+```
+
+**Access the Dashboard:**
+Navigate to [http://localhost:3000](http://localhost:3000) to begin the vehicle lifecycle simulation.
+
+---
 
 ## Health Check
 
+To verify the backend engine is responsive, run:
+
 ```bash
 curl -sS http://127.0.0.1:8000/health
-```
-
-Expected response:
-
-```json
-{"status":"ok"}
-```
-
-## Manual Startup (Fallback)
-
-Use these commands from project root if you want to run components separately.
-
-Backend:
-
-```bash
-PYTHONPATH=. ./AutoAI_ENV/bin/python -m uvicorn backend.main:app --port 8000
-```
-
-Agents:
-
-```bash
-PYTHONPATH=. ./AutoAI_ENV/bin/python agents/collector_agent.py
-PYTHONPATH=. ./AutoAI_ENV/bin/python agents/master_agent.py
-PYTHONPATH=. ./AutoAI_ENV/bin/python agents/diagnosis_agent.py
-PYTHONPATH=. ./AutoAI_ENV/bin/python agents/scheduling_agent.py
-PYTHONPATH=. ./AutoAI_ENV/bin/python agents/engagement_agent.py
-PYTHONPATH=. ./AutoAI_ENV/bin/python agents/service_completion_agent.py
-```
-
-Celery workers:
-
-```bash
-PYTHONPATH=. ./AutoAI_ENV/bin/python -m celery -A worker_tasks.celery_config worker -l info -Q diagnosis_queue -n diagnosis_queue_worker@%h
-PYTHONPATH=. ./AutoAI_ENV/bin/python -m celery -A worker_tasks.celery_config worker -l info -Q execution_diagnosis_task_queue -n execution_diagnosis_queue_worker@%h
-PYTHONPATH=. ./AutoAI_ENV/bin/python -m celery -A worker_tasks.celery_config worker -l info -Q scheduling_queue -n scheduling_queue_worker@%h
-PYTHONPATH=. ./AutoAI_ENV/bin/python -m celery -A worker_tasks.celery_config worker --loglevel=info --pool=threads --concurrency=4 --queues=engagement_queue -n engagement_queue_worker@%h
-PYTHONPATH=. ./AutoAI_ENV/bin/python -m celery -A worker_tasks.celery_config worker -l info -Q service_completion_queue -n service_completion_queue_worker@%h
+# Expected: {"status":"ok"}
 ```
 
 ## Troubleshooting
 
-### 1) `python: command not found`
-Use explicit interpreter:
-
+### 1) Environment Activation
+If `source AutoAI_ENV/bin/activate` fails, ensure the `AutoAI_ENV` directory exists in your project root. If missing, recreate the environment:
 ```bash
-./AutoAI_ENV/bin/python ...
+python3 -m venv AutoAI_ENV
+source AutoAI_ENV/bin/activate
+pip install -r requirements.txt # If absolute manually
 ```
 
-### 2) Mongo TLS/certificate errors
-Ensure your system CA setup is valid and `.env` uses a valid Mongo connection string.
-The one-command launcher also applies certificate path handling at runtime.
-
-### 3) Celery worker conflicts / duplicate node names
-Use the exact worker commands above with `-n` unique worker names.
-
-### 4) Backend not reachable on port 8000
-Check if another process is already bound:
-
+### 2) Port Conflicts
+If port `8000` (Backend) or `3000` (Frontend) is already in use, find and terminate the process:
 ```bash
 lsof -nP -iTCP:8000 -sTCP:LISTEN
 ```
 
-## Notes
+### 3) MongoDB Connectivity
+Ensure your `.env` contains a valid `MONGO_URL`. The `run_all.sh` script automatically handles certificate path resolution for secure connections.
 
-- The project currently uses polling-based agents plus Celery queue execution.
-- The one-command launcher is the easiest way for demo and development runs.
-- For phase-specific command updates, see `phase_runbook.md`.
+---
+
+## Technical Architecture Notes
+- **State Management**: Indirect agent communication via FastAPI + MongoDB.
+- **Task Execution**: Decision/Execution separation using Redis-backed Celery queues.
+- **Simulation**: High-fidelity frontend state machine mimicking real-time backend telemetry.
