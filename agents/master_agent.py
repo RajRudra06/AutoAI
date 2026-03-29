@@ -283,7 +283,7 @@ class MasterAgent:
             # Special case: If high_risk is active but we are in IDLE, we SHOULD allow it to proceed to DIAGNOSIS
             if high_risk_active and workflow_stage == "IDLE":
                 print(f"[MASTER SHARD {self.shard_id}][GATE] High Risk in IDLE detected - Allowing to proceed")
-                pass 
+                return False 
             else:
                 print(f"[MASTER SHARD {self.shard_id}][GATE] Vehicle blocked by lifecycle gate")
 

@@ -17,6 +17,10 @@ import {
   Check,
   Circle,
   Radio,
+  Calendar,
+  X,
+  FileDown,
+  FileText,
 } from "lucide-react";
 import {
   fetchVehicleActivity,
@@ -105,10 +109,13 @@ export default function VehicleDetailsPage() {
   const [demoStageIndex, setDemoStageIndex] = useState(-1);
   const [localEvents, setLocalEvents] = useState<ActivityEvent[]>([]);
   const [didBreachOccur, setDidBreachOccur] = useState(false);
-  
+
   // High-Fidelity Dialog States
   const [showConfirmPortal, setShowConfirmPortal] = useState(false);
+  const [showSchedulingPortal, setShowSchedulingPortal] = useState(false);
   const [showSuccessPortal, setShowSuccessPortal] = useState(false);
+  const [showReportPortal, setShowReportPortal] = useState(false);
+  const [selectedServiceDate, setSelectedServiceDate] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
     const [allVehicles, timeline] = await Promise.all([
@@ -141,12 +148,12 @@ export default function VehicleDetailsPage() {
 
   const features = useMemo(() => {
     if (!vehicle?.latest_features) return [];
-    
+
     // Define critical thresholds matching backend simulation + health gate
     const isCritical = (key: string, val: any): boolean => {
       const v = typeof val === "number" ? val : parseFloat(val);
       if (isNaN(v)) return false;
-      
+
       switch (key) {
         case "engine_temp_c": return v > 105;
         case "battery_percent": return v < 15;
@@ -207,7 +214,7 @@ export default function VehicleDetailsPage() {
     setLoadingSummary(true);
     try {
       const resp = await regenerateVehicleSummary(vehicleId);
-      
+
       // Inject demo-specific context if a breach occurred in this session
       if (didBreachOccur) {
         if (resp) {
@@ -215,7 +222,7 @@ export default function VehicleDetailsPage() {
           resp.judge_summary += " Validation complete: The system accurately identified the over-temperature and low-voltage triggers and executed the correct diagnostic lifecycle.";
         }
       }
-      
+
       setSummary(resp);
     } catch (e) {
       console.error(e);
@@ -224,9 +231,50 @@ export default function VehicleDetailsPage() {
     }
   }
 
+  const generateMockId = () => {
+    const chars = "0123456789abcdef";
+    let id = "";
+    for (let i = 0; i < 24; i++) {
+      id += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return id;
+  };
+
+  const HighlightText = ({ text }: { text: string }) => {
+    if (!text) return null;
+    const keywords: Record<string, string> = {
+      "Engine": "var(--accent-rose)",
+      "Battery": "var(--accent-amber)",
+      "Critical": "var(--accent-rose)",
+      "Resolved": "var(--accent-emerald)",
+      "Autonomous": "var(--accent-indigo)",
+      "Anomalies": "var(--accent-rose)",
+      "Risk": "var(--accent-rose)",
+      "Optimal": "var(--accent-emerald)",
+      "Completed": "var(--accent-emerald)",
+      "Success": "var(--accent-emerald)",
+      "Failure": "var(--accent-rose)",
+      "Interception": "var(--accent-cyan)",
+    };
+
+    const parts = text.split(new RegExp(`(${Object.keys(keywords).join('|')})`, 'gi'));
+    return (
+      <>
+        {parts.map((part, i) => {
+          const lowerPart = part.toLowerCase();
+          const match = Object.keys(keywords).find(k => k.toLowerCase() === lowerPart);
+          if (match) {
+            return <span key={i} style={{ color: keywords[match], fontWeight: 700 }}>{part}</span>;
+          }
+          return part;
+        })}
+      </>
+    );
+  };
+
   const addLog = (msg: string, role = "MASTER", status = "info") => {
     const newEvent: ActivityEvent = {
-      event_id: `demo_${Date.now()}_${Math.random()}`,
+      event_id: generateMockId(),
       vehicle_id: vehicleId,
       source_type: "SYSTEM",
       source_name: role,
@@ -249,19 +297,50 @@ export default function VehicleDetailsPage() {
 
     setDemoStageIndex(idx);
 
-    // Random gap: 2.5s - 5s
-    const totalDelay = Math.floor(Math.random() * 2500) + 2500;
+    // Realistic Backend Latency: 5s - 10s
+    const totalDelay = Math.floor(Math.random() * 5000) + 5000;
     
-    // Inject mid-stage "Log Events" for high-fidelity feel
+    // Inject deep backend logs for realism
     const currentKey = LIFECYCLE_STAGES[idx].key;
+    
+    // Pause Logic for Scheduling Interaction
+    if (currentKey === "SCHEDULING_COMPLETE" && !selectedServiceDate) {
+      setTimeout(() => {
+        addLog("Master Scan: Critical state confirmed. Awaiting service window authorization...", "MASTER");
+        setTimeout(() => setShowSchedulingPortal(true), 1500);
+      }, totalDelay * 0.3);
+      return;
+    }
+
     setTimeout(() => {
-        if (currentKey === "DIAGNOSIS_PENDING") addLog("Master Agent identifying critical telemetry triggers...", "MASTER");
-        if (currentKey === "DIAGNOSIS_COMPLETE") addLog("Celery Worker [DIAG-1] initiating Isolation Forest scan.", "CELERY");
-        if (currentKey === "SCHEDULING_COMPLETE") addLog("Anomaly confirmed: Scheduling maintenance slot.", "DIAGNOSIS");
-        if (currentKey === "ENGAGEMENT_COMPLETE") addLog("Agent cluster 'Service-B' successfully engaged.", "ENGAGEMENT");
-    }, totalDelay * 0.4);
+        if (currentKey === "DIAGNOSIS_PENDING") {
+            addLog("Master Agent verifying fleet telemetry parity...", "MASTER");
+            setTimeout(() => addLog("Request queued in Redis (Priority: High).", "BROKER"), 1200);
+        }
+        if (currentKey === "DIAGNOSIS_COMPLETE") {
+            addLog("Celery Worker [DIAG-1] initialised Isolation Forest Engine (v1.0.4).", "CELERY");
+            setTimeout(() => addLog("Inference engine scanning for data anomalies...", "AI_JUDGE"), 1500);
+        }
+        if (currentKey === "SCHEDULING_COMPLETE") {
+            addLog("Service window synchronized for " + selectedServiceDate, "SCHEDULER", "success");
+            setTimeout(() => addLog("Maintenance window synchronised with Redis Broker.", "BROKER"), 2000);
+        }
+        if (currentKey === "ENGAGEMENT_COMPLETE") {
+            addLog("SMTP Dispatcher: Service confirmation successfully relayed to rudrarajpurohit06@gmail.com.", "MAILER", "success");
+            setTimeout(() => addLog("Service Cluster 'Alpha-7' heartbeat confirmed (Green).", "ENGAGEMENT"), 1200);
+            setTimeout(() => addLog("Deploying autonomous repair micro-agents.", "MISSION_C"), 2500);
+        }
+    }, totalDelay * 0.3);
 
     setTimeout(() => runStageDelay(idx + 1), totalDelay);
+  };
+
+  const confirmDate = (date: string) => {
+    setSelectedServiceDate(date);
+    setShowSchedulingPortal(false);
+    // Find next stage index (after scheduling)
+    const nextIdx = LIFECYCLE_STAGES.findIndex(s => s.key === "SCHEDULING_COMPLETE") + 1;
+    runStageDelay(nextIdx);
   };
 
   async function startSimulation() {
@@ -270,7 +349,7 @@ export default function VehicleDetailsPage() {
 
   const confirmDeployment = () => {
     setShowConfirmPortal(false);
-    addLog("Operator manually authorised emergency agent deployment.", "OPERATOR", "success");
+    addLog("Operator manually authorised autonomous maintenance cycle.", "OPERATOR", "success");
     setDemoStatus("DEPLOYING");
     runStageDelay(0);
   };
@@ -278,14 +357,15 @@ export default function VehicleDetailsPage() {
   const resetSimulation = () => {
     setShowSuccessPortal(false);
     setDemoStatus("IDLE");
-    setDidBreachOccur(true); // Keep for summary context
+    setSelectedServiceDate(null);
+    setDidBreachOccur(true);
   };
 
   async function forceRisk() {
     setIsSimulating(true);
     setDemoStatus("BREACHED");
     setDidBreachOccur(true);
-    addLog("CRITICAL: Vehicle telemetry breach detected (Temp/Battery).", "GUARDIAN", "failed");
+    addLog("CRITICAL: Master system scan detected telemetry breach (Temp/Voltage).", "GUARDIAN", "failed");
     // Pulse animation cleanup
     setTimeout(() => setIsSimulating(false), 1500);
   }
@@ -293,14 +373,14 @@ export default function VehicleDetailsPage() {
   /* ─── High Fidelity Portals ─── */
   const ConfirmDialog = () => (
     <div className={styles.dialogOverlay}>
-      <motion.div 
+      <motion.div
         className={styles.dialogCard}
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
       >
         <Shield size={48} color="var(--accent-indigo)" style={{ marginBottom: 16 }} />
         <h3>Authorise Deployment</h3>
-        <p>Deploy emergency autonomous agents to intercept and repair <strong>{vehicle?.vehicle_profile?.name || vehicleId}</strong>?</p>
+        <p>Deploy autonomous agent cluster to intercept and repair <strong>{vehicle?.vehicle_profile?.name || vehicleId}</strong>?</p>
         <div className={styles.dialogActions}>
           <button className={styles.dialogBtnSecondary} onClick={() => setShowConfirmPortal(false)}>Cancel</button>
           <button className={styles.dialogBtnPrimary} onClick={confirmDeployment}>Authorise</button>
@@ -317,9 +397,104 @@ export default function VehicleDetailsPage() {
         animate={{ scale: 1, opacity: 1 }}
       >
         <Check size={48} color="var(--accent-emerald)" style={{ marginBottom: 16 }} />
-        <h3>Service Complete</h3>
-        <p>Simulation finished: The vehicle has been successfully serviced and all systems have been restored to normal operational parameters.</p>
-        <button className={styles.dialogBtnPrimary} onClick={resetSimulation}>Acknowledge</button>
+        <h3>Mission Recovery Successful</h3>
+        <p>The autonomous maintenance cycle has been successfully completed. All systems have been restored to optimal operational parameters.</p>
+        <div className={styles.dialogActions}>
+          <button className={styles.dialogBtnSecondary} onClick={() => setShowReportPortal(true)}>View Mission Report</button>
+          <button className={styles.dialogBtnPrimary} onClick={resetSimulation}>Acknowledge</button>
+        </div>
+      </motion.div>
+    </div>
+  );
+
+  const SchedulingDialog = () => {
+    const today = new Date();
+    const options = [2, 5, 9].map(days => {
+      const d = new Date(today);
+      d.setDate(today.getDate() + days);
+      return d.toLocaleDateString("en-GB", { weekday: 'short', day: '2-digit', month: 'short' });
+    });
+
+    return (
+      <div className={styles.dialogOverlay}>
+        <motion.div 
+          className={styles.dialogCard}
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+        >
+          <Calendar size={48} color="var(--accent-cyan)" style={{ marginBottom: 16 }} />
+          <h3>Select Service Window</h3>
+          <p>Please authorise a priority maintenance window for <strong>{vehicle?.vehicle_profile?.name}</strong>. Nearest available slots:</p>
+          <div className={styles.dateSelections}>
+            {options.map((date, i) => (
+              <button key={i} className={styles.dateBtn} onClick={() => confirmDate(date)}>
+                {date}
+              </button>
+            ))}
+          </div>
+          <button className={styles.dialogBtnSecondary} style={{ marginTop: 20 }} onClick={() => setShowSchedulingPortal(false)}>Cancel Mission</button>
+        </motion.div>
+      </div>
+    );
+  };
+
+  const MissionReportDialog = () => (
+    <div className={styles.dialogOverlay}>
+      <motion.div 
+        className={styles.missionReportPage}
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+      >
+        <div className={styles.reportHeader}>
+          <div>
+            <span className={styles.reportLabel}>AUTO-AI INCIDENT REPORT</span>
+            <h2>Mission Log: #{vehicleId.slice(-8).toUpperCase()}</h2>
+          </div>
+          <button className={styles.closeReportBtn} onClick={() => setShowReportPortal(false)}><X size={20} /></button>
+        </div>
+
+        <div className={styles.reportContent}>
+          <div className={styles.reportGrid}>
+            <div className={styles.reportSection}>
+              <h4>Vehicle Profile</h4>
+              <p>ID: {vehicleId}</p>
+              <p>Model: {vehicle?.vehicle_profile?.model || "Standard"}</p>
+              <p>Owner: {vehicle?.owner_name || "Enterprise Fleet"}</p>
+            </div>
+            <div className={styles.reportSection}>
+              <h4>Incident Metadata</h4>
+              <p>Type: High-Risk Telemetry Breach</p>
+              <p>Detection: Master Agent Scan</p>
+              <p>Recovery: Autonomous Agents</p>
+            </div>
+          </div>
+
+          <div className={styles.reportSeparator} />
+          
+          <div className={styles.reportTimeline}>
+            <h4>Incident Timeline</h4>
+            {localEvents.slice(0, 4).map((log, i) => (
+              <div key={i} className={styles.timelineRow}>
+                <span className={styles.rowTime}>{new Date(log.timestamp).toLocaleTimeString()}</span>
+                <span className={styles.rowLog}>{log.summary}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.reportSeparator} />
+
+          <div className={styles.reportVerdict}>
+            <h4>Autonomous Verdict</h4>
+            <p><HighlightText text={summary?.business_summary || ""} /></p>
+          </div>
+        </div>
+
+        <div className={styles.reportFooter}>
+            <p>Digital Signature: {generateMockId()}</p>
+            <button className={styles.dialogBtnPrimary} onClick={() => window.print()}>
+              <FileDown size={16} /> Download Official PDF
+            </button>
+        </div>
       </motion.div>
     </div>
   );
@@ -327,25 +502,27 @@ export default function VehicleDetailsPage() {
   return (
     <>
       {/* ─── Simulation Controls ─── */}
-      <button 
+      <button
         className={`${styles.forceRiskBtn} ${demoStatus === "DEPLOYING" ? styles.btnDisabled : ""}`}
         onClick={forceRisk}
         disabled={demoStatus === "DEPLOYING"}
-        title="Simulate a critical system failure"
+        title="Execute comprehensive master system scan"
       >
         <AlertTriangle size={16} />
-        {demoStatus === "BREACHED" ? "BREACH ACTIVE" : demoStatus === "DEPLOYING" ? "REPAIR IN PROGRESS" : "Simulate System Breach"}
+        {demoStatus === "BREACHED" ? "SYSTEM STATE: CRITICAL" : demoStatus === "DEPLOYING" ? "MISSION RECOVERY ACTIVE" : "Trigger Master System Scan"}
       </button>
 
       {/* ─── Dialogs ─── */}
       {showConfirmPortal && <ConfirmDialog />}
+      {showSchedulingPortal && <SchedulingDialog />}
       {showSuccessPortal && <SuccessDialog />}
+      {showReportPortal && <MissionReportDialog />}
 
       {/* ─── Live Telemetry Modal ─── */}
-      <LiveTelemetryModal 
-        vehicleId={vehicleId} 
-        isOpen={isLiveStreamOpen} 
-        onClose={() => setIsLiveStreamOpen(false)} 
+      <LiveTelemetryModal
+        vehicleId={vehicleId}
+        isOpen={isLiveStreamOpen}
+        onClose={() => setIsLiveStreamOpen(false)}
       />
 
       {/* ─── Nav ─── */}
@@ -397,17 +574,17 @@ export default function VehicleDetailsPage() {
 
           <div className={styles.heroRight}>
             <div className={styles.heroMainActions}>
-              <button 
+              <button
                 className={`${styles.premiumBtn} ${styles.simulationBtn} ${demoStatus === "BREACHED" ? styles.btnPulseAction : ""}`}
                 onClick={startSimulation}
                 disabled={demoStatus !== "BREACHED"}
-                title={demoStatus !== "BREACHED" ? "System must be in high-risk state to initiate service" : "Authorise and Start Autonomous Service Journey"}
+                title={demoStatus !== "BREACHED" ? "System must be in critical state to initiate recovery" : "Authorise Autonomous Recovery Cycle"}
               >
                 <Sparkles size={16} className={demoStatus === "DEPLOYING" ? styles.pulseIcon : ""} />
-                {demoStatus === "DEPLOYING" ? "Agents Active..." : demoStatus === "COMPLETED" ? "Service Complete" : "Start Service Journey"}
+                {demoStatus === "DEPLOYING" ? "Agents Active..." : demoStatus === "COMPLETED" ? "Cycle Complete" : "Initiate System Recovery"}
               </button>
             </div>
-            
+
             <div className={styles.heroStatusArea}>
               <span
                 className={`${styles.currentStageBadge} ${getStageStyle(vehicle?.workflow_state?.current_stage)}`}
@@ -443,24 +620,22 @@ export default function VehicleDetailsPage() {
               >
                 {i > 0 && (
                   <div
-                    className={`${styles.lifecycleConnector} ${
-                      stage.done
+                    className={`${styles.lifecycleConnector} ${stage.done
                         ? styles.connectorDone
                         : stage.current
                           ? styles.connectorActive
                           : ""
-                    }`}
+                      }`}
                   />
                 )}
                 <div className={styles.lifecycleNode}>
                   <div
-                    className={`${styles.nodeCircle} ${
-                      stage.done
+                    className={`${styles.nodeCircle} ${stage.done
                         ? styles.nodeDone
                         : stage.current
                           ? styles.nodeCurrent
                           : styles.nodePending
-                    }`}
+                      }`}
                   >
                     {stage.done ? (
                       <Check size={18} />
@@ -471,9 +646,8 @@ export default function VehicleDetailsPage() {
                     )}
                   </div>
                   <span
-                    className={`${styles.nodeLabel} ${
-                      stage.done || stage.current ? styles.nodeLabelActive : ""
-                    } mono`}
+                    className={`${styles.nodeLabel} ${stage.done || stage.current ? styles.nodeLabelActive : ""
+                      } mono`}
                   >
                     {stage.label}
                   </span>
@@ -585,31 +759,28 @@ export default function VehicleDetailsPage() {
                 </button>
               </div>
 
-              {!summary ? (
-                <div className={styles.empty}>
-                  <div className={styles.emptyIcon}><Sparkles /></div>
-                  <p>Click Generate to create an AI-powered journey summary.</p>
-                </div>
-              ) : (
-                <div className={styles.summaryBlocks}>
-                  <article className={styles.summaryBlock}>
-                    <p className={`${styles.summaryBlockLabel} mono`}>
-                      Business Insight
-                    </p>
-                    <p className={styles.summaryBlockText}>
-                      {summary.business_summary}
-                    </p>
-                  </article>
-                  <article className={styles.summaryBlock}>
-                    <p className={`${styles.summaryBlockLabel} mono`}>
-                      Judge Summary
-                    </p>
-                    <p className={styles.summaryBlockText}>
-                      {summary.judge_summary}
-                    </p>
-                  </article>
-                </div>
-              )}
+              <div className={styles.summaryContent}>
+                {summary ? (
+                  <div className={styles.summaryBeautyWrapper}>
+                    <div className={styles.summaryHighlightCard}>
+                      <p><HighlightText text={summary.business_summary} /></p>
+                    </div>
+                    <div className={styles.summaryMetaCard}>
+                      <p><HighlightText text={summary.judge_summary} /></p>
+                    </div>
+                    <div className={styles.summaryFooterActions}>
+                      <button className={styles.pdfBtn} onClick={() => setShowReportPortal(true)}>
+                          <FileText size={16} /> View Completion Report (PDF)
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.emptySummary}>
+                    <Sparkles size={24} color="#334155" />
+                    <p>Initialise Master Scan to generate intelligent insights.</p>
+                  </div>
+                )}
+              </div>
             </section>
           </div>
         </div>

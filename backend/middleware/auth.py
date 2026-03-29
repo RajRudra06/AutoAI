@@ -9,7 +9,12 @@ VALID_AGENTS = {
 class AgentAuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
 
-        # Skip auth for health and WebSockets (browsers don't support custom headers on WS)
+        # Explicitly handle OPTIONS for CORS preflight
+        if request.method == "OPTIONS":
+            from fastapi.responses import Response
+            return Response(status_code=200)
+
+        # Skip auth for health and WebSockets
         if request.url.path == "/health" or request.scope.get("type") == "websocket" or "/ws/" in request.url.path:
             return await call_next(request)
 
