@@ -94,7 +94,7 @@
   border-radius: var(--radius-xl);
   background: linear-gradient(135deg, var(--bg-surface) 0%, rgba(19, 31, 58, 0.6) 100%);
   border: 1px solid var(--border-default);
-  box-shadow: var(--shadow-md), var(--shadow-glow-indigo);
+  box-shadow: 0 0 40px rgba(99, 102, 241, 0.1), var(--shadow-md);
   position: relative;
   overflow: hidden;
   animation: fadeInUp 0.5s var(--ease-out);
@@ -147,10 +147,22 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 12px;
+  gap: 20px;
   position: relative;
   z-index: 1;
   flex-shrink: 0;
+}
+
+.heroMainActions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.heroStatusArea {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .currentStageBadge {
@@ -315,6 +327,13 @@
   padding: 28px;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s var(--ease-out);
+}
+
+.panel:hover {
+  border-color: rgba(99, 102, 241, 0.2);
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15);
 }
 
 .panel::before {
@@ -388,6 +407,26 @@
 .featureCard:hover {
   border-color: var(--border-default);
   transform: translateY(-2px);
+}
+
+.featureCardCritical {
+  border-color: rgba(239, 68, 68, 0.45) !important;
+  background: rgba(220, 38, 38, 0.08) !important;
+  box-shadow: 0 0 24px rgba(239, 68, 68, 0.15), inset 0 0 12px rgba(239, 68, 68, 0.05) !important;
+  position: relative;
+  overflow: hidden;
+  animation: criticalPulse 2s infinite ease-in-out;
+}
+
+@keyframes criticalPulse {
+  0% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.15); transform: scale(1); }
+  50% { box-shadow: 0 0 35px rgba(239, 68, 68, 0.35); transform: scale(1.01); }
+  100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.15); transform: scale(1); }
+}
+
+.featureCardCritical .featureValue {
+  color: #fca5a5 !important;
+  text-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
 }
 
 .featureLabel {
@@ -472,10 +511,25 @@
   text-transform: uppercase;
   transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
   color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.premiumBtn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.premiumBtn:hover::before {
+  transform: translateX(100%);
 }
 
 .simulationBtn {
@@ -529,6 +583,41 @@
   backdrop-filter: blur(16px);
   letter-spacing: 0.05em;
   animation: glowPulse 2s infinite ease-in-out;
+}
+
+.btnLoading {
+  opacity: 0.8 !important;
+  cursor: wait !important;
+  pointer-events: none;
+}
+
+.pulseIcon {
+  animation: spinPulse 1.5s infinite linear;
+}
+
+@keyframes spinPulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes activeHum {
+  0% { transform: scale(1); box-shadow: 0 0 15px rgba(99, 102, 241, 0.3); }
+  50% { transform: scale(1.03); box-shadow: 0 0 30px rgba(99, 102, 241, 0.6); }
+  100% { transform: scale(1); box-shadow: 0 0 15px rgba(99, 102, 241, 0.3); }
+}
+
+.btnPulseAction {
+  animation: activeHum 2s infinite ease-in-out !important;
+  border-color: #818cf8 !important;
+  background: rgba(99, 102, 241, 0.3) !important;
+}
+
+.btnDisabled {
+  opacity: 0.4;
+  cursor: not-allowed !important;
+  filter: grayscale(0.8);
+  pointer-events: none;
 }
 
 @keyframes glowPulse {
@@ -1063,4 +1152,96 @@
   .liveDataGrid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ─── High-Fidelity Dialogs ─── */
+.dialogOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.dialogCard {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 32px;
+  width: 100%;
+  max-width: 480px;
+  padding: 48px;
+  text-align: center;
+  box-shadow: 
+    0 40px 100px -20px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+    0 0 40px rgba(99, 102, 241, 0.1);
+}
+
+.dialogSuccess {
+  box-shadow: 
+    0 40px 100px -20px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+    0 0 40px rgba(16, 185, 129, 0.1);
+}
+
+.dialogCard h3 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.dialogCard p {
+  font-size: 16px;
+  color: #94a3b8;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.dialogActions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.dialogBtnPrimary {
+  background: var(--accent-indigo);
+  color: #fff;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 8px 20px -4px rgba(99, 102, 241, 0.4);
+}
+
+.dialogBtnPrimary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 12px 28px -4px rgba(99, 102, 241, 0.5);
+}
+
+.dialogBtnSecondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 14px 28px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dialogBtnSecondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
 }
