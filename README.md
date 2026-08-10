@@ -4,8 +4,6 @@
 
 The system continuously monitors a simulated vehicle fleet, detects emerging issues with an ML anomaly-detection model, and drives every vehicle through a well-defined service lifecycle — all while emitting a complete, human-readable audit trail of every decision and action.
 
-Built for the **ET AI Hackathon 2026** problem statement.
-
 ---
 
 ## What It Does
