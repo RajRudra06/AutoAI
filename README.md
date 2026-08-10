@@ -1,122 +1,160 @@
-# AutoAI - Multi-Agent Vehicle Lifecycle System
+# AutoAI — Autonomous Vehicle Service Orchestration Platform
 
-AutoAI is an end-to-end multi-agent backend that simulates telemetry ingestion, anomaly diagnosis, scheduling, engagement, and service completion for vehicles.
+**AutoAI** is a multi-agent, queue-driven platform that autonomously orchestrates the complete vehicle service lifecycle — from raw sensor telemetry to anomaly detection, diagnosis, service booking, customer engagement, and service completion.
 
-The project includes:
-- FastAPI backend
-- MongoDB-backed lifecycle state
-- Multiple orchestrator agents
-- Celery workers + Redis queues
-- Isolation Forest-based diagnosis flow
+The system continuously monitors a simulated vehicle fleet, detects emerging issues with an ML anomaly-detection model, and drives every vehicle through a well-defined service lifecycle — all while emitting a complete, human-readable audit trail of every decision and action.
+
+Built for the **ET AI Hackathon 2026** problem statement.
+
+---
+
+## What It Does
+
+1. **Telemetry Ingestion** — A collector agent continuously generates realistic sensor telemetry (engine temp, oil pressure, brake wear, battery health, vibration, etc.) for a simulated fleet.
+2. **Health Screening** — A master agent evaluates every telemetry snapshot with rule-based health gates and flags vehicles that need attention.
+3. **ML Diagnosis** — A trained **Isolation Forest** model scores 43 engineered vehicle-health features per vehicle and classifies risk as **HIGH** or **LOW**.
+4. **Service Scheduling** — High-risk vehicles are automatically booked into a service slot at a service center.
+5. **Customer Engagement** — An LLM agent (CrewAI + Groq) generates a personalized customer message describing the issues and the booking, delivered via email.
+6. **Service Completion** — Once the booking is completed, the vehicle lifecycle is closed and the vehicle returns to `IDLE`, ready for the next telemetry cycle.
+7. **Observability** — Every stage transition, decision, and worker execution is recorded as a structured activity event, exposed via live WebSocket streams, metrics dashboards, and per-vehicle journey summaries.
+
+---
+
+## Architecture at a Glance
+
+AutoAI splits the system into two intentionally separated layers:
+
+- **Decision Layer (Agents)** — Lightweight polling agents that inspect system state, enforce lifecycle gates, detect stale work, and decide *what* should happen next.
+- **Execution Layer (Celery Workers)** — Asynchronous workers that do the heavy lifting (ML inference, bookings, email) on dedicated Redis queues, and re-validate task ownership before executing anything.
+
+All state lives in a single MongoDB source of truth, and **every component — agent or worker — communicates exclusively through the FastAPI backend**. Nothing mutates workflow state directly.
+
+```
+         ┌────────────────────────────────────────────────────────────┐
+         │                        FASTAPI BACKEND                     │
+         │              (state · lifecycle gates · observability)     │
+         └──────▲────────────────────▲───────────────────▲───────────┘
+                │                    │                   │
+      ┌─────────┴──────┐   ┌─────────┴──────────┐   ┌────┴──────────────┐
+      │ DECISION LAYER │   │  EXECUTION LAYER   │   │      STORAGE      │
+      │     Agents     │──▶│  Celery Workers    │──▶│  MongoDB + Redis  │
+      │ master         │   │  (ML inference,    │   │  (source of truth)│
+      │ diagnosis      │   │   booking, email)  │   │  (queues/broker)  │
+      │ scheduling     │   │  5 dedicated queues│   │                   │
+      │ engagement     │   │                    │   │                   │
+      │ service close  │   │                    │   │                   │
+      └────────────────┘   └────────────────────┘   └───────────────────┘
+```
+
+### Vehicle Lifecycle State Machine
+
+```
+IDLE ──▶ DIAGNOSIS_PENDING ──▶ DIAGNOSIS_COMPLETE ──▶ SCHEDULING_COMPLETE ──▶ ENGAGEMENT_COMPLETE ──▶ IDLE
+         (job created)          (ML: HIGH risk)       (booking created)       (LLM email sent)      (lifecycle reset)
+
+               │  ML: LOW risk ──────────────────────▶ IDLE  (no service needed)
+               │  skip / fail / stale ───────────────▶ IDLE  (safe rollback)
+```
+
+Every agent enforces strict lifecycle gates and stale-task detection (tasks older than 60 seconds are revoked and the vehicle is reset to a safe baseline), and Celery retries failed tasks with exponential backoff — making the system self-healing under failure.
+
+---
+
+## Tech Stack
+
+| Layer            | Technology                                                            |
+| ---------------- | --------------------------------------------------------------------- |
+| Backend API      | Python · FastAPI · WebSockets                                         |
+| Data Store       | MongoDB (source of truth, 10 collections)                             |
+| Task Queue       | Celery + Redis (5 dedicated queues, late acks, retries with backoff)  |
+| ML Model         | scikit-learn Isolation Forest (unsupervised anomaly detection)        |
+| Agents           | Python multiprocessing + hash-based sharding + thread pools           |
+| LLM Engagement   | CrewAI + Groq (llama-3.1-8b-instant) with template-based fallback     |
+| Email            | SMTP (Gmail)                                                          |
+| Frontend         | Next.js dashboard (mission control + live telemetry)                 |
+
+---
 
 ## Repository Structure
 
-- `backend/` FastAPI API, routes, middleware, DB connection
-- `agents/` decision/orchestration agents
-- `worker_tasks/` Celery task execution layer
-- `helpers/` feature engineering and utility logic
-- `diag_agent_model/` trained model artifacts
-- `run_everything.py` one-command launcher for full stack
-- `run_all.sh` shell entrypoint for one-command launcher
-- `phase_runbook.md` phase-wise run and test command tracker
+```
+├── backend/             # FastAPI app — routes, middleware, DB, activity/observability
+│   ├── routes/          # Telematics, vehicles, diagnosis, scheduling, engagement, activity…
+│   ├── activity/        # Event bus, event store, metrics, journey summaries
+│   └── raw_data_generator.py  # Synthetic telemetry simulator
+├── agents/              # Decision-layer orchestrators (collector, master, diagnosis,
+│                        #   scheduling, engagement, service completion)
+├── worker_tasks/        # Celery tasks (diagnosis, ML execution, scheduling, engagement,
+│                        #   service completion) + celery_config.py
+├── helpers/             # Feature engineering, health gates, risk scoring, email, slots
+├── diag_agent_model/    # Trained Isolation Forest artifacts (joblib) + training notebook
+├── frontend/            # Next.js mission-control dashboard
+├── run_all.sh           # Shell entrypoint
+└── run_everything.py    # One-command launcher — orchestrates full stack lifecycle
+```
 
-## Prerequisites
+---
 
-- macOS/Linux
+## Getting Started
+
+### Prerequisites
+
 - Python 3.13
-- Redis running locally on default port `6379`
-- MongoDB connection string available
+- Redis running locally on `localhost:6379`
+- MongoDB (local or Atlas)
 
-## Environment Setup
+### 1. Environment Setup
 
-Create/update `backend/.env` with valid key-value pairs (one per line):
+Create `backend/.env`:
 
 ```env
-MONGO_URL=your_mongodb_connection_string
+MONGO_URL=mongodb://localhost:27017/autoai
 BACKEND_API_URL=http://127.0.0.1:8000
 CELERY_BROKER_URL=redis://localhost:6379/0
 CELERY_RESULT_BACKEND=redis://localhost:6379/1
 GROQ_API_KEY=your_groq_api_key
-EMAIL_USER=your_email
+EMAIL_USER=your_email@gmail.com
 GOOGLE_APP_PASSWORD=your_app_password
 ```
 
-Important:
-- Keep `.env` lines in strict `KEY=VALUE` format.
-- Do not add plain words or malformed lines in `.env`.
-
-## Quick Start (Two-Terminal Setup)
-
-Follow these steps to launch the entire AutoAI ecosystem in under 60 seconds.
-
-### 1. Terminal 1: Agentic Backend & Orchestration
-This terminal handles the FastAPI server, MongoDB persistence, and the multi-agent decision layers.
+### 2. Run the Backend Stack
 
 ```bash
-# Activate the virtual environment
 source AutoAI_ENV/bin/activate
-
-# Launch the full-stack agentic engine
 ./run_all.sh
 ```
 
-**What this starts:**
-- **FastAPI Core**: The central API gateway.
-- **Agent Cluster**: Master, Diagnosis, Scheduling, Engagement, and Service agents.
-- **Worker Layer**: All queue-specific Celery workers for autonomous execution.
+`run_all.sh` boots the entire ecosystem in the correct order, monitors every process, and shuts everything down cleanly on exit:
 
----
-
-### 2. Terminal 2: Mission Control Dashboard
-This terminal handles the high-fidelity Next.js frontend simulation.
-
-```bash
-cd frontend
-
-# Clean stale builds and ensure dependencies are synchronized
-rm -rf .next
-npm install
-
-# Launch the interactive simulation dashboard
-npm run dev
-```
-
-**Access the Dashboard:**
-Navigate to [http://localhost:3000](http://localhost:3000) to begin the vehicle lifecycle simulation.
-
----
-
-## Health Check
-
-To verify the backend engine is responsive, run:
+1. FastAPI backend on port `8000` (waits for `/health`)
+2. Collector agent → Master agent → Diagnosis worker/agent → ML execution worker → Scheduling agent/worker → Engagement agent/worker → Service-completion agent/worker
 
 ```bash
 curl -sS http://127.0.0.1:8000/health
-# Expected: {"status":"ok"}
+# {"status":"ok"}
 ```
 
-## Troubleshooting
+### 3. Run the Dashboard (optional)
 
-### 1) Environment Activation
-If `source AutoAI_ENV/bin/activate` fails, ensure the `AutoAI_ENV` directory exists in your project root. If missing, recreate the environment:
 ```bash
-python3 -m venv AutoAI_ENV
-source AutoAI_ENV/bin/activate
-pip install -r requirements.txt # If absolute manually
+cd frontend
+npm install
+npm run dev   # → http://localhost:3000
 ```
-
-### 2) Port Conflicts
-If port `8000` (Backend) or `3000` (Frontend) is already in use, find and terminate the process:
-```bash
-lsof -nP -iTCP:8000 -sTCP:LISTEN
-```
-
-### 3) MongoDB Connectivity
-Ensure your `.env` contains a valid `MONGO_URL`. The `run_all.sh` script automatically handles certificate path resolution for secure connections.
 
 ---
 
-## Technical Architecture Notes
-- **State Management**: Indirect agent communication via FastAPI + MongoDB.
-- **Task Execution**: Decision/Execution separation using Redis-backed Celery queues.
-- **Simulation**: High-fidelity frontend state machine mimicking real-time backend telemetry.
+## Observability
+
+Every stage transition, gate decision, and worker run is logged as a structured event. AutoAI exposes:
+
+- **Live event stream** — WebSocket feed of activity events as they happen
+- **Fleet metrics** — throughput, fleet stage distribution, high-risk counts, transition counts
+- **Queue & worker health** — Redis queue depths, worker heartbeats, latency trends
+- **Journey summaries** — per-vehicle technical, business, and audit-friendly narrative summaries of the complete lifecycle
+
+---
+
+## License
+
+MIT — see `LICENSE`.
